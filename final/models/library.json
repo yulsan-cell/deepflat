@@ -1,0 +1,302 @@
+[
+  {
+    "name": "sofa",
+    "file": "sofa.glb",
+    "source": "Blender에서 모델링 + Poly Haven CC0 텍스처 rough_linen(세이지 틴트), oak_veneer_01",
+    "tris": 3264,
+    "kb": 76.1,
+    "sizeM": [
+      2.2,
+      0.873,
+      0.95
+    ],
+    "use": "거실 3인 소파 (세이지 리넨, 오크 다리)"
+  },
+  {
+    "name": "lounge_chair",
+    "file": "lounge_chair.glb",
+    "source": "Poly Haven CC0 mid_century_lounge_chair",
+    "tris": 6148,
+    "kb": 101.3,
+    "sizeM": [
+      1.009,
+      1.169,
+      1.19
+    ],
+    "use": "거실 라운지 체어 (원목 셸 + 가죽 쿠션, 회전 다리)"
+  },
+  {
+    "name": "armchair",
+    "file": "armchair.glb",
+    "source": "Poly Haven CC0 modern_arm_chair_01",
+    "tris": 6000,
+    "kb": 110.9,
+    "sizeM": [
+      0.82,
+      1.023,
+      0.987
+    ],
+    "use": "침실·서재 암체어, 거실 보조 의자 (오크 프레임 + 검은 가죽)"
+  },
+  {
+    "name": "coffee_table",
+    "file": "coffee_table.glb",
+    "source": "Poly Haven CC0 coffee_table_round_01",
+    "tris": 4044,
+    "kb": 71.9,
+    "sizeM": [
+      1.301,
+      0.491,
+      1.301
+    ],
+    "use": "거실 원형 커피 테이블 (흰 대리석 상판, 지름 1.3 m)"
+  },
+  {
+    "name": "side_table",
+    "file": "side_table.glb",
+    "source": "Poly Haven CC0 side_table_01",
+    "tris": 2756,
+    "kb": 69.4,
+    "sizeM": [
+      0.55,
+      0.551,
+      0.45
+    ],
+    "use": "거실 소파 옆 사이드 테이블, 침실 협탁 (오크, 2단)"
+  },
+  {
+    "name": "table_lamp",
+    "file": "table_lamp.glb",
+    "source": "Blender에서 조합 + Poly Haven CC0 ceramic_vase_01(받침, 세이지 유약 틴트), rough_linen(갓)",
+    "tris": 2359,
+    "kb": 54.6,
+    "sizeM": [
+      0.404,
+      0.64,
+      0.404
+    ],
+    "use": "거실·침실 테이블 램프 (세이지 도자기 받침, 크림 리넨 갓 — 갓 재질 이름 lamp_shade)"
+  },
+  {
+    "name": "sideboard",
+    "file": "sideboard.glb",
+    "source": "Poly Haven CC0 modern_wooden_cabinet",
+    "tris": 7799,
+    "kb": 125.8,
+    "sizeM": [
+      2.44,
+      0.68,
+      0.52
+    ],
+    "use": "거실 TV 콘솔·낮은 수납장 (월넛 + 슬랫 곡면 도어), 침실 수납장"
+  },
+  {
+    "name": "shelf_steel_oak",
+    "file": "shelf_steel_oak.glb",
+    "source": "Poly Haven CC0 steel_frame_shelves_03",
+    "tris": 5996,
+    "kb": 300.6,
+    "sizeM": [
+      2.351,
+      2.312,
+      0.721
+    ],
+    "use": "거실·서재 오픈 선반 (검은 철제 프레임 + 원목 선반, 서랍 3개)"
+  },
+  {
+    "name": "dining_table",
+    "file": "dining_table.glb",
+    "source": "Blender에서 모델링 + Poly Haven CC0 텍스처 oak_veneer_01",
+    "tris": 940,
+    "kb": 41.4,
+    "sizeM": [
+      1.8,
+      0.74,
+      0.9
+    ],
+    "use": "주방·다이닝 6인 원목 식탁 (오크, 1800×900)"
+  },
+  {
+    "name": "dining_chair",
+    "file": "dining_chair.glb",
+    "source": "Blender에서 모델링 + Poly Haven CC0 텍스처 oak_veneer_01, rough_linen(샌드 틴트)",
+    "tris": 1244,
+    "kb": 69.9,
+    "sizeM": [
+      0.47,
+      0.779,
+      0.51
+    ],
+    "use": "주방·다이닝·서재 의자 (오크 프레임, 샌드 리넨 좌판, 곡면 등받이)"
+  },
+  {
+    "name": "bar_stool",
+    "file": "bar_stool.glb",
+    "source": "Blender에서 모델링 + Poly Haven CC0 텍스처 oak_veneer_01",
+    "tris": 2124,
+    "kb": 46.1,
+    "sizeM": [
+      0.37,
+      0.651,
+      0.37
+    ],
+    "use": "주방 아일랜드 카운터 스툴 (오크 원형 좌판, 황동 발받침, 좌판 높이 0.65 m)"
+  },
+  {
+    "name": "pendant_globe",
+    "file": "pendant_globe.glb",
+    "source": "Poly Haven CC0 modern_ceiling_lamp_01",
+    "tris": 3999,
+    "kb": 62.8,
+    "sizeM": [
+      0.432,
+      0.952,
+      0.432
+    ],
+    "use": "주방·다이닝 식탁·아일랜드 위 유리 구 펜던트 (원점 = 천장 고정점, 아래로 0.95 m)",
+    "origin": "top"
+  },
+  {
+    "name": "bed",
+    "file": "bed.glb",
+    "source": "Blender에서 모델링 + Poly Haven CC0 텍스처 rough_linen(흰·샌드·세이지 틴트), oak_veneer_01",
+    "tris": 12144,
+    "kb": 117,
+    "sizeM": [
+      1.81,
+      1.08,
+      2.185
+    ],
+    "use": "침실 퀸 침대 (오크 프레임, 샌드 리넨 헤드보드, 옆으로 늘어진 흰 리넨 이불과 세이지 스로우)"
+  },
+  {
+    "name": "plant_tall",
+    "file": "plant_tall.glb",
+    "source": "Poly Haven CC0 potted_plant_01",
+    "tris": 15299,
+    "kb": 286.6,
+    "sizeM": [
+      0.585,
+      1.35,
+      0.633
+    ],
+    "use": "거실 코너 큰 바닥 화분 (받침형 테라코타, 높이 1.35 m)"
+  },
+  {
+    "name": "plant_syngonium",
+    "file": "plant_syngonium.glb",
+    "source": "Poly Haven CC0 potted_plant_02",
+    "tris": 11799,
+    "kb": 175.4,
+    "sizeM": [
+      0.701,
+      0.841,
+      0.658
+    ],
+    "use": "거실·침실 바닥 화분 (싱고니움, 테라코타)"
+  },
+  {
+    "name": "plant_flower",
+    "file": "plant_flower.glb",
+    "source": "Poly Haven CC0 periwinkle_plant + planter_pot_clay (Blender에서 조합)",
+    "tris": 7091,
+    "kb": 186.9,
+    "sizeM": [
+      0.272,
+      0.587,
+      0.321
+    ],
+    "use": "꽃 화분 (일일초 분홍 꽃, 테라코타) — 창가·테이블·선반"
+  },
+  {
+    "name": "plant_aloe",
+    "file": "plant_aloe.glb",
+    "source": "Poly Haven CC0 potted_plant_04",
+    "tris": 4199,
+    "kb": 64.4,
+    "sizeM": [
+      0.168,
+      0.267,
+      0.185
+    ],
+    "use": "작은 다육 화분 (흰 화분) — 선반·창가·테이블"
+  },
+  {
+    "name": "vase_bulb",
+    "file": "vase_bulb.glb",
+    "source": "Poly Haven CC0 ceramic_vase_01",
+    "tris": 2200,
+    "kb": 25.3,
+    "sizeM": [
+      0.205,
+      0.401,
+      0.203
+    ],
+    "use": "소품: 선반·테이블 위 흰 도자기 화병 (목이 좁은 병)"
+  },
+  {
+    "name": "vase_wide",
+    "file": "vase_wide.glb",
+    "source": "Poly Haven CC0 ceramic_vase_02",
+    "tris": 2199,
+    "kb": 32.2,
+    "sizeM": [
+      0.219,
+      0.31,
+      0.219
+    ],
+    "use": "소품: 선반·콘솔 위 흰 도자기 항아리"
+  },
+  {
+    "name": "vase_bottle",
+    "file": "vase_bottle.glb",
+    "source": "Poly Haven CC0 ceramic_vase_04",
+    "tris": 2199,
+    "kb": 29.7,
+    "sizeM": [
+      0.181,
+      0.342,
+      0.181
+    ],
+    "use": "소품: 선반·식탁 위 흰 도자기 손잡이 병"
+  },
+  {
+    "name": "bowl_wood",
+    "file": "bowl_wood.glb",
+    "source": "Poly Haven CC0 wooden_bowl_02",
+    "tris": 1599,
+    "kb": 53.7,
+    "sizeM": [
+      0.131,
+      0.073,
+      0.124
+    ],
+    "use": "소품: 커피 테이블·주방 조리대 원목 볼"
+  },
+  {
+    "name": "books_row",
+    "file": "books_row.glb",
+    "source": "Poly Haven CC0 decorative_book_set_01 (7권 선택, 표지 색을 아틀라스 1장에 베이크)",
+    "tris": 4898,
+    "kb": 172.7,
+    "sizeM": [
+      0.29,
+      0.227,
+      0.16
+    ],
+    "use": "소품: 선반·콘솔 위 세워 꽂은 책 7권 (책등이 앞)"
+  },
+  {
+    "name": "books_stack",
+    "file": "books_stack.glb",
+    "source": "Poly Haven CC0 decorative_book_set_01 (화보집 3권, 표지 색을 아틀라스 1장에 베이크)",
+    "tris": 2100,
+    "kb": 118.4,
+    "sizeM": [
+      0.321,
+      0.074,
+      0.34
+    ],
+    "use": "소품: 커피 테이블·협탁 위 눕혀 쌓은 화보집 3권"
+  }
+]
