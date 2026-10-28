@@ -288,6 +288,7 @@ export async function boot(gate, host) {
   const ui = {
     copies: SCENES.map((id) => stage.querySelector(`.fl-scene[data-scene="${id}"] .fl-copy`)),
     rail: stage.querySelector('.fl-rail'),
+    fill: stage.querySelector('.fl-rail-fill'), // --p goes here only: on .fl-rail it restyled the whole rail every frame
     stops: [...stage.querySelectorAll('.fl-rail [data-go]')],
     hint: stage.querySelector('.fl-hint'),
     last: { copy: [], active: -1, fill: -1, chrome: -1, hint: -1 },
@@ -321,12 +322,13 @@ export async function boot(gate, host) {
     const f = Math.round(railAt(p) * 1000) / 1000;
     if (ui.rail && f !== ui.last.fill) {
       ui.last.fill = f;
-      ui.rail.style.setProperty('--p', String(f)); // the rail's line fills to here (vertical on desktop, across on phones)
+      (ui.fill || ui.rail).style.setProperty('--p', String(f)); // the rail's line fills to here (vertical on desktop, across on phones)
     }
     const h = Math.round(intro * (1 - clamp01(p / 0.035)) * 1000) / 1000;
     if (ui.hint && h !== ui.last.hint) {
       ui.last.hint = h;
       ui.hint.style.opacity = String(h);
+      ui.hint.classList.toggle('is-gone', h === 0);
     }
   }
 
@@ -464,6 +466,20 @@ export async function boot(gate, host) {
       if (labelsOn) placeRooms();
       // decide at the end of the opening (when a scroll cut it short, as soon as a few more frames have been timed)
       if (!qual.done && live && qual.costs.length >= 4 && (introDone || t >= 3.2) && govern()) return; // handed over
+      // phones: once more while flying (the rooms can cost more than the opening view), over 40 back-to-back frames
+      if (qual.flight && live && gap && introDone && active) {
+        qual.flight.push(gap);
+        if (qual.flight.length >= 40) {
+          const f = qual.flight.sort((a, b) => a - b)[30];
+          qual.flight = null;
+          timing.flightCost = Math.round(f * 10) / 10;
+          if (f > 28) {
+            gate.fallback('slow phone (flight)');
+            disposeAll();
+            return;
+          }
+        }
+      }
       if (active) request();
       else last = 0;
     } catch (err) {
@@ -492,10 +508,19 @@ export async function boot(gate, host) {
     const c = qual.costs.slice().sort((a, b) => a - b);
     timing.frameCost = c.map((v) => Math.round(v * 10) / 10);
     if (c.length < 4) return false;
-    const m = c[c.length >> 1];
+    // phones are judged by their slower frames (the 75th percentile): that is the stutter a finger feels. A phone that
+    // cannot keep about 36 frames a second hands the stage to the still scenes, which scroll smoothly (owner
+    // 2026-10-28: "부드럽게 보여지지가 않아"); phones are never given more pixels (it cost frames on 120 Hz screens)
+    const m = mobile ? c[Math.floor(c.length * 0.75)] : c[c.length >> 1];
+    qual.flight = mobile ? [] : null;
+    if (mobile && m > 28) {
+      timing.quality = { cost: Math.round(m * 10) / 10, to: 'stills' };
+      gate.fallback('slow phone');
+      disposeAll();
+      return true;
+    }
     let k = 1;
-    if (m > 22) k = Math.sqrt(16 / m);
-    else if (mobile && m < 12) k = Math.sqrt(14 / m);
+    if (m > (mobile ? 18 : 22)) k = Math.sqrt(16 / m);
     if (k === 1) return false;
     const pr0 = renderer.getPixelRatio();
     qual.k = k;
@@ -864,7 +889,8 @@ export async function boot(gate, host) {
     let quiet = 0;
     let busy = false;
     const upgrade = async () => {
-      if (busy || disposed || lib.size <= M.lib.size) return;
+      // phones keep the furniture they were furnished with: a late rebuild froze the first scroll for up to 0.36 s
+      if (busy || disposed || mobile || lib.size <= M.lib.size) return;
       busy = true;
       try {
         await opened;
