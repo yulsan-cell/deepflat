@@ -18,6 +18,8 @@ import { buildFlight } from './flight.mjs';
 import { buildCarousel } from './carousel.mjs';
 import { buildPromo } from './promo.mjs';
 import { buildSocial } from './social.mjs';
+import { buildYulsan } from './yulsan.mjs';
+import { buildPartners } from './partners.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const hero = buildHero();
@@ -58,7 +60,7 @@ if (ti > 0) {
 }
 const portfolio = buildPortfolio(); // pf-types, cards, pf-data, durations (final/data/portfolio.mjs)
 const icons = buildIcons();
-const blocks = { defs: DEFS, hero: heroHtml, logo: buildFlatLogo(), 'logo-nav': buildFlatLogo(NAV_LOGO), favicon: buildFavicon(), ...portfolio, ...icons, months: buildMonths(), ...buildLegend(), stair: buildStair(4), 'stair-idle': buildStair(-1), ...buildFlight(), ...buildCarousel(), ...buildPromo(), ...buildSocial() };
+const blocks = { defs: DEFS, hero: heroHtml, logo: buildFlatLogo(), 'logo-nav': buildFlatLogo(NAV_LOGO), favicon: buildFavicon(), ...portfolio, ...icons, months: buildMonths(), ...buildLegend(), stair: buildStair(4), 'stair-idle': buildStair(-1), ...buildFlight(), ...buildCarousel(), ...buildPromo(), ...buildSocial(), ...buildYulsan(), ...buildPartners() };
 for (const target of targets) {
   let src = readFileSync(target, 'utf8');
   for (const [k, v] of Object.entries(blocks)) {

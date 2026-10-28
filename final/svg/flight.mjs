@@ -6,6 +6,7 @@
 //          camera keyframes by final/stills/render-flight.mjs) stack with their words over them.
 // The world scene's title is the page's h1.
 import { SCENES, RAIL_LABELS } from '../data/flight.mjs';
+import { yulsanLine } from './yulsan.mjs';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 // a body given as lines (final/data/flight.mjs) breaks exactly there; each line is short enough for a phone's plate
@@ -40,7 +41,11 @@ function picture(id) {
 }
 
 function copy(s, i) {
-  const tags = s.tags.length ? `<ul class="fl-tags" aria-label="${esc(s.label)}에서 하는 일">${s.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : '';
+  const tag = (t) =>
+    typeof t === 'string'
+      ? esc(t)
+      : `<a href="${esc(t.href)}"${t.pf ? ` data-pf="${esc(t.pf)}"` : ''}${t.band ? ` data-pf-band="${esc(t.band)}"` : ''}>${esc(t.label)}</a>`;
+  const tags = s.tags.length ? `<ul class="fl-tags" aria-label="${esc(s.label)}에서 하는 일">${s.tags.map((t) => `<li>${tag(t)}</li>`).join('')}</ul>` : '';
   const cta = s.cta ? `<a class="btn-block fl-cta" href="${esc(s.cta.href)}">${esc(s.cta.label)}</a>` : '';
   if (i === 0) {
     // the first scene: its eyebrow and title are the page's heading (with a space between them, which the block
@@ -51,6 +56,8 @@ function copy(s, i) {
       `<div class="fl-copy" data-avoid>` +
       `<h1 class="fl-title" id="hero-title"><span class="fl-eyebrow">${esc(s.eyebrow)}</span> ${esc(s.title)}</h1>` +
       `<p class="fl-body">${lines(s.body)}</p>${tags}` +
+      // 율산 인테리어's track record under the first words (owner 2026-10-28), from final/data/yulsan.mjs
+      `<p class="fl-heritage">${yulsanLine()}</p>` +
       `<div class="fl-next">${skip}<p class="fl-hint"><span>${esc(s.hint)}</span><i aria-hidden="true"></i></p></div>` +
       `</div>`
     );

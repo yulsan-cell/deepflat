@@ -12,6 +12,8 @@
 //   nav        the menu's label and the big heading (index.html's nav and footer links say the same)
 //   kicker     the small line over the heading;  title  the lead in the right column (set lines)
 //   periodLabel shown before the period
+//   bar        the slim promotion bar under the record band (GEN:promo-bar): its link label; the bar also shows
+//              periodLabel, period and each offer's title
 //   offers     badge (at most 6 characters), lead (the customer's worry, set lines of at most 13 characters), title,
 //              benefit (two set lines of at most 15 characters, so each fits a card on a 320px phone), condition
 export const PROMO = {
@@ -46,4 +48,5 @@ export const PROMO = {
     },
   ],
   cta: '카카오톡으로 상담하기',
+  bar: { more: '혜택 보기' },
 };

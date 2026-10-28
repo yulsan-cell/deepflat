@@ -10,6 +10,8 @@
 //   world   title and body are the page's current hero line and sub line (COPY.hero.line / COPY.hero.sub in
 //           portfolio.mjs; the body adds only the closing period). `hint` is the invitation to scroll, `skip` the
 //           link past the flight to the portfolio.
+//   tags    a plain label, or { label, href, pf, band } for a tag that is a link (the world scene's: into the portfolio,
+//           with its category and, when given, its band chosen)
 //   rooms   tags name work DEEPFLAT does in that room; each is a usual scope for a high-end home, and most also
 //           appear in the sample projects (발코니 확장, 붙박이 수납, 아일랜드, 석재 상판, 울 카펫).
 // `label` is the stop's short name for the route rail; RAIL_LABELS lists the same names in SCENES order.
@@ -20,12 +22,18 @@ export const SCENES = [
     id: 'world',
     label: '딥플랫',
     eyebrow: 'DEEPFLAT 딥플랫',
-    title: '하이엔드 주거 인테리어 스튜디오',
-    body: ['식구의 하루를 듣고 도면을 그리고,', '같은 팀이 그대로 시공까지 맡아요.'],
+    title: '하이엔드 공간 인테리어 스튜디오',
+    body: ['쓰는 사람의 하루를 듣고 도면을 그리고,', '같은 팀이 그대로 시공까지 맡아요.'],
     hint: '화면을 내려 거실부터 둘러보세요',
     // before the hint (screens 768 wide and up, and the static scenes): straight on to the portfolio
     skip: { label: '포트폴리오 바로 보기', href: '#portfolio' },
-    tags: [],
+    // what DEEPFLAT builds, so the first screen speaks of commercial spaces too while the 3D shows homes (owner 2026-10-28);
+    // each opens the portfolio on its category (pf: 상업 공간 commercial / 주거 공간 home, and the 업종 when it is one)
+    tags: [
+      { label: '카페·식당', href: '#portfolio', pf: 'commercial', band: 'cm-fnb' },
+      { label: '매장·오피스', href: '#portfolio', pf: 'commercial' },
+      { label: '아파트·주택', href: '#portfolio', pf: 'home' },
+    ],
   },
   {
     id: 'living',

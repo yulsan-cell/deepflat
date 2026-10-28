@@ -1,7 +1,10 @@
 // Portfolio and schedule blocks for index.html, built from final/data/portfolio.mjs (content), the rendered stills
 // (final/stills/manifest.json, mapped to projects in final/data/portfolio-images.mjs) and the client's real photos
 // (final/photos/photos.json, written by final/photos/ingest.mjs; absent while no project has photos).
-//   pf-types   the 공간 종류 chips (the 평형 chips are drawn by the page script from pf-data once a type is chosen)
+//   pf-types   the category chips, 상업 공간 and 주거 공간 (CATEGORIES); the second row, 업종 or 평형, is drawn by the page
+//              script from pf-data once a category is chosen. Cards carry the category as data-type, the band as data-band
+//              A project with no pictures yet (the commercial sites, until their photos come) gets a lettered cover and no
+//              viewer button: its viewer would be empty (owner 2026-10-28, layout review)
 //   cards      one card per project: its cover miniature (COVER in portfolio-images.mjs, the room its summary is about;
 //              the card keeps it after real photos arrive), the corner badge (미니어처 · 실제 사진 N장 or 미니어처), the place
 //              (동), the size and the 설계/시공 weeks
@@ -14,7 +17,7 @@
 //       staged    the 연출 이미지 (AI-made or retouched pictures; staged: true, ingest.mjs's default), or, while there are none,
 //       standin   the other rendered stills, marked on the picture as stand-ins for the photos to come
 import { existsSync, readFileSync } from 'node:fs';
-import { TYPES, PROJECTS, SCHEDULE_DURATIONS, COPY, typeById } from '../data/portfolio.mjs';
+import { PROJECTS, SCHEDULE_DURATIONS, COPY, typeById, CATEGORIES, categoryOf, categoryBandOf } from '../data/portfolio.mjs';
 import { IMAGE_FOLDER, IMAGE_TEXT, COVER } from '../data/portfolio-images.mjs';
 import { miniSvg } from './minis.mjs';
 
@@ -70,6 +73,10 @@ function slidesOf(p) {
 // phones: the swiping row shows each card at 84% of the screen (index.html, .cards under 740px)
 const SIZES_CARD = '(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px';
 
+// a project the viewer can show: one with a miniature or pictures
+const hasPictures = (p) => rendersOf(p).length > 0 || photosOf(p).length > 0;
+const bandLabel = (p) => (CATEGORIES.find((c) => c.id === categoryOf(p)).bands.find((b) => b.id === categoryBandOf(p)) || {}).label || '';
+
 function card(p) {
   const renders = rendersOf(p);
   const pics = photosOf(p);
@@ -82,20 +89,31 @@ function card(p) {
     const avif = has(cover.avif) && has(cover.thumbAvif) ? `<source type="image/avif" srcset="${set(cover.thumbAvif, cover.avif)}" sizes="${SIZES_CARD}">` : '';
     art = `<picture>${avif}<source type="image/webp" srcset="${set(cover.thumbWebp, cover.webp)}" sizes="${SIZES_CARD}"><img src="${cover.thumbWebp}" width="${cover.tw}" height="${cover.th}" alt="" loading="lazy" decoding="async"></picture>`;
   } else {
-    art = miniSvg(p.slug) || '';
+    // a project with neither a miniature nor pictures yet (the commercial sites) shows a lettered cover: its trade, its
+    // size (or, when the size is not known, its work), and a quiet note that the photos are coming
+    art = miniSvg(p.slug) ||
+      `<div class="card-cover"><span class="cc-trade">${esc(bandLabel(p))}</span>${p.pyeong ? `<span class="cc-size"><b>${p.pyeong}</b>평</span>` : `<span class="cc-scope">${esc(p.scope)}</span>`}<span class="cc-note">현장 사진 준비 중</span></div>`;
   }
   // the badge says what the pictures behind the card are: the client's photos, or the miniature alone; the title
   // button's name repeats it with the place, so it is heard by keyboard and heading navigation too
-  // (연출 이미지 keep the paper badge: only real photos take the solid ink one)
-  const badgeText = photos ? COPY.portfolio.badgeReal(photos) : staged ? COPY.portfolio.badgeStaged(staged) : COPY.portfolio.badgeModel;
-  const badge = `<span class="${photos ? 'tag-real' : 'tag-ex'}">${esc(badgeText)}</span>`;
-  const py = p.type === 'house' ? `연면적 <b>${p.pyeong}</b>평` : `<b>${p.pyeong}</b>평형`;
+  // (연출 이미지 keep the paper badge: only real photos take the solid ink one; no pictures at all, no badge)
+  const hasPics = Boolean(cover) || pics.length > 0;
+  const badgeText = photos ? COPY.portfolio.badgeReal(photos) : staged ? COPY.portfolio.badgeStaged(staged) : hasPics ? COPY.portfolio.badgeModel : '사진 준비 중';
+  const badge = hasPics ? `<span class="${photos ? 'tag-real' : 'tag-ex'}">${esc(badgeText)}</span>` : '';
+  const py =
+    p.type === 'commercial'
+      ? p.pyeong ? `<b>${p.pyeong}</b>평` : esc(p.scope)
+      : p.type === 'house' ? `연면적 <b>${p.pyeong}</b>평` : `<b>${p.pyeong}</b>평형`;
   const label = COPY.portfolio.cardOpenLabel({ ...p, size: p.size.replace(/ · /g, ', '), badge: badgeText, place: placeOf(p) });
-  return `<li class="card${cover ? '' : ' is-drawn'}" data-type="${p.type}" data-band="${p.band}" data-slug="${p.slug}" data-photos="${photos}">
+  const title = hasPictures(p)
+    ? `<button class="card-open" type="button" aria-haspopup="dialog" aria-label="${esc(label)}">${esc(p.title)}</button>`
+    : esc(p.title);
+  const cls = cover ? '' : hasPictures(p) || miniSvg(p.slug) ? ' is-drawn' : ' is-text';
+  return `<li class="card${cls}" data-type="${categoryOf(p)}" data-band="${categoryBandOf(p)}" data-kind="${p.type}" data-slug="${p.slug}" data-photos="${photos}">
 <div class="card-art">${art}${badge}</div>
-<h3 class="card-title"><button class="card-open" type="button" aria-haspopup="dialog" aria-label="${esc(label)}">${esc(p.title)}</button></h3>
+<h4 class="card-title">${title}</h4>
 <p class="card-where">${esc(placeOf(p))}</p>
-<p class="card-meta"><span class="card-py">${py}</span> <span class="card-dur">${esc(COPY.portfolio.cardDuration(p.duration))}</span></p>
+<p class="card-meta"><span class="card-py">${py}</span> <span class="card-dur">${esc(p.duration ? COPY.portfolio.cardDuration(p.duration) : p.completedLabel)}</span></p>
 <p class="card-note">${esc(p.summary)}</p>
 </li>`;
 }
@@ -104,9 +122,9 @@ function typeChips() {
   // the count is shown as a bare number and read out with its meaning (", 프로젝트 7개"); the page script updates both
   const n = (k) => `<span class="n" aria-hidden="true">${k}</span><span class="sr-only nn">, 프로젝트 ${k}개</span>`;
   const all = `<button class="chip" type="button" data-value="all" aria-pressed="true">${COPY.portfolio.all} ${n(PROJECTS.length)}</button>`;
-  const rest = TYPES.map((t) => {
-    const k = PROJECTS.filter((p) => p.type === t.id).length;
-    return `<button class="chip" type="button" data-value="${t.id}" aria-pressed="false">${esc(t.label)} ${n(k)}</button>`;
+  const rest = CATEGORIES.map((c) => {
+    const k = PROJECTS.filter((p) => categoryOf(p) === c.id).length;
+    return `<button class="chip" type="button" data-value="${c.id}" aria-pressed="false">${esc(c.label)} ${n(k)}</button>`;
   });
   return [all, ...rest].join('');
 }
@@ -122,7 +140,7 @@ function data() {
       tallyStandin: D.tallyStandin('{n}'),
       tallyStaged: D.tallyStaged('{n}'),
     },
-    types: TYPES.map((t) => ({
+    types: CATEGORIES.map((t) => ({
       id: t.id,
       label: t.label,
       basis: t.basis,
@@ -130,18 +148,19 @@ function data() {
       basisNote: t.basisNote,
       bands: t.bands.map((b) => ({ id: b.id, label: b.label, hint: b.hint || '' })),
     })),
-    projects: PROJECTS.map((p) => {
+    projects: PROJECTS.filter(hasPictures).map((p) => {
       const slides = slidesOf(p);
       return {
         slug: p.slug,
         title: p.title,
         type: p.type,
+        kind: (typeById(p.type) || {}).label || '',
         band: p.band,
         size: p.size,
         sizeHtml: sizeHtml(p.size),
         location: placeOf(p),
         scope: p.scope,
-        duration: p.duration.label,
+        duration: p.duration ? p.duration.label : '',
         completed: p.completedLabel,
         description: p.description,
         materials: p.materials.map((m) => ({ name: m.name, use: m.use })),

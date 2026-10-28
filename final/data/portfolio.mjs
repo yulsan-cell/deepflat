@@ -70,7 +70,55 @@ export const TYPES = [
       { id: 'th-60', label: '60평형 이상', min: 60, max: null },
     ],
   },
+  {
+    // 2026-10-28: DEEPFLAT also builds commercial spaces; grouped by trade, not size (the blog gives only some sizes)
+    id: 'commercial',
+    label: '상업 공간',
+    basis: '업종',
+    unit: '평',
+    sizeLabel: '업종',
+    basisNote: '카페·식당, 매장·약국, 오피스로 나눠요. 면적은 전용면적 기준이에요.',
+    bands: [
+      { id: 'cm-fnb', label: '카페·식당' },
+      { id: 'cm-shop', label: '매장·약국' },
+      { id: 'cm-office', label: '오피스' },
+    ],
+  },
 ];
+
+// The portfolio's filter (owner 2026-10-28): two big categories first, then a second level inside each, 업종 for
+// commercial spaces and 평형 for homes. TYPES above stay the kind of space each project is (shown on its card and in
+// its viewer); a home's 평형 band comes from its pyeong (단독주택: 연면적), a commercial site's from its band.
+export const CATEGORIES = [
+  {
+    id: 'commercial',
+    label: '상업 공간',
+    basis: '업종',
+    sizeLabel: '업종',
+    basisNote: '카페·식당, 매장·약국, 오피스로 나눠요. 면적은 전용면적 기준이에요.',
+    bands: TYPES.find((t) => t.id === 'commercial').bands,
+  },
+  {
+    id: 'home',
+    label: '주거 공간',
+    basis: '평형',
+    sizeLabel: '평형',
+    basisNote: '아파트와 펜트하우스, 타운하우스·빌라는 공급면적 평형, 단독주택은 연면적 기준이에요.',
+    bands: [
+      { id: 'h-20', label: '20평대', min: 0, max: 30 },
+      { id: 'h-30', label: '30평대', min: 30, max: 40 },
+      { id: 'h-40', label: '40평대', min: 40, max: 50 },
+      { id: 'h-50', label: '50평대', min: 50, max: 60 },
+      { id: 'h-60', label: '60평 이상', min: 60, max: null },
+    ],
+  },
+];
+export const categoryOf = (p) => (p.type === 'commercial' ? 'commercial' : 'home');
+/** the second-level band a project is filed under: its 업종, or the 평형 band its size falls in */
+export const categoryBandOf = (p) =>
+  p.type === 'commercial'
+    ? p.band
+    : (CATEGORIES[1].bands.find((b) => p.pyeong >= b.min && (b.max == null || p.pyeong < b.max)) || {}).id || '';
 
 export const typeById = (id) => TYPES.find((t) => t.id === id) || null;
 export const bandById = (id) => TYPES.flatMap((t) => t.bands).find((b) => b.id === id) || null;
@@ -309,6 +357,138 @@ export const PROJECTS = [
       img('yongin-townhouse-54', 'stair', '계단', '유리 벽으로 빛이 내려가는 계단', '계단 옆 유리 벽으로 위층 빛이 지하 계단까지 내려온다.', ['stairs']),
     ],
   },
+  {
+    slug: 'magok-office-200',
+    title: '마곡 마케팅 오피스',
+    type: 'commercial',
+    band: 'cm-office',
+    pyeong: 200,
+    size: '200평',
+    location: '서울 강서구 마곡',
+    dong: '',
+    scope: '오피스 인테리어',
+    duration: null,
+    completed: '2026',
+    completedLabel: '2026년',
+    sample: false,
+    // 율산 인테리어 (blog.naver.com/ruin118, Design by Yulsan); photos to come from the owner
+    yulsan: true,
+    summary: '명품 감성을 담은 200평 마케팅 오피스예요.',
+    description: '명품 감성을 담은 200평 마케팅 오피스예요.',
+    materials: [],
+    palette: '',
+    images: [],
+  },
+  {
+    slug: 'bucheon-babyhouse',
+    title: '베이비하우스',
+    type: 'commercial',
+    band: 'cm-shop',
+    pyeong: null,
+    size: '',
+    location: '경기 부천',
+    dong: '',
+    scope: '육아 편집숍 인테리어',
+    duration: null,
+    completed: '2026',
+    completedLabel: '2026년',
+    sample: false,
+    // 율산 인테리어 (blog.naver.com/ruin118, Design by Yulsan); photos to come from the owner
+    yulsan: true,
+    summary: '대형 상권의 육아 편집숍이에요. 프리미엄 유모차 부스까지 함께 만들었어요.',
+    description: '대형 상권의 육아 편집숍이에요. 프리미엄 유모차 부스까지 함께 만들었어요.',
+    materials: [],
+    palette: '',
+    images: [],
+  },
+  {
+    slug: 'icheon-sanhak-garden',
+    title: '산학가든',
+    type: 'commercial',
+    band: 'cm-fnb',
+    pyeong: null,
+    size: '',
+    location: '경기 이천 롯데아울렛',
+    dong: '',
+    scope: '식당 인테리어',
+    duration: null,
+    completed: '2026',
+    completedLabel: '2026년',
+    sample: false,
+    // 율산 인테리어 (blog.naver.com/ruin118, Design by Yulsan); photos to come from the owner
+    yulsan: true,
+    summary: '기존 구조를 살려 브랜드의 깊이를 더한 롯데아울렛 식당이에요.',
+    description: '기존 구조를 살려 브랜드의 깊이를 더한 롯데아울렛 식당이에요.',
+    materials: [],
+    palette: '',
+    images: [],
+  },
+  {
+    slug: 'hongdae-off-pharmacy',
+    title: '오프약국',
+    type: 'commercial',
+    band: 'cm-shop',
+    pyeong: null,
+    size: '',
+    location: '서울 마포구 홍대',
+    dong: '',
+    scope: '약국 인테리어',
+    duration: null,
+    completed: '2026',
+    completedLabel: '2026년',
+    sample: false,
+    // 율산 인테리어 (blog.naver.com/ruin118, Design by Yulsan); photos to come from the owner
+    yulsan: true,
+    summary: '홍대 메인 상권에 빛과 선으로 만든 창고형 약국이에요.',
+    description: '홍대 메인 상권에 빛과 선으로 만든 창고형 약국이에요.',
+    materials: [],
+    palette: '',
+    images: [],
+  },
+  {
+    slug: 'seosan-sandu-35',
+    title: '샌두',
+    type: 'commercial',
+    band: 'cm-shop',
+    pyeong: 35,
+    size: '35평',
+    location: '충남 서산',
+    dong: '',
+    scope: '프랜차이즈 매장 인테리어',
+    duration: null,
+    completed: '2026',
+    completedLabel: '2026년',
+    sample: false,
+    // 율산 인테리어 (blog.naver.com/ruin118, Design by Yulsan); photos to come from the owner
+    yulsan: true,
+    summary: '서산 중심 상권 35평, 브랜딩을 담은 프랜차이즈 매장이에요.',
+    description: '서산 중심 상권 35평, 브랜딩을 담은 프랜차이즈 매장이에요.',
+    materials: [],
+    palette: '',
+    images: [],
+  },
+  {
+    slug: 'hongdae-rendezvous',
+    title: '랑데자뷰',
+    type: 'commercial',
+    band: 'cm-fnb',
+    pyeong: null,
+    size: '',
+    location: '서울 마포구 홍대',
+    dong: '',
+    scope: '카페 인테리어',
+    duration: null,
+    completed: '2018',
+    completedLabel: '2018년',
+    sample: false,
+    // 율산 인테리어 (blog.naver.com/ruin118, Design by Yulsan); photos to come from the owner
+    yulsan: true,
+    summary: '제주 감성을 담은 카페예요. 2018년 홍대 1호점에서 3년 만에 전국 40개 매장으로 늘었어요.',
+    description: '제주 감성을 담은 카페예요. 2018년 홍대 1호점에서 3년 만에 전국 40개 매장으로 늘었어요.',
+    materials: [],
+    palette: '',
+    images: [],
+  },
 ];
 
 // 평형별 예상 기간: apartment full remodelling, aligned to the apartment bands above (예시).
@@ -330,24 +510,26 @@ export const josa = (w, withFinal, withoutFinal) => {
 export const COPY = {
   meta: {
     description:
-      '딥플랫(DEEPFLAT)은 아파트와 단독주택을 설계하고 시공하는 하이엔드 주거 인테리어 스튜디오예요. 처음 도면을 그린 디자이너가 마지막 마감까지 현장을 맡아요.',
+      '딥플랫(DEEPFLAT)은 율산 그룹의 인테리어 브랜드예요. 카페·식당·매장·오피스 같은 상업 공간과 아파트·단독주택 같은 주거 공간을 직접 설계·시공해요. 첫 도면을 그린 디자이너가 마감까지 현장에 남아요. 2016년부터 986건을 시공했어요.',
   },
   hero: {
-    h1: 'DEEPFLAT 딥플랫, 하이엔드 주거 인테리어 스튜디오',
-    line: '하이엔드 주거 인테리어 스튜디오',
-    sub: '식구의 하루를 듣고 도면을 그리고, 같은 팀이 그대로 시공까지 맡아요',
+    h1: 'DEEPFLAT 딥플랫, 하이엔드 공간 인테리어 스튜디오',
+    line: '하이엔드 공간 인테리어 스튜디오',
+    sub: '쓰는 사람의 하루를 듣고 도면을 그리고, 같은 팀이 그대로 시공까지 맡아요',
   },
   brand: {
-    // title verbatim (2026-10-23); paragraphs rewritten in 해요체 at the user's request (2026-10-27)
-    title: '집의 깊이를 설계합니다',
-    titleHtml: '집의 깊이를<br>설계합니다',
+    // the 회사 소개 section (#about): the 대표's greeting after the owner's reference (2026-10-28), copy workflow
+    // wf_b6eb16bb-2e0. The company is 율산 그룹 and DEEPFLAT its interior brand, said once in the first sentence. No
+    // sign-off line (owner 2026-10-28)
+    // the headline in the page's heading face (owner 2026-10-28: the serif did not suit the page), without the quotes
+    title: '깊이를 짓는다는 마음으로',
+    titleHtml: '깊이를 짓는다는<br>마음으로',
+    // the page's set line breaks: each paragraph's PC lines; on phones the words fill the width (owner 2026-10-28)
+    lines: [['딥플랫은 율산 그룹의 인테리어 브랜드예요.','깊이(DEEP)와 집(FLAT)을 합친 이름에는 가게든 집이든','같은 손으로 끝까지 지어야 깊이가 생긴다는 저희 생각을 담았어요.'],['그래서 처음 도면을 그린 디자이너가 마지막 마감까지 현장에 남아요.','도면 앞에서 나눈 이야기를 공사가 끝나는 날까지','같은 사람에게 물어보실 수 있어요.'],['2016년 첫 현장을 함께한 사람들이 지금도 한 팀으로 일해요.','해가 드는 자리와 그곳에서 보낼 하루, 오래 손이 닿을 재료부터 보고,','마감 샘플은 현장의 빛 아래에서 함께 골라요.']],
     paragraphs: [
-      '딥플랫은 아파트와 단독주택을 설계하고 시공하는 하이엔드 주거 인테리어 스튜디오예요. 이름에는 깊이(DEEP)와 집(FLAT), 두 단어를 담았어요.',
-      '집을 맡으면 해가 드는 방향과 가족의 하루, 오래 손에 닿을 재료부터 살펴봐요. 처음 도면을 그린 디자이너가 마지막 마감까지 현장을 지켜요. 그래서 도면에서 함께\u00a0본 장면이 그대로 집이 돼요.',
-    ],
-    paragraphsHtml: [
-      '딥플랫은 아파트와 단독주택을 설계하고 시공하는 하이엔드 주거 인테리어 스튜디오예요. 이름에는 <strong>깊이(DEEP)</strong>와 <strong>집(FLAT)</strong>, 두 단어를 담았어요.',
-      '집을 맡으면 해가 드는 방향과 가족의 하루, 오래 손에 닿을 재료부터 살펴봐요. 처음 도면을 그린 디자이너가 마지막 마감까지 현장을 지켜요. 그래서 도면에서 함께&nbsp;본 장면이 그대로 집이 돼요.',
+      '딥플랫은 율산 그룹의 인테리어 브랜드예요. 깊이(DEEP)와 집(FLAT)을 합친 이름에는 가게든 집이든 같은 손으로 끝까지 지어야 깊이가 생긴다는 저희 생각을 담았어요.',
+      '그래서 처음 도면을 그린 디자이너가 마지막 마감까지 현장에 남아요. 도면 앞에서 나눈 이야기를 공사가 끝나는 날까지 같은 사람에게 물어보실 수 있어요.',
+      '2016년 첫 현장을 함께한 사람들이 지금도 한 팀으로 일해요. 해가 드는 자리와 그곳에서 보낼 하루, 오래 손이 닿을 재료부터 보고, 마감 샘플은 현장의 빛 아래에서 함께 골라요.',
     ],
     // the sensory space image beside the copy (decision 4): replaces the recoloured key-visual poster
     image: {
@@ -366,8 +548,9 @@ export const COPY = {
     // as on the page (#portfolio .sec-head p). The draft's 예시/시안 marks were taken off the page at the owner's
     // request (2026-10-27): before it goes public, the sample projects must give way to real ones (or AI pictures be
     // labelled 연출 이미지), so nothing invented is shown to customers as finished work
+    // 2026-10-28: two categories (상업 공간 / 주거 공간), then 업종 or 평형
     intro:
-      '공간 종류를 고르고 평형이나 연면적으로 좁혀 보세요. 프로젝트를 누르면 집 전체 미니어처부터 방별 모습과 마감재까지 차례로 볼 수 있어요.',
+      '상업 공간과 주거 공간 가운데 하나를 고르고, 업종이나 평형으로 좁혀 보세요. 사진이 있는 프로젝트는 누르면 미니어처와 사진, 마감재까지 볼 수 있어요.',
     typeLabel: '공간 종류',
     all: '전체',
     // the size row before a type is chosen
@@ -426,16 +609,17 @@ export const COPY = {
   },
   schedule: {
     durationSub:
-      '아파트 전체 리모델링을 기준으로 설계와 시공을 합친 기간이에요. 현장 상태와 공사 범위에 따라 달라져요. 펜트하우스, 단독주택, 타운하우스·빌라는 상담 때 따로 알려 드릴게요.',
+      '아파트 전체 리모델링을 기준으로 설계와 시공을 합친 기간이에요. 현장 상태와 공사 범위에 따라 달라져요. 펜트하우스, 단독주택, 타운하우스·빌라와 상업 공간은 상담 때 따로 알려 드릴게요.',
     lookupTitle: '망원동 아파트 32평형',
   },
   contact: {
-    typeRow: { dt: '공간 종류', dd: '아파트, 펜트하우스, 단독주택, 타운하우스·빌라' },
-    sizeRow: { dt: '면적', dd: '단독주택은 연면적, 나머지는 공급\u00a0평형이나 전용면적' },
+    // 2026-10-28: commercial spaces too, in the same words as the first screen's tags
+    typeRow: { dt: '공간 종류', dd: '카페·식당, 매장·오피스, 아파트, 펜트하우스, 단독주택, 타운하우스·빌라' },
+    sizeRow: { dt: '면적', dd: '단독주택은 연면적, 상업 공간은 전용면적, 아파트는 공급\u00a0평형이나 전용면적' },
     kakaoTemplate:
-      '[딥플랫 상담]\n공간 종류(아파트/펜트하우스/단독주택/타운하우스·빌라): \n면적(공급 평형, 전용면적, 연면적 중 아는 것): \n위치: \n범위: \n예산: \n일정: ',
+      '[딥플랫 상담]\n공간 종류(카페·식당/매장·오피스/아파트/펜트하우스/단독주택/타운하우스·빌라): \n면적(공급 평형, 전용면적, 연면적 중 아는 것): \n위치: \n범위: \n예산: \n일정: ',
   },
   footer: {
-    desc: '아파트와 단독주택 인테리어, 설계부터 시공까지',
+    desc: '상업 공간부터 집까지, 설계부터 시공까지',
   },
 };

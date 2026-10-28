@@ -23,5 +23,12 @@ export function buildPromo() {
     )
     .join('');
   const foot = `<div class="promo-foot"><a class="btn-block promo-cta" href="#contact">${esc(P.cta)}</a></div>`;
-  return { promo: `${head}<ul class="promo-cards">${cards}</ul>${foot}` };
+  // the slim bar under the record band (owner 2026-10-28: the block sits after the portfolio, so the bar keeps the
+  // offer in sight from the top): the period, the three offers, and a link down to the block
+  const bar =
+    `<a class="promo-bar-link" href="#promotion"><span class="pb-tag"><i aria-hidden="true"></i>${esc(P.periodLabel)}</span>` +
+    `<span class="pb-when">${esc(P.period)}</span>` +
+    `<span class="pb-offers">${P.offers.map((o) => esc(o.title)).join(' · ')}</span>` +
+    `<span class="pb-more">${esc(P.bar.more)}</span></a>`;
+  return { promo: `${head}<ul class="promo-cards">${cards}</ul>${foot}`, 'promo-bar': bar };
 }
