@@ -300,9 +300,13 @@ export function worldSteps(scene, M, { mobile = false, mix = false } = {}, world
     () => {
       const { group, letters, back } = buildLetters(M, { depth: 0.85, base: P }); // thin slabs: the key shows only a narrow side and top
       group.position.x = LX;
+      // M.lettersZ moves the word forward on the plinth, free of the long block behind it (stills ?lettersZ=; owner
+      // 2026-10-29: "대문 이미지에서 로고가 너무 벽쪽에 붙어있는 느낌")
+      const lz = M.lettersZ ?? 0;
+      group.position.z = lz;
       scene.add(group);
       const half = bounds().w / 2;
-      world.plinth.add(contacts([[LX + half, P, -0.3, half + 1.6, 1.6, 0.4]]));
+      world.plinth.add(contacts([[LX + half, P, -0.3 + lz, half + 1.6, 1.6, 0.4]]));
       world.letters = letters;
       world.letterBack = back;
     },
