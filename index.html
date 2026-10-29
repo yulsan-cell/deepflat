@@ -821,7 +821,9 @@ html:not([data-hero]) .fl-scene + .fl-scene, [data-hero="static"] .fl-scene + .f
 .sec { padding: clamp(96px, 11vw, 176px) 0; }
 .sec-stone { background: var(--stone); }
 .sec-sky { background: var(--sky); }
-.sec-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 16px 48px; align-items: end; margin-bottom: clamp(44px, 5vw, 76px); }
+/* the intro stands right beside the title, its last line on the title's baseline (owner 2026-10-29: on PC the gap
+   between them was too wide); phones stack the two (max-width 760px below) */
+.sec-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px clamp(28px, 3.4vw, 56px); align-items: end; align-items: last baseline; margin-bottom: clamp(44px, 5vw, 76px); }
 .sec-head h2 { font-family: var(--display-ko); font-weight: 400; font-size: clamp(40px, 5.6vw, 80px); line-height: 1.04; letter-spacing: -.015em; color: var(--ink); }
 .sec-head p { color: var(--ink-2); max-width: 34em; text-wrap: pretty; }
 
@@ -910,27 +912,34 @@ html:not([data-hero]) .fl-scene + .fl-scene, [data-hero="static"] .fl-scene + .f
 }
 
 /* ---------- the record band right under the first screen (GEN:proof): the numbers, then the credentials (면허, 하자보증),
-   in a row with hairlines between; below 900 px the numbers fill the first row and the credentials the second ---------- */
-.proof { padding: clamp(28px, 4vw, 52px) 0; background: var(--paper); border-bottom: 1px solid var(--line); }
+   in a row with hairlines between; below 900 px the numbers fill the first row and the credentials the second.
+   Owner 2026-10-29: "더 가독성 좋게 강조해주고 가운데 정렬": each fact is centred in its column on a chalk band, the number
+   a size up, the label bolder under a short oak rule, the note larger and darker than the old pale grey ---------- */
+.proof { padding: clamp(36px, 4.6vw, 64px) 0; background: var(--chalk); border-bottom: 1px solid var(--line); }
 .proof-list { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
+.proof-list li { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 6px clamp(12px, 2.2vw, 32px); text-align: center; border-left: 1px solid var(--line); }
+.proof-list li:first-child { border-left: 0; }
+.proof-list .her-num { font-size: clamp(50px, 5.4vw, 80px); }
+.proof-list .her-num small { font-size: clamp(16px, 1.4vw, 20px); }
 .proof-list .her-word { font-family: var(--display-ko); font-weight: 400; letter-spacing: -.01em; }
+.proof-list .her-label { position: relative; margin-top: 10px; padding-top: 14px; font-size: clamp(15px, 1.25vw, 17.5px); font-weight: 800; }
+.proof-list .her-label::before { content: ''; position: absolute; top: 0; left: 50%; width: 22px; height: 2px; margin-left: -11px; background: var(--oak); }
 /* two-line notes split evenly, never one word alone on the second line */
-.proof-list .her-sub { text-wrap: balance; }
+.proof-list .her-sub { font-size: clamp(13.5px, 1.1vw, 15px); color: var(--muted-2); text-wrap: balance; }
 @media (max-width: 900px) {
-  .proof-list.has-creds { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 18px; }
+  .proof-list.has-creds { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 22px; }
   .proof-list.has-creds li { grid-column: span 2; }
-  .proof-list.has-creds li.is-cred { grid-column: span 3; padding-top: 16px; border-top: 1px solid var(--line); }
-  .proof-list.has-creds li.is-cred:nth-child(4) { padding-left: 0; border-left: 0; }
+  .proof-list.has-creds li.is-cred { grid-column: span 3; padding-top: 22px; border-top: 1px solid var(--line); }
+  .proof-list.has-creds li.is-cred:nth-child(4) { border-left: 0; }
 }
-.proof-list li { display: grid; align-content: start; gap: 4px; padding: 4px clamp(14px, 3vw, 44px); border-left: 1px solid var(--line); }
-.proof-list li:first-child { padding-left: 0; border-left: 0; }
 @media (max-width: 760px) {
-  .proof-list li { padding: 2px 12px; }
-  .proof-list .her-num { font-size: 34px; }
-  .proof-list .her-word { font-size: 30px; }
+  .proof-list li { gap: 4px; padding: 2px 8px; }
+  .proof-list .her-num { font-size: 36px; }
+  .proof-list .her-word { font-size: 32px; }
   .proof-list .her-num small { font-size: 13px; margin-left: 2px; }
-  .proof-list .her-label { margin-top: 4px; font-size: 13px; }
-  .proof-list .her-sub { font-size: 11.5px; }
+  .proof-list .her-label { margin-top: 6px; padding-top: 10px; font-size: 14px; }
+  .proof-list .her-label::before { width: 16px; margin-left: -8px; }
+  .proof-list .her-sub { font-size: 12px; }
 }
 /* ---------- the promotion bar under the record band (GEN:promo-bar): one line on the night colour with the nav's gold
    dot; the offers drop out on narrow screens ---------- */
@@ -1238,16 +1247,19 @@ html[data-hero] .rc:not(.is-single) .rc-slide .rc-cap { position: absolute; widt
 }
 
 /* 내 공사 일정 확인: a pointer to the owner's schedule page. The stair is the process drawing (where the figure stands is
-   only an illustration), the list says what that page shows, the button sits at the card's foot */
+   only an illustration), the list says what that page shows, the button follows the list. Owner 2026-10-29: the gap
+   between the picture and the button was too wide: the stair now stands larger and everything follows on from the top
+   (picture and list, button, note); when the card is stretched to its neighbour's height (평형별 예상 기간, PC) the
+   spare room stays at the card's foot */
 .track { display: flex; flex-direction: column; }
-.track-body { display: grid; grid-template-columns: minmax(0, clamp(120px, 13vw, 190px)) minmax(0, 1fr); gap: 16px 28px; align-items: end; margin: 24px 0 28px; }
+.track-body { display: grid; grid-template-columns: minmax(0, clamp(140px, 17vw, 240px)) minmax(0, 1fr); gap: 16px 28px; align-items: center; margin: 24px 0 28px; }
 .track .lk-stair { width: 100%; height: auto; }
 .track-list { display: grid; }
 .track-list div { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; line-height: 1.5; }
 .track-list div:last-child { border-bottom: 0; }
 .track-list dt { font-weight: 700; color: var(--ink); }
 .track-list dd { color: var(--muted); }
-.track-go { align-self: flex-start; margin-top: auto; min-height: 48px; }
+.track-go { align-self: flex-start; min-height: 48px; }
 .track-note { margin-top: 18px; font-size: 14px; line-height: 1.6; color: var(--muted); text-wrap: pretty; }
 /* phones: the stair stands small beside the description (on a row of its own it was 170 x 226 with about 140px empty
    beside it, owner 2026-10-27), and the list runs full width under both */
