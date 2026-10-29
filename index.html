@@ -685,6 +685,24 @@ html:not([data-hero]) .fl-scene + .fl-scene, [data-hero="static"] .fl-scene + .f
    gate sets .hero-one for them; without scripts, phone widths do the same. The rooms' pictures, never shown, never load */
 .hero-one[data-hero="static"] .fl-scene:not([data-scene="world"]) { display: none; }
 @media (max-width: 767px) { html:not([data-hero]) .fl-scene:not([data-scene="world"]) { display: none; } }
+/* and the script turns those pictures into slides: the world, 거실, 주방·다이닝, 침실 in a scroll-snap row, the room's
+   name on a paper tag, dots to pick a slide (owner 2026-10-29) */
+.fl-slides { position: relative; }
+.fl-slides-track { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.fl-slides-track::-webkit-scrollbar { display: none; }
+.fl-slide { position: relative; flex: 0 0 100%; min-width: 0; margin: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+.fl-slide-cap { position: absolute; left: 14px; bottom: 14px; display: flex; align-items: baseline; gap: 8px; padding: 8px 12px; font-size: 14px; font-weight: 700; color: var(--ink); background: rgba(245, 243, 238, .92); }
+.fl-slide-cap b { font-size: 12.5px; color: var(--oak-ink); }
+.fl-dots { position: absolute; right: 8px; bottom: 8px; display: flex; }
+.fl-dots button { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; background: none; cursor: pointer; }
+.fl-dots button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: rgba(35, 34, 31, .3); box-shadow: 0 0 0 2px rgba(245, 243, 238, .7); transition: background-color .2s ease, transform .2s ease; }
+.fl-dots button[aria-current="true"]::before { background: var(--ink); transform: scale(1.3); }
+.fl-dots button:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
+@media (max-width: 767px) and (max-aspect-ratio: 4/5) {
+  [data-hero="static"] .fl-slide[data-scene="world"] .fl-still img { object-position: 50% 40%; }
+  [data-hero="static"] .fl-slide[data-scene="living"] .fl-still img, [data-hero="static"] .fl-slide[data-scene="bedroom"] .fl-still img { object-position: 50% 20%; }
+  [data-hero="static"] .fl-slide[data-scene="kitchen"] .fl-still img { object-position: 50% 30%; }
+}
 /* tablets: the picture is only about 576px tall here, and a desktop-sized plate covered half the room. A narrower,
    tighter plate with smaller words sits lower in the corner, so the sofa, the island and the bed stay in view */
 @media (min-width: 768px) and (max-width: 1199px) {
@@ -2275,6 +2293,107 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
       const live = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('is-live', e.isIntersecting)), { rootMargin: '100px 0px' });
       moving.forEach((el) => live.observe(el));
     } else moving.forEach((el) => el.classList.add('is-live'));
+  }
+
+  /* ---------- phones and tablets: the hero's pictures as slides (owner 2026-10-29: "한장만있으니까 심심해서 거실, 주방
+     다이닝, 침실을 … 다음 슬라이드로 넘어가는 모션") ----------
+     The gate gives these screens the stills and one picture (.hero-one). Here the world's picture becomes the first of
+     four slides (world, 거실, 주방·다이닝, 침실) in a native scroll-snap row: a finger swipes them, and they turn on their
+     own every 4.5 s. The world's words stay below; each room slide carries its name. A copy of the first slide at the
+     end lets the row turn forward and start over unseen. No turning off screen, in a hidden tab, for 8 s after a touch,
+     or ever with reduced motion. */
+  {
+    const root = document.documentElement;
+    const worldScene = document.querySelector('.fl-scene[data-scene="world"]');
+    if (root.classList.contains('hero-one') && root.dataset.hero === 'static' && worldScene) {
+      const slides = ['world', 'living', 'kitchen', 'bedroom']
+        .map((id) => {
+          const scene = document.querySelector(`.fl-scene[data-scene="${id}"]`);
+          const pic = scene && scene.querySelector('.fl-still');
+          if (!pic) return null;
+          const fig = document.createElement('figure');
+          fig.className = 'fl-slide';
+          fig.dataset.scene = id;
+          fig.append(pic); // moved: the rooms' scenes stay hidden, without their pictures
+          if (id !== 'world') {
+            const cap = document.createElement('figcaption');
+            cap.className = 'fl-slide-cap';
+            const b = document.createElement('b');
+            b.textContent = scene.querySelector('.fl-eyebrow')?.textContent || '';
+            cap.append(b, ' ', scene.querySelector('.fl-title')?.textContent || '');
+            fig.append(cap);
+          }
+          return fig;
+        })
+        .filter(Boolean);
+      const n = slides.length;
+      const box = document.createElement('div');
+      box.className = 'fl-slides';
+      box.setAttribute('role', 'region');
+      box.setAttribute('aria-roledescription', '슬라이드');
+      box.setAttribute('aria-label', '딥플랫이 설계한 공간');
+      const track = document.createElement('div');
+      track.className = 'fl-slides-track';
+      slides.forEach((s, i) => {
+        s.setAttribute('role', 'group');
+        s.setAttribute('aria-label', `${i + 1} / ${n}`);
+        track.append(s);
+      });
+      const clone = slides[0].cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.append(clone);
+      const dots = document.createElement('div');
+      dots.className = 'fl-dots';
+      dots.setAttribute('role', 'group');
+      dots.setAttribute('aria-label', '장면 고르기');
+      slides.forEach((s, i) => {
+        const d = document.createElement('button');
+        d.type = 'button';
+        d.setAttribute('aria-label', `${i + 1}번째 장면 보기`);
+        if (i === 0) d.setAttribute('aria-current', 'true');
+        d.addEventListener('click', () => { hold(); go(i); });
+        dots.append(d);
+      });
+      box.append(track, dots);
+      worldScene.prepend(box);
+
+      const width = () => track.clientWidth || 1;
+      const go = (i) => track.scrollTo({ left: i * width(), behavior: reduce.matches ? 'auto' : 'smooth' });
+      let at = 0;
+      let heldUntil = 0;
+      const hold = () => (heldUntil = Date.now() + 8000);
+      let settle = 0;
+      let ticking = 0;
+      track.addEventListener('scroll', () => {
+        if (!ticking) ticking = requestAnimationFrame(() => {
+          ticking = 0;
+          const i = Math.round(track.scrollLeft / width()) % n;
+          if (i !== at) {
+            at = i;
+            [...dots.children].forEach((d, k) => (k === i ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current')));
+          }
+        });
+        // once the row has settled on the copy of the first slide, step back to the real one without motion
+        clearTimeout(settle);
+        settle = setTimeout(() => {
+          if (Math.round(track.scrollLeft / width()) >= n) track.scrollTo({ left: 0, behavior: 'auto' });
+        }, 140);
+      }, { passive: true });
+      track.addEventListener('pointerdown', hold, { passive: true });
+      track.addEventListener('touchstart', hold, { passive: true });
+
+      // the next pictures load once the page has settled, so a turn never shows an empty slide
+      addEventListener('load', () => setTimeout(() => track.querySelectorAll('img[loading="lazy"]').forEach((img) => (img.loading = 'eager')), 1200), { once: true });
+
+      if (!reduce.matches) {
+        let onScreen = true;
+        if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => (onScreen = e.isIntersecting)).observe(box);
+        setInterval(() => {
+          if (!onScreen || document.hidden || Date.now() < heldUntil) return;
+          go(Math.round(track.scrollLeft / width()) + 1);
+        }, 4500);
+      }
+    }
   }
 
   /* ---------- the visitor's motion switch (footer) ----------
