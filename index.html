@@ -928,9 +928,10 @@ html:not([data-hero]) .fl-scene + .fl-scene, [data-hero="static"] .fl-scene + .f
 .proof-list .her-sub { font-size: clamp(13.5px, 1.1vw, 15px); color: var(--muted-2); text-wrap: balance; }
 @media (max-width: 900px) {
   .proof-list.has-creds { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 22px; }
-  .proof-list.has-creds li { grid-column: span 2; }
-  .proof-list.has-creds li.is-cred { grid-column: span 3; padding-top: 22px; border-top: 1px solid var(--line); }
-  .proof-list.has-creds li.is-cred:nth-child(4) { border-left: 0; }
+  /* --ns / --cs (set by the builder): how many of the 6 columns each number and each credential takes */
+  .proof-list.has-creds li { grid-column: span var(--ns, 2); }
+  .proof-list.has-creds li.is-cred { grid-column: span var(--cs, 3); padding-top: 22px; border-top: 1px solid var(--line); }
+  .proof-list.has-creds li:not(.is-cred) + .is-cred { border-left: 0; }
 }
 @media (max-width: 760px) {
   .proof-list li { gap: 4px; padding: 2px 8px; }
@@ -1356,8 +1357,15 @@ html[data-hero] .partners:not(.is-live) .pt-row, html[data-hero] .months:not(.is
 /* the body face, extra bold: at 26-32px the display face (Black Han Sans) closed up its counters and read heavy
    (owner 2026-10-27); the big section titles keep the display face */
 .ways h3 { font-family: var(--body); font-weight: 800; font-size: clamp(23px, 2.1vw, 28px); line-height: 1.3; letter-spacing: -.02em; }
-/* two lines held for every title, so the three descriptions start on one line whether a title wraps or not */
-@media (min-width: 701px) { .ways h3 { min-height: 2.4em; } }
+/* two lines held for every title, so the three descriptions start on one line whether a title wraps or not; each card
+   is centred under its niche (owner 2026-10-29: the titles and text leaned to the left of the arches) */
+@media (min-width: 701px) {
+  .ways li { text-align: center; }
+  .way-art, .ways p { margin-inline: auto; }
+  /* a one-line title sits on the lower line, right over its text, so every title's last line shares one baseline */
+  .ways h3 { display: flex; flex-direction: column; justify-content: flex-end; min-height: 2.6em; }
+  .ways p { text-wrap: balance; }
+}
 .ways p { margin-top: 14px; color: var(--ink-2); max-width: 26em; text-wrap: pretty; }
 /* phones and small tablets: one card per row, a smaller niche beside its title, the description full width below
    (the niche alone on its row left half of it empty between 561 and 700px) */
@@ -1861,7 +1869,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 
   <!-- the team's record in three numbers, right under the first screen (owner 2026-10-28), from final/data/yulsan.mjs -->
   <section class="proof">
-    <div class="wrap"><!--GEN:proof--><ul class="proof-list has-creds" aria-label="딥플랫 팀의 기록" style="--n:5"><li><span class="her-num">10<small>년</small></span><span class="her-label">현장 경력</span><span class="her-sub">2016년부터</span></li><li><span class="her-num">986<small>건</small></span><span class="her-label">누적 시공</span><span class="her-sub">설계와 시공을 마친 현장</span></li><li><span class="her-num">40<small>개 매장</small></span><span class="her-label">랑데자뷰</span><span class="her-sub">2018년 홍대 1호점에서 3년 만에</span></li><li class="is-cred"><span class="her-num her-word">면허</span><span class="her-label">실내건축공사업</span><span class="her-sub">면허를 갖춘 팀이 직접 시공해요</span></li><li class="is-cred"><span class="her-num her-word">보증</span><span class="her-label">하자보증</span><span class="her-sub">완공 뒤 하자도 책임지고 고쳐요</span></li></ul><!--/GEN:proof--></div>
+    <div class="wrap"><!--GEN:proof--><ul class="proof-list has-creds" aria-label="딥플랫 팀의 기록" style="--n:4;--ns:3;--cs:3"><li><span class="her-num">10<small>년</small></span><span class="her-label">현장 경력</span><span class="her-sub">2016년부터</span></li><li><span class="her-num">986<small>건</small></span><span class="her-label">누적 시공</span><span class="her-sub">설계와 시공을 마친 현장</span></li><li class="is-cred"><span class="her-num her-word">면허</span><span class="her-label">실내건축공사업</span><span class="her-sub">면허를 갖춘 팀이 직접 시공해요</span></li><li class="is-cred"><span class="her-num her-word">보증</span><span class="her-label">하자보증</span><span class="her-sub">완공 뒤 하자도 책임지고 고쳐요</span></li></ul><!--/GEN:proof--></div>
   </section>
 
   <!-- the promotion in one line, under the record band, linking down to the 프로모션 block (GEN:promo-bar, final/svg/promo.mjs) -->
