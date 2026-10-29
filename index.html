@@ -165,6 +165,19 @@
     set('static');
     preloadWorld('high');
   };
+  // a phone or tablet: a touch-first screen, or one by its name (iPadOS reports a Mac: told apart by its touch points).
+  // It always gets the pictures as one row of slides with the main shot first (.hero-one), whatever the address
+  // carries (?hero=3d, ?hero=static) or the visitor once chose: the owner wants every address to show the latest phone
+  // page (2026-10-29: "내가 신규로 업데이트를하면 어떤 주소로든 업데이트 된게 보여야해"). The 3D flight is for computers
+  // (2026-10-28: "모바일은 그냥 정지화면으로하고 PC만 3D로", after an iPhone scrolled with hitches while the 3D was loaded)
+  const handheld =
+    matchMedia('(pointer: coarse)').matches ||
+    /iP(hone|ad|od)|Android|Mobi/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (handheld) {
+    document.documentElement.classList.add('hero-one');
+    return toStatic('phone or tablet: the pictures');
+  }
   let chosen = null;
   try {
     chosen = localStorage.getItem('dfHero');
@@ -183,19 +196,6 @@
     const slowNet = !!cn.saveData || /(^|-)(2g|3g)$/.test(cn.effectiveType || '');
     const weak = !!mem && (mem < 4 || (matchMedia('(pointer: coarse)').matches && cores > 0 && cores <= 4));
     if (slowNet || weak) return toStatic(slowNet ? 'slow network' : 'low-end device');
-    // phones and tablets open with the pictures; the 3D flight is for computers (owner 2026-10-28: "모바일은 그냥
-    // 정지화면으로하고 PC만 3D로", after the owner's iPhone scrolled with hitches below the first screen while the 3D was
-    // loaded, and smoothly with the pictures). ?hero=3d still shows the flight on a phone. A touch-first screen, or a
-    // phone or tablet by its name (iPadOS reports a Mac: told apart by its touch points)
-    const handheld =
-      matchMedia('(pointer: coarse)').matches ||
-      /iP(hone|ad|od)|Android|Mobi/i.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    if (handheld) {
-      // and only the main shot, the world (owner 2026-10-29: "모바일 버전에서 대문 이미지는 하나만 … 메인 샷으로")
-      document.documentElement.classList.add('hero-one');
-      return toStatic('phone or tablet: the pictures');
-    }
   }
   let canvas = null;
   let gl = null;
