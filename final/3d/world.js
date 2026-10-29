@@ -25,10 +25,14 @@
 // baked with models.js bakeRoom (the models kept apart, repeated ones instanced). The first step that furnishes a room
 // is marked step.models: the hero waits there (briefly) for the library. A library that arrives after the build
 // refurnishes the rooms in place: world.refurnishSteps() builds them again and apply() swaps them in.
+// The mixed world (owner 2026-10-29, `mix`; shops.js): the kitchen ledge is a café, the bath arch a shop, the study an
+// office, and the seated figure a builder beside a corner still being built; living room and bedroom stay homes.
+// Only the stills build it so far (final/stills/flight.js ?mix=1); the 3D hero keeps the homes.
 import { THREE, blk, stairs, nicheBox, bake, figure, crescentFrame, buildLetters, mushroomLamp, contacts } from './kit.js';
 import { bounds } from './glyphs.js';
 import { livingRoom, kitchenRoom, bedroomRoom, studyRoom, bathRoom, pendantPair, ledgeDressing, archDressing, faceDressing, landingLights, GLOBE_DROP } from './rooms.js';
 import { bakeRoom } from './models.js';
+import { cafeRoom, shopRoom, officeRoom, buildCorner } from './shops.js';
 
 const k = 1 / 12;
 export const P = 200 * k; // top of the plinth = FLAT baseline
@@ -42,7 +46,7 @@ export function logoBox(back = -(0.85 + 0.14)) {
   return new THREE.Box3(new THREE.Vector3(LX, P, back), new THREE.Vector3(LX + b.w, P + b.h, 0));
 }
 
-export function worldSteps(scene, M, { mobile = false } = {}, world) {
+export function worldSteps(scene, M, { mobile = false, mix = false } = {}, world) {
   Object.assign(world, { P, lx: LX, pieces: [], letters: [], bulbs: [], lamps: [], glows: [], rooms: [], wires: [], furnished: [] });
   // a piece rises `rise` units into place during the opening, out of the floor or the block under it
   const piece = (rise, ...objs) => {
@@ -105,7 +109,7 @@ export function worldSteps(scene, M, { mobile = false } = {}, world) {
       fresh.push({ rec, room, baked, shadow: contacts(room.contacts), box: new THREE.Box3().setFromObject(baked) });
     });
     steps.push(() => {
-      const kitchen = fresh.find((f) => f.rec.k === 'dining');
+      const kitchen = fresh.find((f) => f.rec.k === 'dining' || f.rec.k === 'cafe');
       if (kitchen) world.diningTable = kitchen.room.table;
       pend = hangPendants();
     });
@@ -232,27 +236,28 @@ export function worldSteps(scene, M, { mobile = false } = {}, world) {
       piece(9, niche(M.blockSand, { x: [-30, -10], y: [0, 21], z: [-3.33, 10], zDepth: 3.33, zOps: [{ a0: -21.5, a1: -14.33, v0: 0, v1: 10 }] }));
     },
     () => {
-      held.bath = bathRoom(M, { y: 21 });
-      held.study = studyRoom(M, { y: 21 });
-      held.study.solid.add(mushroomLamp(M, { x: -14.2, y: 21 + 0.74 * 3.33, z: 5.6, s: 0.62 }));
+      held.bath = mix ? shopRoom(M, { y: 21 }) : bathRoom(M, { y: 21 });
+      held.study = mix ? officeRoom(M, { y: 21 }) : studyRoom(M, { y: 21 });
+      if (!mix) held.study.solid.add(mushroomLamp(M, { x: -14.2, y: 21 + 0.74 * 3.33, z: 5.6, s: 0.62 }));
     },
     () => {
       const bathBuild = () => {
-        const r = bathRoom(M, { y: 21 });
+        const r = mix ? shopRoom(M, { y: 21 }) : bathRoom(M, { y: 21 });
         r.contacts.push([-22.6, 21, 0.1, 8.2, 1.1, 0.3]); // the foot of the arch's back wall
         return r;
       };
       held.bath.contacts.push([-22.6, 21, 0.1, 8.2, 1.1, 0.3]);
-      const bath = furnish('bath', held.bath, bathBuild);
+      const bath = furnish(mix ? 'shop' : 'bath', held.bath, bathBuild);
       bath.piece = piece(8, niche(M.block, { x: [-30, -15.17], y: [21, 34], z: [-3.33, 0], zDepth: 2.83, zOps: [{ a0: -28.4, a1: -19.8, v0: 21, v1: 28.4, lit: 6 }] }), bath.baked, bath.shadow);
       world.rooms.push(bath.pin);
 
       const studyBuild = () => {
+        if (mix) return officeRoom(M, { y: 21 });
         const r = studyRoom(M, { y: 21 });
         r.solid.add(mushroomLamp(M, { x: -14.2, y: 21 + 0.74 * 3.33, z: 5.6, s: 0.62 }));
         return r;
       };
-      const study = furnish('study', held.study, studyBuild);
+      const study = furnish(mix ? 'office' : 'study', held.study, studyBuild);
       study.piece = piece(5, study.baked, study.shadow);
       world.rooms.push(study.pin);
 
@@ -266,8 +271,8 @@ export function worldSteps(scene, M, { mobile = false } = {}, world) {
         10,
         niche(M.block, { x: [-2.67, 25.83], y: [0, P], z: [-3.33, 11], xDepth: 3.67, xOps: [{ a0: -0.5, a1: 4.33, v0: 0, v1: 10, lit: 12 }] }),
         // the figure's own contact shadow: small and light, so it grounds it without reading as a hole in the stone
-        contacts([[11, P, 4.65, 1.2, 1.05, 0.3], [11, P, -3.2, 15, 1.1, 0.3]]),
-        bake(figure(M, { x: 11, y: P, z: 4.6, rot: 0.55, s: 2.35 })),
+        contacts(mix ? [[11, P, 5.6, 1.1, 0.9, 0.3], [11, P, -3.2, 15, 1.1, 0.3], [21.6, P, 8.6, 4.6, 1.3, 0.25]] : [[11, P, 4.65, 1.2, 1.05, 0.3], [11, P, -3.2, 15, 1.1, 0.3]]),
+        bake(mix ? buildCorner(M, { P }) : figure(M, { x: 11, y: P, z: 4.6, rot: 0.55, s: 2.35 })),
       );
       // on the ground between the plinth's lit doorway and the kitchen ledge: a tall plant and a stool, so the doorway
       // wall the camera passes on its way into the kitchen has a subject
@@ -277,11 +282,11 @@ export function worldSteps(scene, M, { mobile = false } = {}, world) {
 
     // the right ledge: kitchen against the long block, the island, the dining table (rooms.js)
     () => {
-      held.kitchen = kitchenRoom(M, { L });
+      held.kitchen = mix ? cafeRoom(M, { L }) : kitchenRoom(M, { L });
     },
     () => {
       const room = held.kitchen;
-      const rec = furnish('dining', room, () => kitchenRoom(M, { L }));
+      const rec = furnish(mix ? 'cafe' : 'dining', room, () => (mix ? cafeRoom(M, { L }) : kitchenRoom(M, { L })));
       world.dining = rec.piece = piece(8, blk(M.block, [30, 50.83], [0, L], [-3.33, 9.17]), rec.baked, rec.shadow, ...takeGlow(room));
       world.diningTable = room.table;
       rec.pin.group = world.dining;
