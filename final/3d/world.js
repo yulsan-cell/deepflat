@@ -271,8 +271,10 @@ export function worldSteps(scene, M, { mobile = false, mix = false } = {}, world
         10,
         niche(M.block, { x: [-2.67, 25.83], y: [0, P], z: [-3.33, 11], xDepth: 3.67, xOps: [{ a0: -0.5, a1: 4.33, v0: 0, v1: 10, lit: 12 }] }),
         // the figure's own contact shadow: small and light, so it grounds it without reading as a hole in the stone
-        contacts(mix ? [[11, P, 5.6, 1.1, 0.9, 0.3], [11, P, -3.2, 15, 1.1, 0.3], [21.6, P, 8.6, 4.6, 1.3, 0.25]] : [[11, P, 4.65, 1.2, 1.05, 0.3], [11, P, -3.2, 15, 1.1, 0.3]]),
-        bake(mix ? buildCorner(M, { P }) : figure(M, { x: 11, y: P, z: 4.6, rot: 0.55, s: 2.35 })),
+        contacts(mix ? [[11, P, 5.6, 1.1, 0.9, 0.3], [11, P, -3.2, 15, 1.1, 0.3], [21.6, P, 8.6, 4.6, 1.3, 0.25]] : M.look === 'model' ? [[11, P, -3.2, 15, 1.1, 0.3]] : [[11, P, 4.65, 1.2, 1.05, 0.3], [11, P, -3.2, 15, 1.1, 0.3]]),
+        // the homes-only world in the presentation-model look leaves the plinth in front of the letters empty (owner
+        // 2026-10-29: "상호명 앞에 사람은 빼자")
+        mix ? bake(buildCorner(M, { P })) : M.look === 'model' ? null : bake(figure(M, { x: 11, y: P, z: 4.6, rot: 0.55, s: 2.35 })),
       );
       // on the ground between the plinth's lit doorway and the kitchen ledge: a tall plant and a stool, so the doorway
       // wall the camera passes on its way into the kitchen has a subject
