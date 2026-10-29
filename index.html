@@ -181,6 +181,16 @@ button { cursor: pointer; }
 .hx-pins { position: absolute; inset: 0; pointer-events: none; }
 .hx-pin { position: absolute; left: 0; top: 0; pointer-events: auto; text-decoration: none; color: var(--ink); visibility: hidden; }
 .hx-pins.is-placed .hx-pin { visibility: visible; }
+/* once placed, the labels land one by one from the front room back, like pins set on a model (not with reduced motion;
+   translate adds to the inline transform that places each one) */
+@media (prefers-reduced-motion: no-preference) {
+  .hx-pins.is-placed .hx-pin { animation: hx-pin-in .5s cubic-bezier(.2, .8, .2, 1) .2s both; }
+  .hx-pins.is-placed .hx-pin:nth-child(2) { animation-delay: .3s; }
+  .hx-pins.is-placed .hx-pin:nth-child(3) { animation-delay: .4s; }
+  .hx-pins.is-placed .hx-pin:nth-child(4) { animation-delay: .5s; }
+  .hx-pins.is-placed .hx-pin:nth-child(5) { animation-delay: .6s; }
+}
+@keyframes hx-pin-in { from { opacity: 0; translate: 0 -10px; } }
 .hx-pin i { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 3px rgba(252, 251, 248, .9); }
 .hx-pin span { position: absolute; left: 0; bottom: 14px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; font-size: 14px; font-weight: 700; line-height: 1.2; white-space: nowrap; background: var(--chalk); box-shadow: 0 6px 16px -8px rgba(35, 34, 31, .45), 2px -2px 0 var(--side-1); }
 .hx-pin span::before { content: ""; width: 9px; height: 9px; background: var(--oak); }
@@ -199,7 +209,7 @@ button { cursor: pointer; }
 .hx-cap { position: absolute; margin: 0; display: grid; gap: 2px; padding: 10px 14px; background: var(--chalk); box-shadow: 0 10px 24px -14px rgba(35, 34, 31, .5), 3px -2px 0 var(--side-1); }
 .hx-cap span { font-size: 13px; font-weight: 700; color: var(--oak-ink); }
 .hx-cap b { font-family: var(--display-ko); font-weight: 400; font-size: 22px; line-height: 1.25; }
-.hx-chip { position: absolute; z-index: 3; margin: 0; padding: 3px 9px; font-size: 12px; font-weight: 600; color: var(--muted-2); background: rgba(252, 251, 248, .86); }
+.hx-chip { position: absolute; z-index: 3; margin: 0; padding: 3px 9px; font-size: 13px; font-weight: 600; color: var(--muted-2); background: rgba(252, 251, 248, .86); }
 .hx-ctrl { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; }
 .hx-dots { display: flex; gap: 2px; }
 .hx-ctrl button { border: 0; background: none; padding: 0; cursor: pointer; font: inherit; color: var(--ink); }
@@ -212,7 +222,6 @@ button { cursor: pointer; }
 .hx-pause[aria-pressed="true"]::before { width: 0; height: 0; border: 0; border-left: 11px solid currentColor; border-top: 7px solid transparent; border-bottom: 7px solid transparent; margin-left: 3px; }
 .hx-ctrl button:focus-visible { outline: 2px solid var(--oak); outline-offset: 2px; }
 /* the plate */
-.hx-eyebrow { display: block; margin-bottom: 10px; font-family: var(--body); font-size: 14.5px; font-weight: 600; line-height: 1.4; letter-spacing: 0; color: var(--muted-2); }
 .hx-title { margin: 0; font-family: var(--display-ko); font-weight: 400; line-height: 1.14; letter-spacing: -.01em; color: var(--ink); text-wrap: balance; }
 .hx-body { margin: 14px 0 0; color: var(--ink-2); text-wrap: pretty; }
 .hx-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
@@ -228,8 +237,8 @@ button { cursor: pointer; }
 /* PC and landscape tablets: one screen tall (the record band peeks in below), the plate on the sky at the left */
 @media (min-width: 1101px), (min-width: 768px) and (min-aspect-ratio: 1001/1000) {
   .hx-stage { height: min(100svh, 56.25vw); min-height: 560px; }
-  .hx-plate { position: absolute; z-index: 4; left: var(--gutter); bottom: clamp(28px, 4.5vw, 64px); width: min(31em, 38vw); padding: clamp(22px, 2.4vw, 34px); background: rgba(252, 251, 248, .95); box-shadow: 0 24px 50px -30px rgba(35, 34, 31, .5), 4px -3px 0 var(--side-1), 8px -6px 0 var(--side-2); }
-  .hx-title { font-size: clamp(30px, 2.9vw, 44px); }
+  .hx-plate { position: absolute; z-index: 4; left: var(--gutter); bottom: clamp(28px, 4.5vw, 64px); width: min(31em, 38vw); padding: clamp(22px, 2.4vw, 34px); background: rgba(252, 251, 248, .95); }
+  .hx-title { font-size: clamp(40px, 4vw, 62px); }
   .hx-body { font-size: clamp(15.5px, 1.1vw, 17px); line-height: 1.7; }
   .hx-cap { right: var(--gutter); top: calc(var(--nav-h) + 20px); }
   .hx-chip { right: var(--gutter); bottom: 78px; }
@@ -244,18 +253,32 @@ button { cursor: pointer; }
   .hx-ctrl { right: 10px; bottom: 6px; gap: 2px; }
   .hx-cap { left: 12px; bottom: 12px; padding: 8px 11px; max-width: calc(100% - 170px); }
   .hx-cap span { font-size: 12px; } .hx-cap b { font-size: 18px; }
-  .hx-chip { right: 10px; top: calc(var(--nav-h) + 8px); font-size: 11px; }
-  .hx-pin span { font-size: 12.5px; padding: 4px 8px; gap: 5px; bottom: 11px; }
+  .hx-chip { right: 10px; top: calc(var(--nav-h) + 8px); }
+  .hx-pin span { font-size: 13px; padding: 4px 8px; gap: 5px; bottom: 11px; }
   .hx-pin span::after { height: 7px; bottom: -7px; }
   .hx-pin.to-below span { top: 11px; } .hx-pin.to-below span::after { top: -7px; }
   .hx-pin.wide-right:not(.to-left):not(.to-right) span { transform: translateX(-50%); } .hx-pin.wide-right:not(.to-left):not(.to-right) span::after { left: 50%; }
   .hx-plate { padding: 24px max(var(--gutter), env(safe-area-inset-right)) 36px max(var(--gutter), env(safe-area-inset-left)); }
-  .hx-title { font-size: clamp(28px, 8vw, 36px); }
+  .hx-title { font-size: clamp(28px, 8.6vw, 40px); }
   .hx-body { font-size: 16px; line-height: 1.65; }
   .hx-body br { display: none; }
   .hx-tags { display: grid; grid-template-columns: 1fr 1fr; }
   .hx-tags li { display: flex; }
   .hx-tags a { flex: 1; min-height: 44px; }
+}
+/* 320px phones: one size down, so the first line holds both trades instead of breaking after 주택부터 */
+@media (max-width: 345px) { .hx-body { font-size: 15px; } }
+/* portrait tablets: the 4:5 frame alone filled the screen and pushed the headline under it (768x1024: the title began
+   at 984px), so the frame stops 260px above the screen's foot and the crop takes the empty sky and table (60% of the
+   cut from the top, so every room and label stays); the plate gets the tablet's size: a larger headline, the two
+   hand-set lines, the four trades in one row */
+@media (min-width: 768px) and (max-width: 1100px) and (max-aspect-ratio: 1/1) {
+  .hx-stage { aspect-ratio: auto; height: min(125vw, calc(100svh - 260px)); min-height: 520px; }
+  .hx-slide img { object-position: 50% 60%; }
+  .hx-title { font-size: clamp(40px, 6vw, 60px); }
+  .hx-body { font-size: 17px; }
+  .hx-body br { display: inline; }
+  .hx-tags { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* ---------- the generated drawings by day ----------
@@ -1145,7 +1168,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 
 <main id="main">
   <section class="hero hx" id="top" aria-labelledby="hero-title">
-    <!--GEN:stills--><div class="hx-stage" aria-label="딥플랫 월드" data-pins="{&quot;wide&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.552,&quot;y&quot;:0.835},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.74,&quot;y&quot;:0.705},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.844,&quot;y&quot;:0.28},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.5,&quot;y&quot;:0.215},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.513,&quot;y&quot;:0.38}],&quot;tall&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.383,&quot;y&quot;:0.829},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.642,&quot;y&quot;:0.717},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.829,&quot;y&quot;:0.399},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.267,&quot;y&quot;:0.284},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.299,&quot;y&quot;:0.465}]}"><ol class="hx-slides"><li class="hx-slide is-on" data-shot="home" aria-roledescription="slide" aria-label="1 / 1: 딥플랫 월드"><picture><source type="image/avif" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.avif 720w, images/hero/home-4x5-1080.avif 1080w" sizes="100vw"><source type="image/webp" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.webp 720w, images/hero/home-4x5-1080.webp 1080w" sizes="100vw"><source type="image/avif" srcset="images/hero/home-16x9-1280.avif 1280w, images/hero/home-16x9-1920.avif 1920w" sizes="100vw"><img src="images/hero/home-16x9-1280.webp" srcset="images/hero/home-16x9-1280.webp 1280w, images/hero/home-16x9-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="설계 미니어처 연출 이미지: DEEP FLAT 글자가 선 크림색 건축 모형. 거실, 주방·다이닝, 침실, 욕실, 서재가 한 건물의 층마다 있다" fetchpriority="high" decoding="async"></picture><div class="hx-pins" role="group" aria-label="딥플랫 월드의 공간"><a class="hx-pin is-home to-below" data-k="living" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>거실</span></a><a class="hx-pin is-home to-below" data-k="kitchen" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>주방</span></a><a class="hx-pin is-home to-below" data-k="bed" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>침실</span></a><a class="hx-pin is-home wide-right" data-k="bath" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>욕실</span></a><a class="hx-pin is-home to-below" data-k="study" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>서재</span></a></div></li></ol><p class="hx-chip">설계 미니어처 · 연출 이미지</p></div><div class="hx-plate"><h1 class="hx-title" id="hero-title"><span class="hx-eyebrow">DEEPFLAT 딥플랫</span> 공간의 깊이를 설계합니다.</h1><p class="hx-body">아파트·주택부터 카페·매장·오피스까지,<br> 설계한 팀이 그대로 시공까지 맡아요.</p><ul class="hx-tags" aria-label="딥플랫에서 하는 일"><li><a href="#portfolio" class="is-home" data-pf="home">아파트·주택</a></li><li><a href="#portfolio" class="is-cm" data-pf="commercial" data-pf-band="cm-fnb">카페·식당</a></li><li><a href="#portfolio" class="is-cm" data-pf="commercial" data-pf-band="cm-shop">매장·약국</a></li><li><a href="#portfolio" class="is-cm" data-pf="commercial" data-pf-band="cm-office">오피스</a></li></ul><p class="hx-heritage">현장 경력 10년 · 누적 시공 986건</p><a class="hx-go" href="#portfolio">포트폴리오 보기</a></div><!--/GEN:stills-->
+    <!--GEN:stills--><div class="hx-stage" aria-label="딥플랫 월드" data-pins="{&quot;wide&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.552,&quot;y&quot;:0.835},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.74,&quot;y&quot;:0.705},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.844,&quot;y&quot;:0.28},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.5,&quot;y&quot;:0.215},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.513,&quot;y&quot;:0.38}],&quot;tall&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.383,&quot;y&quot;:0.829},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.642,&quot;y&quot;:0.717},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.829,&quot;y&quot;:0.399},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.267,&quot;y&quot;:0.284},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.299,&quot;y&quot;:0.465}]}"><ol class="hx-slides"><li class="hx-slide is-on" data-shot="home" aria-roledescription="slide" aria-label="1 / 1: 딥플랫 월드"><picture><source type="image/avif" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.avif 720w, images/hero/home-4x5-1080.avif 1080w" sizes="100vw"><source type="image/webp" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.webp 720w, images/hero/home-4x5-1080.webp 1080w" sizes="100vw"><source type="image/avif" srcset="images/hero/home-16x9-1280.avif 1280w, images/hero/home-16x9-1920.avif 1920w" sizes="100vw"><img src="images/hero/home-16x9-1280.webp" srcset="images/hero/home-16x9-1280.webp 1280w, images/hero/home-16x9-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="설계 미니어처 연출 이미지: DEEP FLAT 글자가 선 크림색 건축 모형. 거실, 주방·다이닝, 침실, 욕실, 서재가 한 건물의 층마다 있다" fetchpriority="high" decoding="async"></picture><div class="hx-pins" role="group" aria-label="딥플랫 월드의 공간"><a class="hx-pin is-home to-below" data-k="living" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>거실</span></a><a class="hx-pin is-home to-below" data-k="kitchen" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>주방</span></a><a class="hx-pin is-home to-below" data-k="bed" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>침실</span></a><a class="hx-pin is-home wide-right" data-k="bath" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>욕실</span></a><a class="hx-pin is-home to-below" data-k="study" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>서재</span></a></div></li></ol><p class="hx-chip">설계 미니어처 · 연출 이미지</p></div><div class="hx-plate"><h1 class="hx-title" id="hero-title"><span class="sr-only">DEEPFLAT 딥플랫 </span>공간의 깊이를 설계합니다.</h1><p class="hx-body">딥플랫은 <span class="nw">아파트·주택부터</span> <span class="nw">카페·매장·오피스까지,</span><br> 설계한 팀이 그대로 시공까지 맡아요.</p><ul class="hx-tags" aria-label="딥플랫에서 하는 일"><li><a href="#portfolio" class="is-home" data-pf="home">아파트·주택</a></li><li><a href="#portfolio" class="is-cm" data-pf="commercial" data-pf-band="cm-fnb">카페·식당</a></li><li><a href="#portfolio" class="is-cm" data-pf="commercial" data-pf-band="cm-shop">매장·약국</a></li><li><a href="#portfolio" class="is-cm" data-pf="commercial" data-pf-band="cm-office">오피스</a></li></ul><p class="hx-heritage">현장 경력 10년 · 누적 시공 986건</p><a class="hx-go" href="#portfolio">포트폴리오 보기</a></div><!--/GEN:stills-->
   </section>
 
   <!-- the team's record in three numbers, right under the first screen (owner 2026-10-28), from final/data/yulsan.mjs -->
@@ -1601,7 +1624,10 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         const list = PINS[phone.matches ? 'tall' : 'wide'] || [];
         const [iw, ih] = phone.matches ? [4, 5] : [16, 9];
         const w = stage.clientWidth, h = stage.clientHeight;
-        const k = Math.max(w / iw, h / ih), ox = (w - iw * k) / 2, oy = (h - ih * k) / 2;
+        // the crop follows the picture's object-position (portrait tablets keep more of the top), read from the CSS
+        const img = stage.querySelector('.hx-slide img');
+        const [fx = 0.5, fy = 0.5] = (img ? getComputedStyle(img).objectPosition : '').split(' ').map((v) => parseFloat(v) / 100).map((v) => (Number.isFinite(v) ? v : 0.5));
+        const k = Math.max(w / iw, h / ih), ox = (w - iw * k) * fx, oy = (h - ih * k) * fy;
         for (const p of list) {
           const el = stage.querySelector(`.hx-pin[data-k="${p.k}"]`);
           if (el) el.style.transform = `translate(${(ox + p.x * iw * k).toFixed(1)}px, ${(oy + p.y * ih * k).toFixed(1)}px)`;
