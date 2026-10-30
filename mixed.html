@@ -666,6 +666,11 @@ html[data-hero] .rc:not(.is-single) .rc-slide .rc-cap { position: absolute; widt
 .card-dur { padding-left: 14px; border-left: 1px solid #c9c1b3; line-height: 1.15; font-variant-numeric: tabular-nums; }
 .card-py b { font-family: var(--display-en); font-weight: 900; font-size: 26px; letter-spacing: .01em; color: var(--ink); margin-right: 2px; }
 .card-note { margin-top: 6px; font-size: 15px; line-height: 1.65; color: var(--muted); max-width: 30em; text-wrap: pretty; }
+/* a lettered card (no pictures yet) keeps only the year in its meta row, and offers its own way to 상담 */
+.card-meta .card-dur:first-child { padding-left: 0; border-left: 0; }
+.card-ask { margin-top: 4px; }
+.card-ask a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 700; color: var(--ink); text-decoration: underline; text-decoration-color: var(--oak); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.card-ask a:hover { text-decoration-color: var(--ink); }
 /* the schedule note ended on a two-word line on PC once "와 상업 공간은" left it; phones keep their full lines */
 @media (min-width: 900px) { .panel-sub.dur-note { text-wrap: balance; } }
 /* phones (2026-10-27, user: the stacked cards ran five screens long): the cards stand in one row that swipes sideways,
@@ -817,7 +822,13 @@ html[data-hero] .rc:not(.is-single) .rc-slide .rc-cap { position: absolute; widt
    animation anywhere on the page makes the browser restyle it on every frame of a scroll */
 html[data-hero] .partners:not(.is-live) .pt-row, html[data-hero] .months:not(.is-live) .m-status { animation-play-state: paused; }
 .pt-view:hover .pt-row { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) { .pt-row { animation: none; } }
+/* reduced motion: the row stands still and wraps, each brand once (final/svg/partners.mjs marks the repeats .pt-rep) */
+@media (prefers-reduced-motion: reduce) {
+  .pt-row { animation: none; width: auto; }
+  .pt-view { -webkit-mask-image: none; mask-image: none; }
+  .pt-group { flex-wrap: wrap; row-gap: 12px; padding-right: 0; }
+  .pt-group + .pt-group, .pt-rep { display: none; }
+}
 @media (max-width: 760px) {
   .pt-wrap { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .pt-row { animation-duration: 55s; }
@@ -1314,11 +1325,11 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 
   <!-- the team's record in three numbers, right under the first screen (owner 2026-10-28), from final/data/yulsan.mjs -->
   <section class="proof">
-    <div class="wrap"><!--GEN:proof--><ul class="proof-list has-creds" aria-label="딥플랫 팀의 기록" style="--n:4;--ns:3;--cs:3"><li><span class="her-num">10<small>년</small></span><span class="her-label">현장 경력</span><span class="her-sub">2016년부터</span></li><li><span class="her-num">986<small>건</small></span><span class="her-label">누적 시공</span><span class="her-sub">설계와 시공을 마친 현장</span></li><li class="is-cred"><span class="her-num her-word">면허</span><span class="her-label">실내건축공사업</span><span class="her-sub">면허를 갖춘 팀이 직접 시공해요</span></li><li class="is-cred"><span class="her-num her-word">보증</span><span class="her-label">하자보증</span><span class="her-sub">완공 뒤 하자도 책임지고 고쳐요</span></li></ul><!--/GEN:proof--></div>
+    <div class="wrap"><!--GEN:proof--><ul class="proof-list has-creds" aria-label="딥플랫 팀의 기록" style="--n:4;--ns:3;--cs:3"><li><span class="her-num">10<small>년</small></span><span class="her-label">현장 경력</span><span class="her-sub">2016년부터</span></li><li><span class="her-num">986<small>건</small></span><span class="her-label">누적 시공</span><span class="her-sub">공사를 마친 현장</span></li><li class="is-cred"><span class="her-num her-word">면허</span><span class="her-label">실내건축공사업</span><span class="her-sub">면허를 갖춘 팀이 직접 시공해요</span></li><li class="is-cred"><span class="her-num her-word">보증</span><span class="her-label">하자보증</span><span class="her-sub">완공 뒤 하자도 책임지고 고쳐요</span></li></ul><!--/GEN:proof--></div>
   </section>
 
   <!-- the promotion in one line, under the record band, linking down to the 프로모션 block (GEN:promo-bar, final/svg/promo.mjs) -->
-  <aside class="promo-bar" aria-label="프로모션 안내"><div class="wrap"><!--GEN:promo-bar--><a class="promo-bar-link" href="#promotion"><span class="pb-tag"><i aria-hidden="true"></i>연말 프로모션</span><span class="pb-when">2026년 12월 31일까지</span><span class="pb-offers">무료 실측과 평면 검토 · 우리 집 3D 미니어처 · 입주하는 날 가구 배치</span><span class="pb-more">혜택 보기</span></a><!--/GEN:promo-bar--></div></aside>
+  <aside class="promo-bar" aria-label="프로모션 안내"><div class="wrap"><!--GEN:promo-bar--><a class="promo-bar-link" href="#promotion"><span class="pb-tag"><i aria-hidden="true"></i>연말 프로모션</span><span class="pb-when">2026년 12월 31일까지</span><span class="pb-offers">무료 실측과 평면 검토 · 내 공간 3D 미니어처 · 입주·오픈하는 날 가구 배치</span><span class="pb-more">혜택 보기</span></a><!--/GEN:promo-bar--></div></aside>
 
   <section class="brand-sec" id="about" aria-labelledby="about-title">
     <div class="wrap about-grid">
@@ -1347,14 +1358,14 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   <!-- 함께한 브랜드 (owner 2026-10-28): the brands the team worked for roll slowly by between 회사 소개 and the portfolio
        (GEN:partners, final/svg/partners.mjs from final/data/partners.mjs); names until the owner sends logo files -->
   <section class="partners" aria-labelledby="pt-title">
-    <div class="wrap pt-wrap"><!--GEN:partners--><p class="pt-title" id="pt-title">함께한 브랜드</p><ul class="sr-only"><li>랑데자뷰</li><li>베이비하우스</li><li>산학가든</li><li>오프약국</li><li>샌두</li><li>그랜마스</li><li>마네드네</li><li>벤탄빌라</li><li>서울현방</li><li>큐어랩 약국</li><li>더 픽</li></ul><div class="pt-view" aria-hidden="true"><div class="pt-row"><ul class="pt-group"><li><span class="pt-name">랑데자뷰</span></li><li><span class="pt-name">베이비하우스</span></li><li><span class="pt-name">산학가든</span></li><li><span class="pt-name">오프약국</span></li><li><span class="pt-name">샌두</span></li><li><span class="pt-name">그랜마스</span></li><li><span class="pt-name">마네드네</span></li><li><span class="pt-name">벤탄빌라</span></li><li><span class="pt-name">서울현방</span></li><li><span class="pt-name">큐어랩 약국</span></li><li><span class="pt-name">더 픽</span></li><li><span class="pt-name">랑데자뷰</span></li><li><span class="pt-name">베이비하우스</span></li><li><span class="pt-name">산학가든</span></li><li><span class="pt-name">오프약국</span></li><li><span class="pt-name">샌두</span></li><li><span class="pt-name">그랜마스</span></li><li><span class="pt-name">마네드네</span></li><li><span class="pt-name">벤탄빌라</span></li><li><span class="pt-name">서울현방</span></li><li><span class="pt-name">큐어랩 약국</span></li><li><span class="pt-name">더 픽</span></li></ul><ul class="pt-group"><li><span class="pt-name">랑데자뷰</span></li><li><span class="pt-name">베이비하우스</span></li><li><span class="pt-name">산학가든</span></li><li><span class="pt-name">오프약국</span></li><li><span class="pt-name">샌두</span></li><li><span class="pt-name">그랜마스</span></li><li><span class="pt-name">마네드네</span></li><li><span class="pt-name">벤탄빌라</span></li><li><span class="pt-name">서울현방</span></li><li><span class="pt-name">큐어랩 약국</span></li><li><span class="pt-name">더 픽</span></li><li><span class="pt-name">랑데자뷰</span></li><li><span class="pt-name">베이비하우스</span></li><li><span class="pt-name">산학가든</span></li><li><span class="pt-name">오프약국</span></li><li><span class="pt-name">샌두</span></li><li><span class="pt-name">그랜마스</span></li><li><span class="pt-name">마네드네</span></li><li><span class="pt-name">벤탄빌라</span></li><li><span class="pt-name">서울현방</span></li><li><span class="pt-name">큐어랩 약국</span></li><li><span class="pt-name">더 픽</span></li></ul></div></div><!--/GEN:partners--></div>
+    <div class="wrap pt-wrap"><!--GEN:partners--><p class="pt-title" id="pt-title">함께한 브랜드</p><ul class="sr-only"><li>랑데자뷰</li><li>베이비하우스</li><li>산학가든</li><li>오프약국</li><li>샌두</li><li>그랜마스</li><li>마네드네</li><li>벤탄빌라</li><li>서울현방</li><li>큐어랩 약국</li><li>더 픽</li></ul><div class="pt-view" aria-hidden="true"><div class="pt-row"><ul class="pt-group"><li><span class="pt-name">랑데자뷰</span></li><li><span class="pt-name">베이비하우스</span></li><li><span class="pt-name">산학가든</span></li><li><span class="pt-name">오프약국</span></li><li><span class="pt-name">샌두</span></li><li><span class="pt-name">그랜마스</span></li><li><span class="pt-name">마네드네</span></li><li><span class="pt-name">벤탄빌라</span></li><li><span class="pt-name">서울현방</span></li><li><span class="pt-name">큐어랩 약국</span></li><li><span class="pt-name">더 픽</span></li><li class="pt-rep"><span class="pt-name">랑데자뷰</span></li><li class="pt-rep"><span class="pt-name">베이비하우스</span></li><li class="pt-rep"><span class="pt-name">산학가든</span></li><li class="pt-rep"><span class="pt-name">오프약국</span></li><li class="pt-rep"><span class="pt-name">샌두</span></li><li class="pt-rep"><span class="pt-name">그랜마스</span></li><li class="pt-rep"><span class="pt-name">마네드네</span></li><li class="pt-rep"><span class="pt-name">벤탄빌라</span></li><li class="pt-rep"><span class="pt-name">서울현방</span></li><li class="pt-rep"><span class="pt-name">큐어랩 약국</span></li><li class="pt-rep"><span class="pt-name">더 픽</span></li></ul><ul class="pt-group"><li><span class="pt-name">랑데자뷰</span></li><li><span class="pt-name">베이비하우스</span></li><li><span class="pt-name">산학가든</span></li><li><span class="pt-name">오프약국</span></li><li><span class="pt-name">샌두</span></li><li><span class="pt-name">그랜마스</span></li><li><span class="pt-name">마네드네</span></li><li><span class="pt-name">벤탄빌라</span></li><li><span class="pt-name">서울현방</span></li><li><span class="pt-name">큐어랩 약국</span></li><li><span class="pt-name">더 픽</span></li><li class="pt-rep"><span class="pt-name">랑데자뷰</span></li><li class="pt-rep"><span class="pt-name">베이비하우스</span></li><li class="pt-rep"><span class="pt-name">산학가든</span></li><li class="pt-rep"><span class="pt-name">오프약국</span></li><li class="pt-rep"><span class="pt-name">샌두</span></li><li class="pt-rep"><span class="pt-name">그랜마스</span></li><li class="pt-rep"><span class="pt-name">마네드네</span></li><li class="pt-rep"><span class="pt-name">벤탄빌라</span></li><li class="pt-rep"><span class="pt-name">서울현방</span></li><li class="pt-rep"><span class="pt-name">큐어랩 약국</span></li><li class="pt-rep"><span class="pt-name">더 픽</span></li></ul></div></div><!--/GEN:partners--></div>
   </section>
 
   <section class="sec sec-stone" id="portfolio" aria-labelledby="pf-title">
     <div class="wrap">
       <header class="sec-head">
         <h2 id="pf-title">포트폴리오</h2>
-        <p>대표 프로젝트를 먼저 보여 드려요. 상업 공간이나 <span class="nw">주거 공간을</span> 고르면 더 많은 현장이 나오고, 업종이나 평형으로 좁혀 볼 수 있어요.</p>
+        <p>대표 프로젝트를 먼저 보여 드려요. 상업 공간이나 <span class="nw">주거 공간을</span> 고르면 그 현장이 모두 나오고, 업종이나 평형으로 좁혀 볼 수 있어요.</p>
       </header>
       <div class="filters">
         <div class="filter-group" role="group" aria-labelledby="f-type">
@@ -1364,7 +1375,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         <!-- the size row shows the chosen type's bands (drawn by the script from pf-data); until then it says what will appear -->
         <div class="filter-group" role="group" aria-labelledby="f-size">
           <p class="filter-label" id="f-size">세부</p>
-          <div class="size-body" id="pf-size"><p class="size-wait">상업 공간은 업종, 주거 공간은 평형으로 한 번 더 <span class="nw">나눠 볼 수 있어요.</span></p></div>
+          <div class="size-body" id="pf-size"><p class="size-wait"><span>상업 공간은 업종, 주거 공간은 평형으로 한 번 더 <span class="nw">나눠 볼 수 있어요.</span></span></p></div>
         </div>
       </div>
       <p class="result-line"><span id="pf-count" aria-live="polite" aria-atomic="true">대표 프로젝트 <b>13개</b></span></p>
@@ -1376,12 +1387,28 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 <p class="card-meta"><span class="card-py"><b>25</b>평형</span> <span class="card-dur">설계 3주 · 시공 5주</span></p>
 <p class="card-note">수납을 벽 한 면에 모으고 발코니를 넓힌 세 식구의 집</p>
 </li>
+<li class="card is-text" data-type="commercial" data-band="cm-office" data-kind="commercial" data-slug="magok-office-200" data-photos="0">
+<div class="card-art"><div class="card-cover"><span class="cc-trade">오피스</span><span class="cc-size"><b>200</b>평</span><span class="cc-note">현장 사진 준비 중</span></div></div>
+<h4 class="card-title">마곡 마케팅 오피스</h4>
+<p class="card-where">서울 강서구 마곡</p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
+<p class="card-note">명품 감성을 담은 200평 마케팅 오피스예요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="마곡 마케팅 오피스" data-ref-detail="200평">비슷한 공간 상담하기</a></p>
+</li>
 <li class="card" data-type="home" data-band="h-30" data-kind="apt" data-slug="seongsu-apt-34" data-photos="0">
 <div class="card-art"><picture><source type="image/avif" srcset="images/seongsu-apartment/04-thumb.avif 640w, images/seongsu-apartment/04.avif 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><source type="image/webp" srcset="images/seongsu-apartment/04-thumb.webp 640w, images/seongsu-apartment/04.webp 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><img src="images/seongsu-apartment/04-thumb.webp" width="640" height="400" alt="" loading="lazy" decoding="async"></picture><span class="tag-ex">미니어처</span></div>
 <h4 class="card-title"><button class="card-open" type="button" aria-haspopup="dialog" aria-label="성수동 아파트 34평형, 전용 84㎡ 자세히 보기, 서울 성동구 성수동, 미니어처">성수동 아파트</button></h4>
 <p class="card-where">서울 성동구 성수동</p>
 <p class="card-meta"><span class="card-py"><b>34</b>평형</span> <span class="card-dur">설계 4주 · 시공 7주</span></p>
 <p class="card-note">작은 방 두 개를 합쳐 서재 하나로 바꾼 구조 변경</p>
+</li>
+<li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-slug="bucheon-babyhouse" data-photos="0">
+<div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-scope">육아 편집숍 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
+<h4 class="card-title">베이비하우스</h4>
+<p class="card-where">경기 부천</p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
+<p class="card-note">대형 상권의 육아 편집숍이에요. 프리미엄 유모차 부스까지 함께 만들었어요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="베이비하우스" data-ref-detail="육아 편집숍 인테리어">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card" data-type="home" data-band="h-40" data-kind="apt" data-slug="banpo-apt-41" data-photos="0">
 <div class="card-art"><picture><source type="image/avif" srcset="images/banpo-apartment/02-thumb.avif 640w, images/banpo-apartment/02.avif 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><source type="image/webp" srcset="images/banpo-apartment/02-thumb.webp 640w, images/banpo-apartment/02.webp 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><img src="images/banpo-apartment/02-thumb.webp" width="640" height="400" alt="" loading="lazy" decoding="async"></picture><span class="tag-ex">미니어처</span></div>
@@ -1390,12 +1417,28 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 <p class="card-meta"><span class="card-py"><b>41</b>평형</span> <span class="card-dur">설계 5주 · 시공 8주</span></p>
 <p class="card-note">수납장을 벽 안으로 넣어 바닥을 넓게 비운 집</p>
 </li>
+<li class="card is-text" data-type="commercial" data-band="cm-fnb" data-kind="commercial" data-slug="icheon-sanhak-garden" data-photos="0">
+<div class="card-art"><div class="card-cover"><span class="cc-trade">카페·식당</span><span class="cc-scope">식당 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
+<h4 class="card-title">산학가든</h4>
+<p class="card-where">경기 이천 롯데아울렛</p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
+<p class="card-note">기존 구조를 살려 브랜드의 깊이를 더한 롯데아울렛 식당이에요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="산학가든" data-ref-detail="식당 인테리어">비슷한 공간 상담하기</a></p>
+</li>
 <li class="card" data-type="home" data-band="h-50" data-kind="apt" data-slug="hannam-apt-52" data-photos="0">
 <div class="card-art"><picture><source type="image/avif" srcset="images/hannam-apartment/02-thumb.avif 640w, images/hannam-apartment/02.avif 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><source type="image/webp" srcset="images/hannam-apartment/02-thumb.webp 640w, images/hannam-apartment/02.webp 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><img src="images/hannam-apartment/02-thumb.webp" width="640" height="400" alt="" loading="lazy" decoding="async"></picture><span class="tag-ex">미니어처</span></div>
 <h4 class="card-title"><button class="card-open" type="button" aria-haspopup="dialog" aria-label="한남동 아파트 52평형, 전용 129㎡ 자세히 보기, 서울 용산구 한남동, 미니어처">한남동 아파트</button></h4>
 <p class="card-where">서울 용산구 한남동</p>
 <p class="card-meta"><span class="card-py"><b>52</b>평형</span> <span class="card-dur">설계 6주 · 시공 9주</span></p>
 <p class="card-note">거실과 주방 사이 벽을 터서 한 공간으로 이은 전체 리모델링</p>
+</li>
+<li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-slug="hongdae-off-pharmacy" data-photos="0">
+<div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-scope">약국 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
+<h4 class="card-title">오프약국</h4>
+<p class="card-where">서울 마포구 홍대</p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
+<p class="card-note">홍대 메인 상권에 빛과 선으로 만든 창고형 약국이에요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="오프약국" data-ref-detail="약국 인테리어">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card" data-type="home" data-band="h-60" data-kind="penthouse" data-slug="cheongdam-penthouse-78" data-photos="0">
 <div class="card-art"><picture><source type="image/avif" srcset="images/cheongdam-penthouse/02-thumb.avif 640w, images/cheongdam-penthouse/02.avif 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><source type="image/webp" srcset="images/cheongdam-penthouse/02-thumb.webp 640w, images/cheongdam-penthouse/02.webp 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><img src="images/cheongdam-penthouse/02-thumb.webp" width="640" height="400" alt="" loading="lazy" decoding="async"></picture><span class="tag-ex">미니어처</span></div>
@@ -1404,12 +1447,28 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 <p class="card-meta"><span class="card-py"><b>78</b>평형</span> <span class="card-dur">설계 8주 · 시공 12주</span></p>
 <p class="card-note">벽에 둘러싸였던 계단을 열어 위아래 층이 서로 보이는 복층</p>
 </li>
+<li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-slug="seosan-sandu-35" data-photos="0">
+<div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-size"><b>35</b>평</span><span class="cc-note">현장 사진 준비 중</span></div></div>
+<h4 class="card-title">샌두</h4>
+<p class="card-where">충남 서산</p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
+<p class="card-note">서산 중심 상권 35평, 브랜딩을 담은 프랜차이즈 매장이에요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="샌두" data-ref-detail="35평">비슷한 공간 상담하기</a></p>
+</li>
 <li class="card" data-type="home" data-band="h-60" data-kind="house" data-slug="pangyo-house-62" data-photos="0">
 <div class="card-art"><picture><source type="image/avif" srcset="images/pangyo-house/02-thumb.avif 640w, images/pangyo-house/02.avif 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><source type="image/webp" srcset="images/pangyo-house/02-thumb.webp 640w, images/pangyo-house/02.webp 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><img src="images/pangyo-house/02-thumb.webp" width="640" height="400" alt="" loading="lazy" decoding="async"></picture><span class="tag-ex">미니어처</span></div>
 <h4 class="card-title"><button class="card-open" type="button" aria-haspopup="dialog" aria-label="판교 단독주택 연면적 62평(공사 후), 지상 2층 자세히 보기, 경기 성남시 판교동, 미니어처">판교 단독주택</button></h4>
 <p class="card-where">경기 성남시 판교동</p>
 <p class="card-meta"><span class="card-py">연면적 <b>62</b>평</span> <span class="card-dur">설계 8주 · 시공 14주</span></p>
 <p class="card-note">거실 천장을 두 층 높이로 열고 마당 쪽 창을 넓힌 단독주택</p>
+</li>
+<li class="card is-text" data-type="commercial" data-band="cm-fnb" data-kind="commercial" data-slug="hongdae-rendezvous" data-photos="0">
+<div class="card-art"><div class="card-cover"><span class="cc-trade">카페·식당</span><span class="cc-scope">카페 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
+<h4 class="card-title">랑데자뷰</h4>
+<p class="card-where">서울 마포구 홍대</p>
+<p class="card-meta"><span class="card-dur">2018년</span></p>
+<p class="card-note">제주 감성을 담은 카페예요. 2018년에 문을 연 홍대 1호점이에요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="랑데자뷰" data-ref-detail="카페 인테리어">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card" data-type="home" data-band="h-50" data-kind="townhouse" data-slug="yongin-townhouse-54" data-photos="0">
 <div class="card-art"><picture><source type="image/avif" srcset="images/yongin-townhouse/04-thumb.avif 640w, images/yongin-townhouse/04.avif 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><source type="image/webp" srcset="images/yongin-townhouse/04-thumb.webp 640w, images/yongin-townhouse/04.webp 1600w" sizes="(max-width: 739px) 84vw, (max-width: 1099px) 46vw, 400px"><img src="images/yongin-townhouse/04-thumb.webp" width="640" height="400" alt="" loading="lazy" decoding="async"></picture><span class="tag-ex">미니어처</span></div>
@@ -1418,103 +1477,69 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 <p class="card-meta"><span class="card-py"><b>54</b>평형</span> <span class="card-dur">설계 6주 · 시공 10주</span></p>
 <p class="card-note">창고로만 쓰던 지하층을 가족실로 바꾼 타운하우스</p>
 </li>
-<li class="card is-text" data-type="commercial" data-band="cm-office" data-kind="commercial" data-slug="magok-office-200" data-photos="0">
-<div class="card-art"><div class="card-cover"><span class="cc-trade">오피스</span><span class="cc-size"><b>200</b>평</span><span class="cc-note">현장 사진 준비 중</span></div></div>
-<h4 class="card-title">마곡 마케팅 오피스</h4>
-<p class="card-where">서울 강서구 마곡</p>
-<p class="card-meta"><span class="card-py"><b>200</b>평</span> <span class="card-dur">2026년</span></p>
-<p class="card-note">명품 감성을 담은 200평 마케팅 오피스예요.</p>
-</li>
-<li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-slug="bucheon-babyhouse" data-photos="0">
-<div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-scope">육아 편집숍 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
-<h4 class="card-title">베이비하우스</h4>
-<p class="card-where">경기 부천</p>
-<p class="card-meta"><span class="card-py">육아 편집숍 인테리어</span> <span class="card-dur">2026년</span></p>
-<p class="card-note">대형 상권의 육아 편집숍이에요. 프리미엄 유모차 부스까지 함께 만들었어요.</p>
-</li>
-<li class="card is-text" data-type="commercial" data-band="cm-fnb" data-kind="commercial" data-slug="icheon-sanhak-garden" data-photos="0">
-<div class="card-art"><div class="card-cover"><span class="cc-trade">카페·식당</span><span class="cc-scope">식당 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
-<h4 class="card-title">산학가든</h4>
-<p class="card-where">경기 이천 롯데아울렛</p>
-<p class="card-meta"><span class="card-py">식당 인테리어</span> <span class="card-dur">2026년</span></p>
-<p class="card-note">기존 구조를 살려 브랜드의 깊이를 더한 롯데아울렛 식당이에요.</p>
-</li>
-<li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-slug="hongdae-off-pharmacy" data-photos="0">
-<div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-scope">약국 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
-<h4 class="card-title">오프약국</h4>
-<p class="card-where">서울 마포구 홍대</p>
-<p class="card-meta"><span class="card-py">약국 인테리어</span> <span class="card-dur">2026년</span></p>
-<p class="card-note">홍대 메인 상권에 빛과 선으로 만든 창고형 약국이에요.</p>
-</li>
-<li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-slug="seosan-sandu-35" data-photos="0">
-<div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-size"><b>35</b>평</span><span class="cc-note">현장 사진 준비 중</span></div></div>
-<h4 class="card-title">샌두</h4>
-<p class="card-where">충남 서산</p>
-<p class="card-meta"><span class="card-py"><b>35</b>평</span> <span class="card-dur">2026년</span></p>
-<p class="card-note">서산 중심 상권 35평, 브랜딩을 담은 프랜차이즈 매장이에요.</p>
-</li>
-<li class="card is-text" data-type="commercial" data-band="cm-fnb" data-kind="commercial" data-slug="hongdae-rendezvous" data-photos="0">
-<div class="card-art"><div class="card-cover"><span class="cc-trade">카페·식당</span><span class="cc-scope">카페 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
-<h4 class="card-title">랑데자뷰</h4>
-<p class="card-where">서울 마포구 홍대</p>
-<p class="card-meta"><span class="card-py">카페 인테리어</span> <span class="card-dur">2018년</span></p>
-<p class="card-note">제주 감성을 담은 카페예요. 2018년 홍대 1호점에서 3년 만에 전국 40개 매장으로 늘었어요.</p>
-</li>
 <li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-more="1" data-slug="yeoju-clothing-20" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-size"><b>20</b>평</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">여주 옷가게</h4>
 <p class="card-where">경기 여주</p>
-<p class="card-meta"><span class="card-py"><b>20</b>평</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">렌더링 그대로 완공한 20평 옷가게예요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="여주 옷가게" data-ref-detail="20평">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-more="1" data-slug="moran-manedne" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-scope">여성 의류 매장 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">마네드네</h4>
 <p class="card-where">경기 성남 모란</p>
-<p class="card-meta"><span class="card-py">여성 의류 매장 인테리어</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">모란 상권의 여성 의류 매장이에요. 좁은 공간을 넓게 쓰도록 만들었어요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="마네드네" data-ref-detail="여성 의류 매장 인테리어">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card is-text" data-type="commercial" data-band="cm-fnb" data-kind="commercial" data-more="1" data-slug="gwacheon-bentan-villa-17" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">카페·식당</span><span class="cc-size"><b>17</b>평</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">벤탄빌라</h4>
 <p class="card-where">경기 과천</p>
-<p class="card-meta"><span class="card-py"><b>17</b>평</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">과천 중심 상권의 17평 아시안 음식점이에요. 이국적인 분위기를 담았어요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="벤탄빌라" data-ref-detail="17평">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card is-text" data-type="commercial" data-band="cm-fnb" data-kind="commercial" data-more="1" data-slug="gwacheon-seoul-hyeonbang" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">카페·식당</span><span class="cc-scope">다이닝 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">서울현방</h4>
 <p class="card-where">경기 과천</p>
-<p class="card-meta"><span class="card-py">다이닝 인테리어</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">과천 중심 상권의 프리미엄 다이닝이에요. 자연의 결을 살렸어요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="서울현방" data-ref-detail="다이닝 인테리어">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card is-text" data-type="commercial" data-band="cm-fnb" data-kind="commercial" data-more="1" data-slug="bundang-grandmas-20" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">카페·식당</span><span class="cc-size"><b>20</b>평</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">그랜마스</h4>
 <p class="card-where">경기 성남 분당</p>
-<p class="card-meta"><span class="card-py"><b>20</b>평</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">돌과 나무로 꾸민 20평 브런치 카페예요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="그랜마스" data-ref-detail="20평">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-more="1" data-slug="mapo-curelab-pharmacy" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-scope">약국 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">큐어랩 약국</h4>
 <p class="card-where">서울 마포구</p>
-<p class="card-meta"><span class="card-py">약국 인테리어</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">마포 상가의 약국이에요. 수납까지 꼼꼼히 챙겼어요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="큐어랩 약국" data-ref-detail="약국 인테리어">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card is-text" data-type="commercial" data-band="cm-shop" data-kind="commercial" data-more="1" data-slug="siheung-the-pick" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">매장·약국</span><span class="cc-scope">무인 오락실 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">더 픽</h4>
 <p class="card-where">경기 시흥</p>
-<p class="card-meta"><span class="card-py">무인 오락실 인테리어</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">번화가 상권의 무인 오락실이에요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="더 픽" data-ref-detail="무인 오락실 인테리어">비슷한 공간 상담하기</a></p>
 </li>
 <li class="card is-text" data-type="commercial" data-band="cm-stay" data-kind="commercial" data-more="1" data-slug="anseong-hanok-pension" data-photos="0">
 <div class="card-art"><div class="card-cover"><span class="cc-trade">숙박</span><span class="cc-scope">펜션 인테리어</span><span class="cc-note">현장 사진 준비 중</span></div></div>
 <h4 class="card-title">한옥 펜션 별관</h4>
 <p class="card-where">경기 안성</p>
-<p class="card-meta"><span class="card-py">펜션 인테리어</span> <span class="card-dur">2026년</span></p>
+<p class="card-meta"><span class="card-dur">2026년</span></p>
 <p class="card-note">독채 한옥 펜션의 별관이에요. 자연의 질감과 동선을 함께 설계했어요.</p>
+<p class="card-ask"><a href="#contact" data-ref-title="한옥 펜션 별관" data-ref-detail="펜션 인테리어">비슷한 공간 상담하기</a></p>
 </li><!--/GEN:cards-->
       </ul>
       <div class="pf-swipe" id="pf-swipe" hidden>
@@ -1533,7 +1558,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   <!-- 프로모션 (2026-10-27, owner; called 이벤트 at first; after the portfolio since 2026-10-28, with a slim bar under the record band keeping it in sight (GEN:promo-bar)): the studio's offers, from final/data/promo.mjs (GEN:promo). Kept as written for now,
        but the event is not confirmed: the owner decides the final offers before the page goes public -->
   <section class="sec promo" id="promotion" aria-labelledby="pm-title">
-    <div class="wrap"><!--GEN:promo--><header class="sec-head promo-head"><div><p class="promo-kicker">올해가 가기 전에</p><h2 id="pm-title">프로모션</h2></div><div><p class="promo-lead">집 고쳐 볼까 싶던 날부터<br>같은 디자이너가 곁에 있어요</p><p class="promo-intro">입주하는 날까지 마음이 가볍도록,<br>단계마다 혜택을 하나씩 챙겨 드려요.</p><p class="promo-period">연말 프로모션 · 2026년 12월 31일까지</p></div></header><ul class="promo-cards"><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">01</span>상담 혜택</p><p class="promo-q">어디까지 바꿀 수 있을지<br>궁금하다면</p><h3>무료 실측과 평면 검토</h3><p class="promo-benefit">시공까지 맡을 디자이너가<br>집을 재고 평면을 함께 봐요.</p><p class="promo-cond">기간 안에 카카오톡으로 상담을 신청하신 분</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">02</span>계약 혜택</p><p class="promo-q">생각한 그대로 나올지<br>걱정된다면</p><h3>우리 집 3D 미니어처</h3><p class="promo-benefit">설계안을 3D 미니어처로 지어<br>공사 전에 화면으로 둘러봐요.</p><p class="promo-cond">기간 안에 설계 계약을 하신 분</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">03</span>착공 혜택</p><p class="promo-q">이삿날 짐을 어디에 둘지<br>막막하다면</p><h3>입주하는 날 가구 배치</h3><p class="promo-benefit">도면을 그린 디자이너가 와서<br>가구 자리를 함께 잡아요.</p><p class="promo-cond">착공 자리가 남은 달로 예약하신 분</p></li></ul><div class="promo-foot"><a class="btn-block promo-cta" href="#contact">카카오톡으로 상담하기</a></div><!--/GEN:promo--></div>
+    <div class="wrap"><!--GEN:promo--><header class="sec-head promo-head"><div><p class="promo-kicker">올해가 가기 전에</p><h2 id="pm-title">프로모션</h2></div><div><p class="promo-lead">공간을 고쳐 볼까 싶던 날부터<br>같은 디자이너가 곁에 있어요</p><p class="promo-intro">공사가 끝나는 날까지 마음이 가볍도록,<br>단계마다 혜택을 하나씩 챙겨 드려요.</p><p class="promo-period">연말 프로모션 · 2026년 12월 31일까지</p></div></header><ul class="promo-cards"><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">01</span>상담 혜택</p><p class="promo-q">어디까지 바꿀 수 있을지<br>궁금하다면</p><h3>무료 실측과 평면 검토</h3><p class="promo-benefit">시공까지 맡을 디자이너가<br>현장을 재고 평면을 함께 봐요.</p><p class="promo-cond">기간 안에 카카오톡으로 상담을 신청하신 분</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">02</span>계약 혜택</p><p class="promo-q">생각한 그대로 나올지<br>걱정된다면</p><h3>내 공간 3D 미니어처</h3><p class="promo-benefit">설계안을 3D 미니어처로 지어<br>공사 전에 화면으로 둘러봐요.</p><p class="promo-cond">기간 안에 설계 계약을 하신 분</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">03</span>착공 혜택</p><p class="promo-q">짐과 가구를 어디에 둘지<br>막막하다면</p><h3>입주·오픈하는 날 가구 배치</h3><p class="promo-benefit">도면을 그린 디자이너가 와서<br>가구 자리를 함께 잡아요.</p><p class="promo-cond">착공 자리가 남은 달로 예약하신 분</p></li></ul><div class="promo-foot"><a class="btn-block promo-cta" href="#contact">카카오톡으로 상담하기</a></div><!--/GEN:promo--></div>
   </section>
 
   <section class="sec" id="studio" aria-labelledby="st-title">
@@ -1605,11 +1630,11 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
              site moves to its own domain, point both links (here and the footer) at that domain's /schedule instead. -->
         <article class="panel track" aria-labelledby="sc-c">
           <div class="panel-head"><h3 id="sc-c">내 공사 일정 확인</h3></div>
-          <p class="panel-sub">계약하신 고객은 성함과 연락처만 넣으면 우리 집 공사가 지금 어디까지 왔는지 볼 수 있어요. 공사 코드는 따로 기억하지 않아도 돼요.</p>
+          <p class="panel-sub">계약하신 고객은 성함과 연락처만 넣으면 <span class="nw">내 공사가</span> 지금 어디까지 왔는지 볼 수 있어요. 공사 코드는 따로 기억하지 않아도 돼요.</p>
           <div class="track-body">
             <!--GEN:stair--><svg class="df lk-stair" viewBox="-6 -107 93.1 123.9" aria-hidden="true" focusable="false"><polygon class="kl" points="43,-32.6 72.5,-21.6 72.5,-77.6 43,-88.5"/><polygon class="kr" points="81.1,-28.1 72.5,-21.6 72.5,-77.6 81.1,-84.1"/><polygon class="kt" points="51.6,-95 81.1,-84.1 72.5,-77.6 43,-88.5"/><polygon class="cl" points="34.4,-26 63.9,-15.1 63.9,-61.7 34.4,-72.7"/><polygon class="cr" points="72.5,-21.6 63.9,-15.1 63.9,-61.7 72.5,-68.3"/><polygon class="ct" points="43,-79.2 72.5,-68.3 63.9,-61.7 34.4,-72.7"/><g class="fig" transform="translate(53.5 -70.5) scale(0.82)"><ellipse cx="1" cy="0.5" rx="15" ry="5" class="shd"/><ellipse cx="0" cy="-3" rx="10.5" ry="4.4" fill="#161615"/><path d="M-7-3.5C-7.5-9-6.8-13.5-4.6-15.2L4.6-15.2C6.8-13.5 7.5-9 7-3.5Z" fill="#1d1c1b"/><path d="M-4.6-15.2C-2.5-16.4 2.5-16.4 4.6-15.2L3.4-12.6-3.4-12.6Z" fill="#262523"/><circle cx="-4.2" cy="-5.6" r="1.35" fill="#d9c4a6"/><circle cx="4.4" cy="-5.4" r="1.35" fill="#d9c4a6"/><path d="M-5.6-19C-6.2-15.5-5.6-13.4-4.2-12.6L4.2-12.6C5.6-13.4 6.2-15.5 5.6-19Z" fill="#2e231c"/><ellipse cx="0" cy="-17.9" rx="4" ry="4.3" fill="#e4cfb2"/><circle cx="-1.5" cy="-17.6" r=".45" fill="#2a211c"/><circle cx="1.5" cy="-17.6" r=".45" fill="#2a211c"/><path d="M-5.9-20.2C-5.9-25.8 5.9-25.8 5.9-20.2Z" fill="#ece5d8"/><rect x="-6.4" y="-21.6" width="12.8" height="2.6" rx="1.3" fill="#d6ccba"/><circle cx="0" cy="-25.6" r="1.4" fill="#ece5d8"/></g><polygon class="ghost" points="50.2,-100.5 56.7,-98.1 53.5,-101"/><polygon class="cdl" points="25.8,-19.5 55.3,-8.6 55.3,-45.9 25.8,-56.8"/><polygon class="cdr" points="63.9,-15.1 55.3,-8.6 55.3,-45.9 63.9,-52.4"/><polygon class="cdt" points="34.4,-63.4 63.9,-52.4 55.3,-45.9 25.8,-56.8"/><polygon class="cdl" points="17.2,-13 46.7,-2.1 46.7,-30.1 17.2,-41"/><polygon class="cdr" points="55.3,-8.6 46.7,-2.1 46.7,-30.1 55.3,-36.6"/><polygon class="cdt" points="25.8,-47.5 55.3,-36.6 46.7,-30.1 17.2,-41"/><polygon class="cdl" points="8.6,-6.5 38.1,4.4 38.1,-14.2 8.6,-25.2"/><polygon class="cdr" points="46.7,-2.1 38.1,4.4 38.1,-14.2 46.7,-20.7"/><polygon class="cdt" points="17.2,-31.7 46.7,-20.7 38.1,-14.2 8.6,-25.2"/><polygon class="cdl" points="0,0 29.5,10.9 29.5,1.6 0,-9.3"/><polygon class="cdr" points="38.1,4.4 29.5,10.9 29.5,1.6 38.1,-4.9"/><polygon class="cdt" points="8.6,-15.8 38.1,-4.9 29.5,1.6 0,-9.3"/></svg><!--/GEN:stair-->
             <dl class="track-list" aria-label="일정 페이지에서 볼 수 있는 것">
-              <div><dt>지금 단계</dt><dd>상담부터 입주·사후 관리까지 어디쯤인지</dd></div>
+              <div><dt>지금 단계</dt><dd>상담부터 사후 관리까지 어디쯤인지</dd></div>
               <div><dt>진행 중</dt><dd>이번 주에 하고 있는 공사</dd></div>
               <div><dt>다음 일정</dt><dd>다음 주에 이어질 공사</dd></div>
               <div><dt>수정 사항</dt><dd>일정이 바뀌면 따로 알려 드려요</dd></div>
@@ -1639,12 +1664,12 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         <h3>보내 주시면 좋은 내용</h3>
         <p>다 몰라도 괜찮아요. 아는 것만 적어 주세요.</p>
         <dl>
-          <div><dt>공간 종류</dt><dd>카페·식당, 매장·오피스, 아파트, 펜트하우스, 단독주택, <span class="nw">타운하우스·빌라</span></dd></div>
+          <div><dt>공간 종류</dt><dd>카페·식당, 매장·약국, 오피스, 숙박, 아파트, 펜트하우스, 단독주택, <span class="nw">타운하우스·빌라</span></dd></div>
           <div><dt>면적</dt><dd>단독주택은 연면적, <span class="nw">상업 공간은</span> 전용면적, 아파트는 공급&nbsp;평형이나 전용면적</dd></div>
           <div><dt>위치</dt><dd>동 이름까지</dd></div>
           <div><dt>범위</dt><dd>전체 공사인지, 주방이나 욕실, <span class="nw">매장 일부</span> 같은 부분 공사인지</dd></div>
           <div><dt>예산</dt><dd>대략 생각하는 금액대</dd></div>
-          <div><dt>일정</dt><dd>공사를 시작하거나 입주하고 싶은 때</dd></div>
+          <div><dt>일정</dt><dd>원하는 착공일이나 <span class="nw">입주·오픈일</span></dd></div>
         </dl>
         <button class="btn-line" type="button" id="copy-brief">상담 양식 복사하기</button>
         <p class="note" id="copy-note" aria-live="polite"></p>
@@ -1918,7 +1943,8 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   const emptyActions = document.getElementById('pf-empty-actions');
   const countEl = document.getElementById('pf-count');
   // only reachable with two categories (SHOW_COMMERCIAL true)
-  const WAIT = '<p class="size-wait">상업 공간은 업종, 주거 공간은 평형으로 한 번 더 <span class="nw">나눠 볼 수 있어요.</span></p>';
+  // one span inside: the box is a flex row, so loose text and the nw span would become two columns
+  const WAIT = '<p class="size-wait"><span>상업 공간은 업종, 주거 공간은 평형으로 한 번 더 <span class="nw">나눠 볼 수 있어요.</span></span></p>';
 
   // the size row: nothing to pick until a type is chosen, then that type's bands with its basis
   function drawSizes() {
@@ -2054,12 +2080,12 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     });
     const t = TYPE[state.type];
     const band = BAND[state.band];
-    // one category: the result line names only the 평형, in the default line's order ("30평대 프로젝트 1개",
-    // "전체 프로젝트 7개"); two categories keep "상업 공간, 카페·식당: 5개 프로젝트" and "대표 프로젝트 13개"
+    // one order for every state (2026-10-30): "30평대 프로젝트 1개", "전체 프로젝트 7개"; with two categories
+    // "상업 공간, 카페·식당 프로젝트 5개" and "대표 프로젝트 13개"
     const parts = [!ONE && t && t.label, band && band.label].filter(Boolean);
     countEl.innerHTML = ONE
       ? `${band ? esc(band.label) : '전체'} 프로젝트 <b>${n}개</b>`
-      : parts.length ? `${esc(parts.join(', '))}: <b>${n}개</b> 프로젝트` : `대표 프로젝트 <b>${n}개</b>`;
+      : `${parts.length ? esc(parts.join(', ')) : '대표'} 프로젝트 <b>${n}개</b>`;
     emptyBox.hidden = n !== 0;
     if (n !== 0 || !t) return;
     emptyTitle.textContent = `${parts.join(' ')} 프로젝트는 아직 없어요.`;
@@ -2084,15 +2110,22 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     // no 대표 view to go back to when there is one category
     if (!ONE) emptyActions.append(action(`대표 프로젝트 보기 (${total}개)`, { type: 'all', band: 'all' }, 'type'));
   }
+  // a category chip always shows the whole category, also when it is already pressed with one 업종 chosen under it
   typeRow.addEventListener('click', (e) => {
     const b = e.target.closest('.chip');
-    if (b) set({ type: b.dataset.value });
+    if (b) set({ type: b.dataset.value, band: 'all' });
   });
   // the first screen's trade tags (data-pf, final/data/hero.mjs) open the portfolio on their category; the link's own
-  // #portfolio does the scrolling
+  // #portfolio does the scrolling. With two categories on a phone the filters take the first screen there, so the
+  // page goes on to the result line and the cards instead (2026-10-30)
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[data-pf]');
-    if (a && TYPE[a.dataset.pf]) set({ type: a.dataset.pf, band: a.dataset.pfBand || 'all' });
+    if (!a || !TYPE[a.dataset.pf]) return;
+    set({ type: a.dataset.pf, band: a.dataset.pfBand || 'all' });
+    if (!ONE && matchMedia('(max-width: 739px)').matches) {
+      e.preventDefault();
+      document.querySelector('#portfolio .result-line').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+    }
   });
   sizeBody.addEventListener('click', (e) => {
     const b = e.target.closest('.chip');
@@ -2376,19 +2409,28 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.3) go(dx < 0 ? 1 : -1);
   });
   ui.stage.addEventListener('pointercancel', () => { sw = null; });
-  // "비슷한 집 상담하기": close, then go to the contact section with this project noted (and added to the copied form)
+  // go to the contact section with a project noted (and added to the copied form)
+  const noteRef = (lead, title, detail) => {
+    window.__dfRef = `${title} ${detail}`.trim();
+    const ref = document.getElementById('kakao-ref');
+    ref.innerHTML = `${lead}: <b>${esc(title)}</b> ${esc(detail)}. 상담 양식을 복사하면 이 줄도 같이 들어가요.`;
+    ref.hidden = false;
+    document.getElementById('kakao').setAttribute('aria-describedby', 'kakao-ref');
+    document.getElementById('contact').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+    document.getElementById('kakao').focus({ preventScroll: true });
+  };
+  // "비슷한 집 상담하기": close the viewer first
   ui.cta.addEventListener('click', (e) => {
     e.preventDefault();
     const p = proj;
-    closeDetail(() => {
-      window.__dfRef = `${p.title} ${p.size}`;
-      const ref = document.getElementById('kakao-ref');
-      ref.innerHTML = `참고한 집: <b>${esc(p.title)}</b> ${esc(p.size)}. 상담 양식을 복사하면 이 줄도 같이 들어가요.`;
-      ref.hidden = false;
-      document.getElementById('kakao').setAttribute('aria-describedby', 'kakao-ref');
-      document.getElementById('contact').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
-      document.getElementById('kakao').focus({ preventScroll: true });
-    });
+    closeDetail(() => noteRef('참고한 집', p.title, p.size));
+  });
+  // a site without pictures has no viewer: its card's "비슷한 공간 상담하기" (final/svg/portfolio.mjs) notes it the same way
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[data-ref-title]');
+    if (!a) return;
+    e.preventDefault();
+    noteRef('참고한 현장', a.dataset.refTitle, a.dataset.refDetail || '');
   });
   // arriving with #project=<slug>: open it. The history entry that lets back close the viewer (and stay on the page)
   // is added on the visitor's first click or key press inside it, not at load: Chrome skips the entries under one
@@ -2451,7 +2493,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   // still six items, so the copy-fail note ('위 여섯 항목') holds; a project picked in the viewer adds a reference line
   const template = () =>
     '[딥플랫 상담]\n' + (window.__dfRef ? `참고한 집: ${window.__dfRef}\n` : '') +
-    '공간 종류(카페·식당/매장·오피스/아파트/펜트하우스/단독주택/타운하우스·빌라): \n면적(공급 평형, 전용면적, 연면적 중 아는 것): \n위치: \n범위: \n예산: \n일정: ';
+    '공간 종류(카페·식당/매장·약국/오피스/숙박/아파트/펜트하우스/단독주택/타운하우스·빌라): \n면적(공급 평형, 전용면적, 연면적 중 아는 것): \n위치: \n범위: \n예산: \n일정: ';
   document.getElementById('copy-brief').addEventListener('click', async () => {
     const note = document.getElementById('copy-note');
     const ok = () => { note.textContent = '복사했어요. 카카오톡 대화창에 붙여 넣고 빈칸을 채워 주세요.'; };
