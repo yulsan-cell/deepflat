@@ -630,6 +630,16 @@ html[data-hero] .rc:not(.is-single) .rc-slide .rc-cap { position: absolute; widt
 }
 .result-line { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 0 32px; border-top: 1px solid rgba(35, 34, 31, .14); font-size: 15px; color: var(--muted); }
 .result-line b { color: var(--ink); font-weight: 700; }
+/* phones: the work comes first (owner 2026-10-30): one line of intro, the category chips with no label over them, the
+   세부 row only once a category is chosen, so the first card starts on the same screen as the heading */
+@media (max-width: 739px) {
+  #portfolio .sec-head { margin-bottom: 24px; }
+  .pf-intro-more { display: none; }
+  #portfolio .filters { gap: 12px; margin-bottom: 14px; }
+  #f-type { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  #portfolio .filter-group:has(.size-wait) { display: none; }
+  .result-line { padding: 10px 0 12px; }
+}
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: clamp(44px, 4vw, 60px) clamp(20px, 2.4vw, 32px); }
 .card { position: relative; }
 .card[hidden] { display: none; }
@@ -973,7 +983,7 @@ html[data-hero] .partners:not(.is-live) .pt-row, html[data-hero] .months:not(.is
 .fab-top svg { width: 20px; height: 20px; }
 .fab-talk { width: 58px; height: 58px; background: #f1c47f; color: var(--ink); font-size: 13.5px; font-weight: 800; line-height: 1.22; letter-spacing: -.01em; }
 .fab-talk:hover { background: #f5d197; }
-@media (max-width: 760px) { .fab { gap: 8px; } .fab-talk { width: 54px; height: 54px; font-size: 13px; } .fab-top { width: 44px; height: 44px; } }
+@media (max-width: 760px) { .fab { gap: 8px; } .fab-talk { width: 54px; height: 54px; font-size: 13px; } .fab > .fab-top { display: none; } } /* phones: 상담 신청 alone: two round buttons kept covering line ends (owner 2026-10-30); the logo goes to the top */
 @media (forced-colors: active) { .fab > a { border: 2px solid CanvasText; } }
 /* focus shows on paper and on the promotion's night band alike: a paper ring inside an ink one */
 .fab > a:focus-visible { outline: 2px solid transparent; box-shadow: 0 0 0 3px var(--paper), 0 0 0 5.5px var(--ink); }
@@ -1367,7 +1377,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     <div class="wrap">
       <header class="sec-head">
         <h2 id="pf-title">포트폴리오</h2>
-        <p>대표 프로젝트를 먼저 보여 드려요. 상업 공간이나 <span class="nw">주거 공간을</span> 고르면 그 현장이 모두 나오고, 업종이나 평형으로 좁혀 볼 수 있어요.</p>
+        <p>대표 프로젝트를 먼저 보여 드려요.<span class="pf-intro-more"> 상업 공간이나 <span class="nw">주거 공간을</span> 고르면 그 현장이 모두 나오고, 업종이나 평형으로 좁혀 볼 수 있어요.</span></p>
       </header>
       <div class="filters">
         <div class="filter-group" role="group" aria-labelledby="f-type">
