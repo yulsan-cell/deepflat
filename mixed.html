@@ -386,15 +386,12 @@ button { cursor: pointer; }
 .about-pic { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 5; overflow: hidden; background: var(--chalk); box-shadow: inset 0 0 0 1px var(--line); }
 .about-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .about-plate .flatlogo { width: clamp(120px, 14vw, 190px); height: auto; }
-/* the 회사 소개 picture is an AI photo (a two-storey house model in sun with finish samples, owner 2026-10-29), so it says so */
-.about-chip { position: absolute; right: 12px; bottom: 12px; z-index: 1; margin: 0; padding: 3px 9px; font-size: 13px; font-weight: 600; color: var(--muted-2); background: rgba(252, 251, 248, .86); }
-/* the finishes picture lies over the model picture's lower right corner like a print on the table (2026-10-30), so
-   the model picture's own chip moves to its lower left */
-.about-pic .about-chip { right: auto; left: 12px; }
+/* the finishes picture lies over the model picture's lower right corner like a print on the table (2026-10-30). Both
+   are AI pictures; their alt text says 연출 이미지, the on-picture "연출 이미지" chips came off at the owner's word
+   (2026-10-30: "연출이미지 문구 지워") */
 .about-mat { position: relative; z-index: 2; width: 64%; margin: -20% 0 0 auto; padding: 6px; background: var(--chalk); box-shadow: var(--print); }
 .about-mat picture { display: block; aspect-ratio: 4 / 3; overflow: hidden; }
 .about-mat img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.about-mat .about-chip { right: 14px; bottom: 14px; }
 .greet { margin-bottom: clamp(26px, 3vw, 38px); font-family: var(--display-ko); font-weight: 400; font-size: clamp(36px, 4.2vw, 60px); line-height: 1.16; letter-spacing: -.015em; color: var(--ink); }
 .about-text > p:not(.kicker) { max-width: 34em; color: var(--ink-2); text-wrap: pretty; }
 .about-text > p:not(.kicker) + p { margin-top: .9em; }
@@ -1330,13 +1327,11 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
       <div class="about-figs">
       <figure class="about-pic">
         <picture><source type="image/avif" srcset="images/about/about-miniature-480.avif 480w, images/about/about-miniature-720.avif 720w, images/about/about-miniature-1080.avif 1080w" sizes="(max-width: 860px) min(100vw, 420px), (max-width: 1400px) 32vw, 460px"><img src="images/about/about-miniature-720.webp" srcset="images/about/about-miniature-480.webp 480w, images/about/about-miniature-720.webp 720w, images/about/about-miniature-1080.webp 1080w" sizes="(max-width: 860px) min(100vw, 420px), (max-width: 1400px) 32vw, 460px" width="1080" height="1350" loading="lazy" decoding="async" alt="연출 이미지: 햇빛이 드는 2층 집 모형. 아치 창이 있는 거실과 계단, 위층 침실이 보이고, 앞에는 오크, 트래버틴, 리넨, 황동 마감재 샘플과 도면이 놓여 있다"></picture>
-        <figcaption class="about-chip">연출 이미지</figcaption>
       </figure>
       <!-- the finishes, laid on the model's corner like a print (owner's material picture of 2026-10-29, sample/ai/
            about-materials.png cut to 4:3): the third paragraph's samples chosen in the site's own light -->
       <figure class="about-mat">
         <picture><source type="image/avif" srcset="images/about/about-materials-520.avif 520w, images/about/about-materials-1040.avif 1040w" sizes="(max-width: 860px) min(64vw, 270px), (max-width: 1400px) 21vw, 300px"><img src="images/about/about-materials-520.webp" srcset="images/about/about-materials-520.webp 520w, images/about/about-materials-1040.webp 1040w" sizes="(max-width: 860px) min(64vw, 270px), (max-width: 1400px) 21vw, 300px" width="1040" height="780" loading="lazy" decoding="async" alt="연출 이미지: 햇빛이 드는 마루 위에 오크 판재, 트래버틴, 리넨과 부클레 원단, 황동 마감재 샘플이 놓여 있고, 뒤로 집 모형과 말아 둔 도면이 보인다"></picture>
-        <figcaption class="about-chip">연출 이미지</figcaption>
       </figure>
       </div>
       <div class="about-text">
