@@ -246,8 +246,13 @@ button { cursor: pointer; }
   .hx-chip { right: var(--gutter); bottom: 104px; }
   .hx-ctrl { right: var(--gutter); bottom: 22px; }
 }
-/* landscape tablets: the plate needs more of the width */
-@media (min-width: 768px) and (max-width: 1100px) and (min-aspect-ratio: 1001/1000) { .hx-plate { width: min(30em, 46vw); } }
+/* landscape tablets: the PC picture whole, the plate under it instead of on it: at these widths a plate wide enough
+   for its text covers the four-home world's apartment tower (2026-10-30) */
+@media (min-width: 768px) and (max-width: 1100px) and (min-aspect-ratio: 1001/1000) {
+  .hx-stage { height: 56.25vw; min-height: 0; }
+  .hx-plate { position: static; width: auto; padding: 28px var(--gutter) 40px; background: none; }
+  .hx-title { font-size: clamp(40px, 5vw, 56px); }
+}
 /* phones and portrait tablets: the picture in its own 4:5 frame under the clear bar, the plate below it filling the width */
 @media (max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1) {
   .hx-stage { aspect-ratio: 4 / 5; }
@@ -606,6 +611,7 @@ html[data-hero] .rc:not(.is-single) .rc-slide .rc-cap { position: absolute; widt
   #pf-size .chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #pf-size .chip { flex-wrap: wrap; align-content: center; gap: 0 6px; padding: 6px 12px; text-align: left; }
   #pf-size .chip .h { flex-basis: 100%; order: 2; }
+  #pf-size .chips > .chip:first-child:nth-last-child(odd) { grid-column: 1 / -1; }
 }
 .result-line { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 16px 0 32px; border-top: 1px solid rgba(35, 34, 31, .14); font-size: 15px; color: var(--muted); }
 .result-line b { color: var(--ink); font-weight: 700; }
@@ -1179,7 +1185,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 
 <main id="main">
   <section class="hero hx" id="top" aria-labelledby="hero-title">
-    <!--GEN:stills--><div class="hx-stage" aria-label="딥플랫 월드" data-pins="{&quot;wide&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.573,&quot;y&quot;:0.752},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.759,&quot;y&quot;:0.64},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.902,&quot;y&quot;:0.288},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.509,&quot;y&quot;:0.231},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.528,&quot;y&quot;:0.354}],&quot;tall&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.37,&quot;y&quot;:0.813},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.667,&quot;y&quot;:0.696},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.903,&quot;y&quot;:0.381},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.245,&quot;y&quot;:0.317},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.236,&quot;y&quot;:0.449}]}"><ol class="hx-slides"><li class="hx-slide is-on" data-shot="home" aria-roledescription="slide" aria-label="1 / 1: 딥플랫 월드"><picture><source type="image/avif" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.avif 720w, images/hero/home-4x5-1080.avif 1080w" sizes="100vw"><source type="image/webp" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.webp 720w, images/hero/home-4x5-1080.webp 1080w" sizes="100vw"><source type="image/avif" srcset="images/hero/home-16x9-1280.avif 1280w, images/hero/home-16x9-1920.avif 1920w" sizes="100vw"><img src="images/hero/home-16x9-1280.webp" srcset="images/hero/home-16x9-1280.webp 1280w, images/hero/home-16x9-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="설계 미니어처 연출 이미지: DEEP FLAT 글자가 선 크림색 건축 모형. 거실, 주방·다이닝, 침실, 욕실, 서재가 한 건물의 층마다 있다" fetchpriority="high" decoding="async"></picture><div class="hx-pins" role="group" aria-label="딥플랫 월드의 공간"><a class="hx-pin is-home to-below" data-k="living" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>거실</span></a><a class="hx-pin is-home to-below wide-right" data-k="kitchen" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>주방</span></a><a class="hx-pin is-home to-below wide-right" data-k="bed" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>침실</span></a><a class="hx-pin is-home wide-left" data-k="bath" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>욕실</span></a><a class="hx-pin is-home to-below wide-right" data-k="study" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>서재</span></a></div></li></ol><p class="hx-chip">설계 미니어처 · 연출 이미지</p></div><div class="hx-plate"><h1 class="hx-title" id="hero-title"><span class="sr-only">DEEPFLAT 딥플랫 </span>공간의 깊이를 설계합니다.</h1><p class="hx-body">딥플랫은 <span class="nw">아파트·펜트하우스부터</span> 단독주택까지,<br> 설계한 팀이 그대로 시공까지 맡아요.</p><ul class="hx-tags" aria-label="딥플랫에서 하는 일"><li><a href="#portfolio" class="is-home" data-pf="home">아파트</a></li><li><a href="#portfolio" class="is-home" data-pf="home">펜트하우스</a></li><li><a href="#portfolio" class="is-home" data-pf="home">단독주택</a></li><li><a href="#portfolio" class="is-home" data-pf="home">타운하우스·빌라</a></li></ul><p class="hx-heritage">현장 경력 10년 · 누적 시공 986건</p><a class="hx-go" href="#portfolio">포트폴리오 보기</a></div><!--/GEN:stills-->
+    <!--GEN:stills--><div class="hx-stage" aria-label="딥플랫 월드" data-pins="{&quot;wide&quot;:[{&quot;k&quot;:&quot;ph&quot;,&quot;x&quot;:0.439,&quot;y&quot;:0.194},{&quot;k&quot;:&quot;apt&quot;,&quot;x&quot;:0.629,&quot;y&quot;:0.385},{&quot;k&quot;:&quot;house&quot;,&quot;x&quot;:0.721,&quot;y&quot;:0.269},{&quot;k&quot;:&quot;th&quot;,&quot;x&quot;:0.611,&quot;y&quot;:0.776}],&quot;tall&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.37,&quot;y&quot;:0.813},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.667,&quot;y&quot;:0.696},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.903,&quot;y&quot;:0.381},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.245,&quot;y&quot;:0.317},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.236,&quot;y&quot;:0.449}]}"><ol class="hx-slides"><li class="hx-slide is-on" data-shot="home" aria-roledescription="slide" aria-label="1 / 1: 딥플랫 월드"><picture><source type="image/avif" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.avif 720w, images/hero/home-4x5-1080.avif 1080w" sizes="100vw"><source type="image/webp" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.webp 720w, images/hero/home-4x5-1080.webp 1080w" sizes="100vw"><source type="image/avif" srcset="images/hero/home-16x9-1280.avif 1280w, images/hero/home-16x9-1920.avif 1920w" sizes="100vw"><img src="images/hero/home-16x9-1280.webp" srcset="images/hero/home-16x9-1280.webp 1280w, images/hero/home-16x9-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="설계 미니어처 연출 이미지: DEEP FLAT 글자가 가운데 선 크림색 건축 모형 마을. 아파트와 그 위 펜트하우스, 마당이 있는 단독주택, 타운하우스의 방들이 열려 있다" fetchpriority="high" decoding="async"></picture><div class="hx-pins" role="group" aria-label="딥플랫 월드의 공간"><a class="hx-pin is-home wide-left" data-k="ph" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>펜트하우스</span></a><a class="hx-pin is-home wide-right" data-k="apt" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>아파트</span></a><a class="hx-pin is-home wide-left" data-k="house" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>단독주택</span></a><a class="hx-pin is-home to-below" data-k="th" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>타운하우스·빌라</span></a><a class="hx-pin is-home to-below" data-k="living" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>거실</span></a><a class="hx-pin is-home to-below wide-right" data-k="kitchen" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>주방</span></a><a class="hx-pin is-home to-below wide-right" data-k="bed" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>침실</span></a><a class="hx-pin is-home wide-left" data-k="bath" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>욕실</span></a><a class="hx-pin is-home to-below wide-right" data-k="study" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>서재</span></a></div></li></ol><p class="hx-chip">설계 미니어처 · 연출 이미지</p></div><div class="hx-plate"><h1 class="hx-title" id="hero-title"><span class="sr-only">DEEPFLAT 딥플랫 </span>공간의 깊이를 설계합니다.</h1><p class="hx-body">딥플랫은 <span class="nw">아파트·펜트하우스부터</span> 단독주택까지,<br> 설계한 팀이 그대로 시공까지 맡아요.</p><ul class="hx-tags" aria-label="딥플랫에서 하는 일"><li><a href="#portfolio" class="is-home" data-pf="home">아파트</a></li><li><a href="#portfolio" class="is-home" data-pf="home">펜트하우스</a></li><li><a href="#portfolio" class="is-home" data-pf="home">단독주택</a></li><li><a href="#portfolio" class="is-home" data-pf="home">타운하우스·빌라</a></li></ul><p class="hx-heritage">현장 경력 10년 · 누적 시공 986건</p><a class="hx-go" href="#portfolio">포트폴리오 보기</a></div><!--/GEN:stills-->
   </section>
 
   <!-- the team's record in three numbers, right under the first screen (owner 2026-10-28), from final/data/yulsan.mjs -->
@@ -1539,6 +1545,10 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         const img = stage.querySelector('.hx-slide img');
         const [fx = 0.5, fy = 0.5] = (img ? getComputedStyle(img).objectPosition : '').split(' ').map((v) => parseFloat(v) / 100).map((v) => (Number.isFinite(v) ? v : 0.5));
         const k = Math.max(w / iw, h / ih), ox = (w - iw * k) * fx, oy = (h - ih * k) * fy;
+        // each picture labels its own spaces (the PC world its four kinds of home, the phone picture its rooms): a tag
+        // with no point in this picture's list stays hidden
+        const keys = new Set(list.map((p) => p.k));
+        for (const el of stage.querySelectorAll('.hx-pin')) el.hidden = !keys.has(el.dataset.k);
         for (const p of list) {
           const el = stage.querySelector(`.hx-pin[data-k="${p.k}"]`);
           if (el) el.style.transform = `translate(${(ox + p.x * iw * k).toFixed(1)}px, ${(oy + p.y * ih * k).toFixed(1)}px)`;
@@ -1547,7 +1557,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         // instead: under the bar the bar takes the click (owner 2026-10-29: "욕실 버튼은 클릭이 안되는데")
         const barH = (document.getElementById('nav')?.offsetHeight || 64) + 6;
         const top0 = stage.getBoundingClientRect().top;
-        for (const el of stage.querySelectorAll('.hx-pin')) {
+        for (const el of stage.querySelectorAll('.hx-pin:not([hidden])')) {
           el.classList.remove('is-flipped');
           if (el.querySelector('span').getBoundingClientRect().top - top0 < barH) el.classList.add('is-flipped');
         }
@@ -1677,7 +1687,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   const emptyActions = document.getElementById('pf-empty-actions');
   const countEl = document.getElementById('pf-count');
   // only reachable with two categories (SHOW_COMMERCIAL true)
-  const WAIT = '<p class="size-wait">상업 공간은 업종, 주거 공간은 평형으로 한 번 더 나눠 볼 수 있어요.</p>';
+  const WAIT = '<p class="size-wait">상업 공간은 업종, 주거 공간은 평형으로 한 번 더 <span class="nw">나눠 볼 수 있어요.</span></p>';
 
   // the size row: nothing to pick until a type is chosen, then that type's bands with its basis
   function drawSizes() {
@@ -1727,8 +1737,12 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   const WIDE_SIZES = '(max-width: 1099px) 62vw, 820px';
   const layoutWide = () => {
     const vis = cards.filter((c) => !c.hidden);
-    const cols = getComputedStyle(pfList).gridTemplateColumns.split(' ').filter(Boolean).length;
-    const wide = cols > 1 && vis.length > 1 && vis.length % cols === 1 ? vis[vis.length - 1] : null;
+    // only a real grid has columns (phones turn it into a swipe row, where gridTemplateColumns is the declared text);
+    // a lettered cover (no picture yet) never becomes the wide card, it would be a large empty panel
+    const cs = getComputedStyle(pfList);
+    const cols = cs.display === 'grid' ? cs.gridTemplateColumns.split(' ').filter(Boolean).length : 1;
+    const last = vis[vis.length - 1];
+    const wide = cols > 1 && vis.length > 1 && vis.length % cols === 1 && !last.classList.contains('is-text') ? last : null;
     cards.forEach((c) => {
       const on = c === wide;
       if (c.classList.contains('is-wide') === on) return;
