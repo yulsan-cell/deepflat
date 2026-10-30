@@ -184,11 +184,11 @@ button { cursor: pointer; }
 /* once placed, the labels land one by one from the front room back, like pins set on a model (not with reduced motion;
    translate adds to the inline transform that places each one) */
 @media (prefers-reduced-motion: no-preference) {
-  .hx-pins.is-placed .hx-pin { animation: hx-pin-in .5s cubic-bezier(.2, .8, .2, 1) .2s both; }
-  .hx-pins.is-placed .hx-pin:nth-child(2) { animation-delay: .3s; }
-  .hx-pins.is-placed .hx-pin:nth-child(3) { animation-delay: .4s; }
-  .hx-pins.is-placed .hx-pin:nth-child(4) { animation-delay: .5s; }
-  .hx-pins.is-placed .hx-pin:nth-child(5) { animation-delay: .6s; }
+  .hx-pins.is-placed .hx-pin { animation: hx-pin-in .6s cubic-bezier(.22, 1, .36, 1) .55s both; }
+  .hx-pins.is-placed .hx-pin:nth-child(2) { animation-delay: .63s; }
+  .hx-pins.is-placed .hx-pin:nth-child(3) { animation-delay: .71s; }
+  .hx-pins.is-placed .hx-pin:nth-child(4) { animation-delay: .79s; }
+  .hx-pins.is-placed .hx-pin:nth-child(5) { animation-delay: .87s; }
 }
 @keyframes hx-pin-in { from { opacity: 0; translate: 0 -10px; } }
 .hx-pin i { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 3px rgba(252, 251, 248, .9); }
@@ -204,6 +204,9 @@ button { cursor: pointer; }
 .hx-pin.wide-left span { transform: translateX(calc(-100% + 18px)); } .hx-pin.wide-left span::after { left: calc(100% - 18px); }
 /* set by the page script when a tag would sit under the menu bar */
 .hx-pin.is-flipped span { bottom: auto; top: 14px; } .hx-pin.is-flipped span::after { bottom: auto; top: -9px; }
+/* a nameplate (dir 'on', PC and phones): the tag centred on its point on the building's own wall, no dot or stem */
+.hx-pin.to-on i, .hx-pin.to-on span::after { display: none; }
+.hx-pin.to-on span, .hx-pin.to-on.is-flipped span { bottom: auto; top: 0; transform: translate(-50%, -50%); }
 .hx-pin:hover span, .hx-pin:focus-visible span { background: var(--ink); color: var(--paper); }
 .hx-pin:focus-visible { outline: none; } .hx-pin:focus-visible span { outline: 2px solid var(--oak); outline-offset: 2px; }
 /* a close-up's name tag */
@@ -247,9 +250,6 @@ button { cursor: pointer; }
   /* high enough to clear the round 상담 신청 button where the hero fills the screen (1920x1080, short laptops) */
   .hx-chip { right: var(--gutter); bottom: 104px; }
   .hx-ctrl { right: var(--gutter); bottom: 22px; }
-  /* a nameplate: the tag centred on its point on the building's own wall, without the dot and stem */
-  .hx-pin.wide-on i, .hx-pin.wide-on span::after { display: none; }
-  .hx-pin.wide-on span { bottom: auto; top: 0; transform: translate(-50%, -50%); }
 }
 /* landscape tablets: the PC picture whole, the plate under it instead of on it: at these widths a plate wide enough
    for its text covers the four-home world's apartment tower (2026-10-30) */
@@ -265,7 +265,8 @@ button { cursor: pointer; }
   .hx-ctrl { right: 10px; bottom: 6px; gap: 2px; }
   .hx-cap { left: 12px; bottom: 12px; padding: 8px 11px; max-width: calc(100% - 170px); }
   .hx-cap span { font-size: 12px; } .hx-cap b { font-size: 18px; }
-  .hx-chip { right: 10px; top: calc(var(--nav-h) + 8px); }
+  /* bottom left, over the empty table: at the top right it touched the penthouse's nameplate (2026-10-30) */
+  .hx-chip { left: 10px; bottom: 10px; }
   .hx-pin span { font-size: 13px; padding: 4px 8px; gap: 5px; bottom: 11px; }
   .hx-pin span::after { height: 7px; bottom: -7px; }
   .hx-pin.to-below span { top: 11px; } .hx-pin.to-below span::after { top: -7px; }
@@ -384,6 +385,13 @@ button { cursor: pointer; }
 .about-plate .flatlogo { width: clamp(120px, 14vw, 190px); height: auto; }
 /* the 회사 소개 picture is an AI photo (a two-storey house model in sun with finish samples, owner 2026-10-29), so it says so */
 .about-chip { position: absolute; right: 12px; bottom: 12px; z-index: 1; margin: 0; padding: 3px 9px; font-size: 13px; font-weight: 600; color: var(--muted-2); background: rgba(252, 251, 248, .86); }
+/* the finishes picture lies over the model picture's lower right corner like a print on the table (2026-10-30), so
+   the model picture's own chip moves to its lower left */
+.about-pic .about-chip { right: auto; left: 12px; }
+.about-mat { position: relative; z-index: 2; width: 64%; margin: -20% 0 0 auto; padding: 6px; background: var(--chalk); box-shadow: var(--print); }
+.about-mat picture { display: block; aspect-ratio: 4 / 3; overflow: hidden; }
+.about-mat img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.about-mat .about-chip { right: 14px; bottom: 14px; }
 .greet { margin-bottom: clamp(26px, 3vw, 38px); font-family: var(--display-ko); font-weight: 400; font-size: clamp(36px, 4.2vw, 60px); line-height: 1.16; letter-spacing: -.015em; color: var(--ink); }
 .about-text > p:not(.kicker) { max-width: 34em; color: var(--ink-2); text-wrap: pretty; }
 .about-text > p:not(.kicker) + p { margin-top: .9em; }
@@ -394,7 +402,7 @@ button { cursor: pointer; }
 @media (max-width: 860px) {
   .about-grid { grid-template-columns: minmax(0, 1fr); }
   /* phones: the greeting first, the picture under it */
-  .about-pic { order: 2; width: min(100%, 420px); }
+  .about-figs { order: 2; width: min(100%, 420px); }
 }
 
 /* ---------- 걸어온 길 (GEN:yulsan, final/data/yulsan.mjs): the team's road from its first site as 율산 인테리어 (2016)
@@ -454,7 +462,7 @@ button { cursor: pointer; }
   .proof-list .her-num small { font-size: 13px; margin-left: 2px; }
   .proof-list .her-label { margin-top: 6px; padding-top: 10px; font-size: 14px; }
   .proof-list .her-label::before { width: 16px; margin-left: -8px; }
-  .proof-list .her-sub { font-size: 12px; }
+  .proof-list .her-sub { font-size: 13px; }
 }
 /* ---------- the promotion bar under the record band (GEN:promo-bar): one line on the night colour with the nav's gold
    dot; the offers drop out on narrow screens ---------- */
@@ -965,7 +973,7 @@ html[data-hero] .partners:not(.is-live) .pt-row, html[data-hero] .months:not(.is
 /* FOLLOW US: the studio's channels as ink icons in 44px targets (GEN:social); a channel without its address yet is the
    icon alone, so it is drawn a step lighter and does not react to the pointer */
 .foot-sns { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 14px; margin-top: 14px; }
-.foot-sns-label { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--ink-2); }
+.foot-sns-label { font-size: 13px; font-weight: 700; letter-spacing: .14em; color: var(--ink-2); }
 .sns-list { display: flex; gap: 2px; margin-left: -10px; }
 .sns { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--ink); }
 .sns svg { width: 22px; height: 22px; }
@@ -1113,6 +1121,117 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 }
 @media (forced-colors: active) { .pfd-thumb[aria-current="true"]::after { background: CanvasText; } }
 
+/* ---------- motion (2026-10-30, owner: "웹디자이너 스킬 사용해서 모션 효과 … 반영해서 최종 페이지") ----------
+   One idea for all of it: the page is the design model on its table. On load the view settles onto the world and the
+   nameplates land; while the world is on screen the view breathes, slowly; as the page scrolls on, the model sinks back
+   a little and the words lift off it. Further down, each section's pieces are set down in reading order: a heading
+   rises out of its own line, the pictures open, the record's figures roll up to their values, the month blocks drop
+   onto the calendar, the duration bars run out from the left, the six steps come one after another. Everything moves
+   once (transform, opacity and clip-path only). The hidden states exist only once the motion script (the last script
+   on the page) has marked the page html.mo, and never with reduced motion: without it the page is simply there. */
+:root {
+  --ease-out: cubic-bezier(.22, 1, .36, 1);    /* entrances and small moves under .6 s */
+  --ease-expo: cubic-bezier(.16, 1, .3, 1);    /* rises of .8 s and longer, the figures */
+  --ease-in-out: cubic-bezier(.76, 0, .24, 1); /* the pictures opening */
+  --ease-soft: cubic-bezier(.33, 1, .68, 1);   /* slow scale on pictures */
+}
+/* the hero: the picture and its nameplates (inside the first slide) move as one box */
+.hx-slides { position: absolute; inset: 0; transform-origin: 50% 58%; }
+@media (prefers-reduced-motion: no-preference) {
+  /* the view settles onto the world once its picture is in (the script sets .is-ready), then breathes while on screen */
+  .hx-stage.is-ready .hx-slides { animation: mo-settle 1.4s var(--ease-expo) both, mo-breathe 24s var(--ease-soft) 1.4s infinite alternate; }
+  .hx.is-away .hx-stage .hx-slides { animation-play-state: running, paused, running; }
+  /* the words arrive in reading order, all there by 1.3 s (html[data-hero]: the page's scripts run) */
+  html[data-hero] .hx-title { animation: mo-rise .9s var(--ease-expo) .12s both; }
+  html[data-hero] .hx-body { animation: mo-rise .7s var(--ease-out) .36s both; }
+  html[data-hero] .hx-tags { animation: mo-rise .7s var(--ease-out) .44s both; }
+  html[data-hero] :is(.hx-heritage, .hx-go) { animation: mo-rise .7s var(--ease-out) .52s both; }
+}
+@keyframes mo-settle { from { transform: scale(1.06); } }
+@keyframes mo-breathe { to { scale: 1.03; } }
+@keyframes mo-rise { from { opacity: 0; translate: 0 18px; } }
+/* leaving: locked to the scroll (linear), the picture sinks a little; on PC the plate lifts off it a little faster.
+   Static where scroll timelines are missing */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hx { timeline-scope: --hero; }
+    /* inset 0: the timeline's default (auto) takes html's scroll-padding-top, which started the leaving part-way at
+       scroll 0 wherever the stage is shorter than the screen */
+    .hx-stage { view-timeline-name: --hero; view-timeline-inset: 0; }
+    .hx-stage.is-ready .hx-slides {
+      animation: mo-settle 1.4s var(--ease-expo) both, mo-breathe 24s var(--ease-soft) 1.4s infinite alternate, mo-sink linear both;
+      animation-timeline: auto, auto, --hero;
+      animation-range: normal, normal, exit 0% exit 100%;
+    }
+    .hx.is-away .hx-stage .hx-slides { animation-play-state: running, paused, running; }
+  }
+  @media (prefers-reduced-motion: no-preference) and (min-width: 1101px) {
+    .hx-plate { animation: mo-lift linear both; animation-timeline: --hero; animation-range: exit 0% exit 80%; }
+  }
+}
+@keyframes mo-sink { to { translate: 0 7%; } }
+/* a lift only, no fade: the plate's links stay full strength while any of them is on screen */
+@keyframes mo-lift { to { translate: 0 -72px; } }
+/* the record's figures roll up to their values: the script puts each digit in its own .roll-col (the digit stays the
+   text, sizes the column and holds its baseline beside 년 and 건, but turns clear; the columns are aria-hidden beside
+   one unseen copy of the whole figure for screen readers); over it a strip of 0-9 drawn by CSS (::after, no spoken
+   text) slides to the digit, clipped to the
+   line. The strip's lines are 1.45em apart, .5em more than the figure's .95 line, so the tall display face never shows
+   the next digit under the window, and it starts .25em up so its glyphs sit where the digit's own would */
+.roll-col { position: relative; display: inline-block; }
+@supports (content: "0" / "") {
+  .roll-col { color: transparent; clip-path: inset(-.2em -.1em -.1em); }
+  .roll-col::after { content: "0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9" / ""; position: absolute; top: 0; left: 50%; white-space: pre; line-height: 1.45em; color: var(--ink); transform: translate(-50%, calc(-.25em - var(--d) * 1.45em)); }
+}
+@media print { .roll-col { color: inherit; clip-path: none; } .roll-col::after { content: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  /* a group (.mo-g) comes in once (.is-in), its transitions drop off when it is done (.is-done), so the parts' own
+     hover and press transitions stay theirs. --mo-i is a part's place in its group, --mo-d a delay after the heading */
+  .mo .mo-g:not(.is-in) .roll-col::after { transform: translate(-50%, -.25em); }
+  .mo .mo-g.is-in:not(.is-done) .roll-col::after { transition: transform 1.2s var(--ease-expo) calc(var(--i) * 90ms + 200ms); }
+  /* headings rise out of their own line: the script wraps the words in .mo-l and the heading clips at its foot */
+  .mo .mo-h { clip-path: inset(-.5em -.5em 0 -.5em); }
+  .mo .mo-l { display: block; }
+  .mo .mo-g:not(.is-in) .mo-l { transform: translateY(108%); }
+  .mo .mo-g.is-in:not(.is-done) .mo-l { transition: transform .9s var(--ease-expo); }
+  .mo .mo-g.is-done .mo-h { clip-path: none; }
+  /* parts rise into place */
+  .mo .mo-g:not(.is-in) .mo-r { opacity: 0; transform: translateY(22px); }
+  .mo .mo-g.is-in:not(.is-done) .mo-r { transition: opacity .7s var(--ease-out) calc(var(--mo-i, 0) * 80ms + var(--mo-d, 0ms)), transform .9s var(--ease-expo) calc(var(--mo-i, 0) * 80ms + var(--mo-d, 0ms)); }
+  /* blocks are set down from above: the month blocks on the calendar, the studio's miniatures in their niches */
+  .mo .mo-g:not(.is-in) .mo-dr { opacity: 0; transform: translateY(-18px); }
+  .mo .mo-g.is-in:not(.is-done) .mo-dr { transition: opacity .5s var(--ease-out) calc(var(--mo-i, 0) * 70ms + var(--mo-d, 0ms)), transform .8s var(--ease-expo) calc(var(--mo-i, 0) * 70ms + var(--mo-d, 0ms)); }
+  /* pictures open from the foot like a print turned up, settling from a slight scale; the edge reaches past the
+     frame so a picture's own shadow is never cut */
+  .mo .mo-g:not(.is-in) .mo-o { clip-path: inset(100% -48px -48px -48px); }
+  .mo .mo-g.is-in .mo-o { clip-path: inset(-48px); }
+  .mo .mo-g:not(.is-in) .mo-o img { transform: scale(1.1); }
+  .mo .mo-g.is-in:not(.is-done) .mo-o { transition: clip-path 1.1s var(--ease-in-out) var(--mo-d, 0ms); }
+  .mo .mo-g.is-in:not(.is-done) .mo-o img { transition: transform 1.5s var(--ease-soft) var(--mo-d, 0ms); }
+  .mo .mo-g.is-done .mo-o { clip-path: none; }
+  /* the duration bars run out from the left, the line between the six steps draws down after each number */
+  .mo .mo-b { transform-origin: 0 50%; }
+  .mo .mo-g:not(.is-in) .mo-b { transform: scaleX(0); }
+  .mo .mo-g.is-in:not(.is-done) .mo-b { transition: transform 1s var(--ease-expo) calc(var(--mo-i, 0) * 70ms + 200ms); }
+  .mo .flow-col li::after { transform-origin: 50% 0; }
+  .mo .mo-g:not(.is-in) .flow-col li::after { transform: scaleY(0); }
+  .mo .mo-g.is-in:not(.is-done) .flow-col li::after { transition: transform .6s var(--ease-out) calc(var(--mo-i, 0) * 90ms + 300ms); }
+}
+/* printed, every part is in place */
+@media print {
+  .mo .mo-g :is(.mo-l, .mo-r, .mo-dr, .mo-b, .mo-o, .mo-o img), .mo .mo-g .flow-col li::after { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+}
+/* under the hand: the dark buttons press into their side like the page's other blocks, the light ones give a little,
+   the hero's links nudge their arrow */
+.menu .menu-cta { transition: transform .14s var(--ease-out), box-shadow .14s var(--ease-out), background-color .16s ease; }
+.menu .menu-cta:active { transform: translate(calc(var(--sx) * 3), calc(var(--sy) * 3)); }
+.chip { transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .14s var(--ease-out); }
+.btn-line { transition: background-color .16s ease, border-color .16s ease, transform .14s var(--ease-out); }
+.hx-tags a { transition: background-color .16s ease, transform .14s var(--ease-out); }
+:is(.chip, .btn-line, .hx-tags a):active { transform: scale(.97); }
+.hx-tags a::after { transition: translate .3s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .hx-tags a:hover::after { translate: 3px 0; } }
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -1190,7 +1309,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 
 <main id="main">
   <section class="hero hx" id="top" aria-labelledby="hero-title">
-    <!--GEN:stills--><div class="hx-stage" aria-label="딥플랫 월드" data-pins="{&quot;wide&quot;:[{&quot;k&quot;:&quot;ph&quot;,&quot;x&quot;:0.484,&quot;y&quot;:0.19},{&quot;k&quot;:&quot;apt&quot;,&quot;x&quot;:0.458,&quot;y&quot;:0.409},{&quot;k&quot;:&quot;house&quot;,&quot;x&quot;:0.911,&quot;y&quot;:0.546},{&quot;k&quot;:&quot;th&quot;,&quot;x&quot;:0.708,&quot;y&quot;:0.604}],&quot;tall&quot;:[{&quot;k&quot;:&quot;living&quot;,&quot;x&quot;:0.37,&quot;y&quot;:0.813},{&quot;k&quot;:&quot;kitchen&quot;,&quot;x&quot;:0.667,&quot;y&quot;:0.696},{&quot;k&quot;:&quot;bed&quot;,&quot;x&quot;:0.903,&quot;y&quot;:0.381},{&quot;k&quot;:&quot;bath&quot;,&quot;x&quot;:0.245,&quot;y&quot;:0.317},{&quot;k&quot;:&quot;study&quot;,&quot;x&quot;:0.236,&quot;y&quot;:0.449}]}"><ol class="hx-slides"><li class="hx-slide is-on" data-shot="home" aria-roledescription="slide" aria-label="1 / 1: 딥플랫 월드"><picture><source type="image/avif" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.avif 720w, images/hero/home-4x5-1080.avif 1080w" sizes="100vw"><source type="image/webp" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.webp 720w, images/hero/home-4x5-1080.webp 1080w" sizes="100vw"><source type="image/avif" srcset="images/hero/home-16x9-1280.avif 1280w, images/hero/home-16x9-1920.avif 1920w" sizes="100vw"><img src="images/hero/home-16x9-1280.webp" srcset="images/hero/home-16x9-1280.webp 1280w, images/hero/home-16x9-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="설계 미니어처 연출 이미지: DEEP FLAT 글자가 가운데 선 크림색 건축 모형 마을. 아파트와 그 위 펜트하우스, 마당이 있는 단독주택, 타운하우스의 방들이 열려 있다" fetchpriority="high" decoding="async"></picture><div class="hx-pins" role="group" aria-label="딥플랫 월드의 공간"><a class="hx-pin is-home wide-on" data-k="ph" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>펜트하우스</span></a><a class="hx-pin is-home wide-on" data-k="apt" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>아파트</span></a><a class="hx-pin is-home wide-on" data-k="house" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>단독주택</span></a><a class="hx-pin is-home wide-on" data-k="th" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>타운하우스·빌라</span></a><a class="hx-pin is-home to-below" data-k="living" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>거실</span></a><a class="hx-pin is-home to-below wide-right" data-k="kitchen" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>주방</span></a><a class="hx-pin is-home to-below wide-right" data-k="bed" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>침실</span></a><a class="hx-pin is-home wide-left" data-k="bath" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>욕실</span></a><a class="hx-pin is-home to-below wide-right" data-k="study" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>서재</span></a></div></li></ol><p class="hx-chip">설계 미니어처 · 연출 이미지</p></div><div class="hx-plate"><h1 class="hx-title" id="hero-title"><span class="sr-only">DEEPFLAT 딥플랫 </span>공간의 깊이를 설계합니다.</h1><p class="hx-body">딥플랫은 <span class="nw">아파트·펜트하우스부터</span> 단독주택까지,<br> 설계한 팀이 그대로 시공까지 맡아요.</p><ul class="hx-tags" aria-label="딥플랫에서 하는 일"><li><a href="#portfolio" class="is-home" data-pf="home">아파트</a></li><li><a href="#portfolio" class="is-home" data-pf="home">펜트하우스</a></li><li><a href="#portfolio" class="is-home" data-pf="home">단독주택</a></li><li><a href="#portfolio" class="is-home" data-pf="home">타운하우스·빌라</a></li></ul><p class="hx-heritage">현장 경력 10년 · 누적 시공 986건</p><a class="hx-go" href="#portfolio">포트폴리오 보기</a></div><!--/GEN:stills-->
+    <!--GEN:stills--><div class="hx-stage" aria-label="딥플랫 월드" data-pins="{&quot;wide&quot;:[{&quot;k&quot;:&quot;ph&quot;,&quot;x&quot;:0.484,&quot;y&quot;:0.19},{&quot;k&quot;:&quot;apt&quot;,&quot;x&quot;:0.458,&quot;y&quot;:0.409},{&quot;k&quot;:&quot;house&quot;,&quot;x&quot;:0.911,&quot;y&quot;:0.546},{&quot;k&quot;:&quot;th&quot;,&quot;x&quot;:0.708,&quot;y&quot;:0.604}],&quot;tall&quot;:[{&quot;k&quot;:&quot;ph&quot;,&quot;x&quot;:0.838,&quot;y&quot;:0.222},{&quot;k&quot;:&quot;apt&quot;,&quot;x&quot;:0.787,&quot;y&quot;:0.452},{&quot;k&quot;:&quot;house&quot;,&quot;x&quot;:0.17,&quot;y&quot;:0.43},{&quot;k&quot;:&quot;th&quot;,&quot;x&quot;:0.759,&quot;y&quot;:0.807}]}"><ol class="hx-slides"><li class="hx-slide is-on" data-shot="home" aria-roledescription="slide" aria-label="1 / 1: 딥플랫 월드"><picture><source type="image/avif" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.avif 720w, images/hero/home-4x5-1080.avif 1080w" sizes="100vw"><source type="image/webp" media="(max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1)" srcset="images/hero/home-4x5-720.webp 720w, images/hero/home-4x5-1080.webp 1080w" sizes="100vw"><source type="image/avif" srcset="images/hero/home-16x9-1280.avif 1280w, images/hero/home-16x9-1920.avif 1920w" sizes="100vw"><img src="images/hero/home-16x9-1280.webp" srcset="images/hero/home-16x9-1280.webp 1280w, images/hero/home-16x9-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="설계 미니어처 연출 이미지: DEEP FLAT 글자가 가운데 선 크림색 건축 모형 마을. 아파트와 그 위 펜트하우스, 마당이 있는 단독주택, 타운하우스의 방들이 열려 있다" fetchpriority="high" decoding="async"></picture><div class="hx-pins" role="group" aria-label="딥플랫 월드의 공간"><a class="hx-pin is-home to-on" data-k="ph" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>펜트하우스</span></a><a class="hx-pin is-home to-on" data-k="apt" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>아파트</span></a><a class="hx-pin is-home to-on" data-k="house" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>단독주택</span></a><a class="hx-pin is-home to-on" data-k="th" href="#portfolio" data-pf="home"><i aria-hidden="true"></i><span>타운하우스·빌라</span></a></div></li></ol><p class="hx-chip">설계 미니어처 · 연출 이미지</p></div><div class="hx-plate"><h1 class="hx-title" id="hero-title"><span class="sr-only">DEEPFLAT 딥플랫 </span>공간의 깊이를 설계합니다.</h1><p class="hx-body">딥플랫은 <span class="nw">아파트·펜트하우스부터</span> 단독주택까지,<br> 설계한 팀이 그대로 시공까지 맡아요.</p><ul class="hx-tags" aria-label="딥플랫에서 하는 일"><li><a href="#portfolio" class="is-home" data-pf="home">아파트</a></li><li><a href="#portfolio" class="is-home" data-pf="home">펜트하우스</a></li><li><a href="#portfolio" class="is-home" data-pf="home">단독주택</a></li><li><a href="#portfolio" class="is-home" data-pf="home">타운하우스·빌라</a></li></ul><p class="hx-heritage">현장 경력 10년 · 누적 시공 986건</p><a class="hx-go" href="#portfolio">포트폴리오 보기</a></div><!--/GEN:stills-->
   </section>
 
   <!-- the team's record in three numbers, right under the first screen (owner 2026-10-28), from final/data/yulsan.mjs -->
@@ -1205,10 +1324,18 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     <div class="wrap about-grid">
       <!-- the 대표's picture (owner 2026-10-28: they send it, a real photo or an AI picture labelled 연출 이미지); until it
            comes, the DEEPFLAT plate holds its place. Put it in as <img> inside .about-pic and take out the plate -->
+      <div class="about-figs">
       <figure class="about-pic">
         <picture><source type="image/avif" srcset="images/about/about-miniature-480.avif 480w, images/about/about-miniature-720.avif 720w, images/about/about-miniature-1080.avif 1080w" sizes="(max-width: 860px) min(100vw, 420px), (max-width: 1400px) 32vw, 460px"><img src="images/about/about-miniature-720.webp" srcset="images/about/about-miniature-480.webp 480w, images/about/about-miniature-720.webp 720w, images/about/about-miniature-1080.webp 1080w" sizes="(max-width: 860px) min(100vw, 420px), (max-width: 1400px) 32vw, 460px" width="1080" height="1350" loading="lazy" decoding="async" alt="연출 이미지: 햇빛이 드는 2층 집 모형. 아치 창이 있는 거실과 계단, 위층 침실이 보이고, 앞에는 오크, 트래버틴, 리넨, 황동 마감재 샘플과 도면이 놓여 있다"></picture>
         <figcaption class="about-chip">연출 이미지</figcaption>
       </figure>
+      <!-- the finishes, laid on the model's corner like a print (owner's material picture of 2026-10-29, sample/ai/
+           about-materials.png cut to 4:3): the third paragraph's samples chosen in the site's own light -->
+      <figure class="about-mat">
+        <picture><source type="image/avif" srcset="images/about/about-materials-520.avif 520w, images/about/about-materials-1040.avif 1040w" sizes="(max-width: 860px) min(64vw, 270px), (max-width: 1400px) 21vw, 300px"><img src="images/about/about-materials-520.webp" srcset="images/about/about-materials-520.webp 520w, images/about/about-materials-1040.webp 1040w" sizes="(max-width: 860px) min(64vw, 270px), (max-width: 1400px) 21vw, 300px" width="1040" height="780" loading="lazy" decoding="async" alt="연출 이미지: 햇빛이 드는 마루 위에 오크 판재, 트래버틴, 리넨과 부클레 원단, 황동 마감재 샘플이 놓여 있고, 뒤로 집 모형과 말아 둔 도면이 보인다"></picture>
+        <figcaption class="about-chip">연출 이미지</figcaption>
+      </figure>
+      </div>
       <div class="about-text">
         <p class="kicker">회사 소개</p>
         <h2 class="greet" id="about-title">깊이를 짓는다는<br>마음으로</h2>
@@ -2470,6 +2597,131 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     viewport.addEventListener('pointerup', (e) => release(e, false));
     viewport.addEventListener('pointercancel', (e) => release(e, true));
   }
+})();
+</script>
+<script>
+/* ---------- motion (2026-10-30): each section's pieces are set down once as they come on screen ----------
+   What moves and how is in the sheet's motion block. A script of its own, so a fault in the page script can never
+   leave anything hidden; nothing is hidden until it marks the page (html.mo), and never with reduced motion. */
+(() => {
+  const root = document.documentElement;
+
+  // the hero settles onto the world once its picture is in, and breathes only while it is on screen
+  const stage = document.querySelector('.hx-stage');
+  if (stage) {
+    const img = stage.querySelector('.hx-slide img');
+    const ready = () => stage.classList.add('is-ready');
+    if (!img || img.complete) ready();
+    else {
+      img.addEventListener('load', ready, { once: true });
+      img.addEventListener('error', ready, { once: true });
+    }
+    const hx = stage.closest('.hx');
+    if (hx && 'IntersectionObserver' in window) new IntersectionObserver(([e]) => hx.classList.toggle('is-away', !e.isIntersecting)).observe(stage);
+  }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+
+  const groups = [];
+  const group = (el) => {
+    if (el && !el.classList.contains('mo-g')) (el.classList.add('mo-g'), groups.push(el));
+    return el;
+  };
+  const part = (el, cls, i = 0, d = 0) => {
+    if (!el) return;
+    el.classList.add(cls);
+    el.style.setProperty('--mo-i', i);
+    if (d) el.style.setProperty('--mo-d', `${d}ms`);
+  };
+  // a heading's words go into one block that rises out of the heading's own line
+  const rise = (h) => {
+    const l = document.createElement('span');
+    l.className = 'mo-l';
+    while (h.firstChild) l.append(h.firstChild);
+    h.append(l);
+    h.classList.add('mo-h');
+  };
+
+  // section heads, 회사 소개's words, the contact column: the heading first, then the lines under it, row by row
+  for (const g of document.querySelectorAll('main .sec-head, .about-text, .contact-grid > div:first-child, .brief')) {
+    group(g);
+    const kids = [...g.children].flatMap((k) => (k.matches('div:not(.facts)') ? [...k.children] : k.matches('dl:not(.facts)') ? [...k.children] : [k]));
+    let i = 0;
+    for (const k of kids) {
+      if (k.matches('h2')) rise(k);
+      else if (k.matches('.kicker, .promo-kicker')) part(k, 'mo-r', 0);
+      else part(k, 'mo-r', Math.min(i++, 5), 120);
+    }
+  }
+  // 회사 소개's two pictures open one after the other
+  {
+    const g = group(document.querySelector('.about-figs'));
+    if (g) (part(g.querySelector('.about-pic'), 'mo-o'), part(g.querySelector('.about-mat'), 'mo-o', 0, 450));
+  }
+  // the record band: its four parts in turn, the figures rolling up to their values
+  {
+    const g = group(document.querySelector('.proof-list'));
+    if (g) {
+      [...g.children].forEach((li, i) => part(li, 'mo-r', i));
+      for (const n of g.querySelectorAll('.her-num:not(.her-word)')) {
+        const t = n.firstChild;
+        const value = t && t.nodeType === 3 ? t.nodeValue.trim() : '';
+        if (!/^\d+$/.test(value)) continue;
+        // screen readers get the figure whole ("986"), not one digit per column
+        const said = Object.assign(document.createElement('span'), { className: 'sr-only', textContent: value });
+        const shown = document.createElement('span');
+        shown.setAttribute('aria-hidden', 'true');
+        shown.append(...[...value].map((ch, i) => {
+          const col = Object.assign(document.createElement('span'), { className: 'roll-col', textContent: ch });
+          col.style.setProperty('--d', ch);
+          col.style.setProperty('--i', i);
+          return col;
+        }));
+        t.replaceWith(said, shown);
+      }
+    }
+  }
+  // lists that arrive item by item: the first four projects (cards drawn later by the filters simply appear), the
+  // three offers, the studio's three ways with their miniatures set into the niches, the six steps
+  for (const [sel, max] of [['#portfolio .cards', 4], ['.promo-cards', 3], ['.ways', 3], ['.flow', 6]]) {
+    const g = group(document.querySelector(sel));
+    if (!g) continue;
+    [...g.querySelectorAll(':scope > li, :scope > ol > li')].slice(0, max).forEach((li, i) => {
+      part(li, 'mo-r', i);
+      const art = li.querySelector('.way-art picture');
+      if (art) part(art, 'mo-dr', i, 320);
+    });
+  }
+  // the calendar's month blocks drop into place; the duration bars run out
+  {
+    const g = group(document.getElementById('months'));
+    if (g) [...g.children].forEach((li, i) => part(li, 'mo-dr', i));
+    const d = group(document.querySelector('.dur'));
+    if (d) d.querySelectorAll('.dur-bar').forEach((b, i) => part(b, 'mo-b', i));
+  }
+
+  root.classList.add('mo');
+  const pending = new Set(groups);
+  const show = (g) => {
+    if (!pending.delete(g)) return;
+    io.unobserve(g);
+    g.classList.add('is-in');
+    setTimeout(() => g.classList.add('is-done'), 2600);
+  };
+  // in once its top is 88% of the way down the screen
+  const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && show(e.target)), { rootMargin: '0px 0px -12% 0px' });
+  groups.forEach((g) => io.observe(g));
+  // a jump (a menu link, a restored scroll position) can carry a group past the screen between two frames, where the
+  // observer never sees it: anything already above that line counts as come in
+  let frame = 0;
+  const sweep = (line = innerHeight * 0.88) => {
+    frame = 0;
+    for (const g of pending) if (g.getBoundingClientRect().top < line) show(g);
+    if (!pending.size) removeEventListener('scroll', onScroll);
+  };
+  const onScroll = () => frame || (frame = requestAnimationFrame(() => sweep()));
+  addEventListener('scroll', onScroll, { passive: true });
+  // nothing on the first screen waits for a scroll: the record band that peeks in under the PC hero comes in now
+  sweep(innerHeight);
 })();
 </script>
 </body>
