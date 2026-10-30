@@ -258,6 +258,11 @@ button { cursor: pointer; }
   .hx-plate { position: static; width: auto; padding: 28px var(--gutter) 40px; background: none; }
   .hx-title { font-size: clamp(40px, 5vw, 56px); }
 }
+/* the mixed page's PC world runs its shop street out to the lower right, so the chip goes to the empty table at the
+   lower left, under the plate */
+@media (min-width: 1101px), (min-width: 768px) and (min-aspect-ratio: 1001/1000) {
+  .hx-slides:has([data-shot="mixed"]) + .hx-chip { right: auto; left: var(--gutter); bottom: 14px; }
+}
 /* phones and portrait tablets: the picture in its own 4:5 frame under the clear bar, the plate below it filling the width */
 @media (max-width: 767px), (max-width: 1100px) and (max-aspect-ratio: 1/1) {
   .hx-stage { aspect-ratio: 4 / 5; }
