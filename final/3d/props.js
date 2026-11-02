@@ -1101,7 +1101,7 @@ export function tallUnit(M, { len = 0.65, d = 0.62, h = 2.3, front, doors = 1, .
   for (let i = 0; i < doors; i++) {
     const cx = -len / 2 + dw * (i + 0.5);
     g.add(wbox(Fr, dw - 0.006, h - 0.13, 0.02, cx, 0.11, d / 2 - 0.03, 0.002));
-    g.add(box(M.brass, 0.012, 0.32, 0.016, cx + (i % 2 ? -1 : 1) * (dw / 2 - 0.05), 1.0, d / 2 - 0.012, 0.004));
+    g.add(box(M.brass, 0.012, 0.32, 0.016, cx + (i % 2 ? -1 : 1) * (dw / 2 - 0.05), Math.min(1.0, h - 0.4), d / 2 - 0.012, 0.004));
   }
   return place(g, at);
 }
@@ -1692,7 +1692,7 @@ export function bathtub(M, { len = 1.7, wid = 0.78, h = 0.58, mat, ...at } = {})
   return place(g, at);
 }
 // Vanity: an oak cabinet hung on the wall (wall at z = -d/2), a stone top, a vessel basin and a wall-mounted spout
-export function vanity(M, { len = 1.0, d = 0.5, h = 0.86, front, top, ...at } = {}) {
+export function vanity(M, { len = 1.0, d = 0.5, h = 0.86, front, top, spout = true, ...at } = {}) {
   const g = new THREE.Group();
   const Fr = front ?? M.oak, T = top ?? M.travertine;
   g.add(wbox(Fr, len, 0.36, d - 0.02, 0, h - 0.4, -0.01, 0.006));
@@ -1701,7 +1701,7 @@ export function vanity(M, { len = 1.0, d = 0.5, h = 0.86, front, top, ...at } = 
   stoneUV(s.geometry);
   g.add(s);
   g.add(bowl(M, { r: 0.2, h: 0.13, mat: M.ceramic, x: 0, y: h, z: 0.02 }));
-  g.add(tube(M.brass, [[0, h + 0.3, -d / 2], [0, h + 0.3, -d / 2 + 0.12], [0, h + 0.27, -d / 2 + 0.16]], 0.01, 8, 6));
+  if (spout) g.add(tube(M.brass, [[0, h + 0.3, -d / 2 - 0.06], [0, h + 0.3, -d / 2 + 0.12], [0, h + 0.27, -d / 2 + 0.16]], 0.01, 8, 6));
   return place(g, at);
 }
 // Towel rail on a wall (wall at z = 0) with one or two folded towels
