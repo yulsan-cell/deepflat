@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>페이지를 찾을 수 없어요 | DEEPFLAT 딥플랫</title>
+<!-- 2026-11-03: an address that does not exist answers 404 with this page (before, every unknown address returned the
+     home page with 200, which search engines count as a duplicate). Written by hand, one file, no outside requests -->
+<meta name="robots" content="noindex">
+<style>
+:root { --paper: #f5f3ee; --ink: #23221f; --ink-2: #3b3934; --oak: #b98b5e; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--paper); color: var(--ink); }
+body { display: grid; place-items: center; min-height: 100svh; padding: 24px 16px; font-family: 'Pretendard Variable', Pretendard, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+main { width: min(100%, 560px); }
+.code { margin: 0 0 14px; font-size: 15px; font-weight: 700; letter-spacing: .04em; color: var(--ink-2); }
+h1 { margin: 0; font-size: clamp(30px, 7vw, 44px); line-height: 1.2; font-weight: 800; }
+p { margin: 16px 0 0; font-size: 17px; line-height: 1.7; color: var(--ink-2); }
+a { display: inline-block; margin-top: 28px; padding-bottom: 3px; font-weight: 700; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--oak); }
+a:hover { border-bottom-color: var(--ink); }
+a:focus-visible { outline: 2px solid var(--oak); outline-offset: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="code">404</p>
+  <h1>찾으시는 페이지가 없어요</h1>
+  <p>주소가 바뀌었거나 없는 페이지예요. 딥플랫 첫 화면에서 다시 찾아보세요.</p>
+  <a href="https://deepflat.pages.dev/">딥플랫 첫 화면으로 가기</a>
+</main>
+</body>
+</html>

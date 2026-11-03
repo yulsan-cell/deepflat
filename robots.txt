@@ -1,4 +1,42 @@
+# DEEPFLAT 딥플랫 - https://deepflat.pages.dev
+# Search engines and AI search and answer services may all read the site (2026-11-03).
 User-agent: *
+Allow: /
+
+# Naver
+User-agent: Yeti
+Allow: /
+
+# AI search indexes and live fetches: needed to be quoted as a source
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# AI model training: lets future models know the brand
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://deepflat.pages.dev/sitemap.xml
