@@ -436,6 +436,14 @@ html.cm-ready #commercial:not(.is-open) ~ #process .flow-plus, html[data-aud="ho
 html.cm-ready #commercial:not(.is-open) ~ #process li:has(+ .flow-plus)::after, html[data-aud="home"] #process li:has(+ .flow-plus)::after { display: none; }
 }
 .cm-title:focus { outline: none; }
+/* 접기 (owner 2026-11-04: "다시 접는 기능은 없네"): top right of the opened section, level with the kicker */
+.cm-body { position: relative; }
+.cm-close { display: none; }
+@media screen {
+  html.cm-ready .cm-close { position: absolute; z-index: 1; top: -3px; right: 0; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; background: transparent; border: 1px solid var(--field); font: inherit; font-size: 14px; font-weight: 600; color: var(--ink-2); cursor: pointer; transition: background-color .16s ease, border-color .16s ease; }
+  html.cm-ready .cm-close::after { content: "↑"; color: var(--oak-ink); }
+  html.cm-ready .cm-close:hover { border-color: var(--ink); color: var(--ink); background: rgba(35, 34, 31, .05); }
+}
 @media screen and (max-width: 700px) {
   html.cm-ready #commercial:not(.is-open) .cm-teaser { grid-template-columns: minmax(0, 1fr); grid-template-areas: "kick" "title" "text" "btn"; }
   .cm-open { justify-content: center; width: 100%; margin-top: 16px; }
@@ -1739,6 +1747,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         <button class="btn-line cm-open" type="button" aria-expanded="false" aria-controls="cm-body">상업 공간 자세히 보기</button>
       </div>
       <div class="cm-body" id="cm-body">
+      <button class="cm-close" type="button" aria-controls="cm-body" aria-label="상업 공간 접기">접기</button>
       <header class="cm-head">
         <div>
           <p class="cm-kicker">상업 공간</p>
@@ -2168,6 +2177,9 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   const countEl = document.getElementById('pf-count');
   // the 상업 공간 section below the portfolio: it follows the 공간 종류 chosen here (owner 2026-11-04)
   const cmSec = document.getElementById('commercial');
+  // the 공간 종류 the section last followed: only a change opens or hides it, so a 업종 chip under 상업 공간 leaves a
+  // section the visitor folded as it is
+  let cmType = state.type;
   // only reachable with two categories (SHOW_COMMERCIAL true)
   // one span inside: the box is a flex row, so loose text and the nw span would become two columns
   const WAIT = '<p class="size-wait"><span>상업 공간은 업종, 주거 공간은 평형으로 한 번 더 <span class="nw">나눠 볼 수 있어요.</span></span></p>';
@@ -2285,8 +2297,11 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     // who is reading (owner 2026-11-04: "주거에 관심있는 사람은 필요없는 상업 프로세스를 보게 되잖아"): 상업 공간 opens the
     // 상업 공간 section, 주거 공간 hides it; 대표 leaves it as it is
     document.documentElement.dataset.aud = state.type === 'all' ? '' : state.type;
-    if (state.type === 'commercial') openCm(false);
-    if (state.type === 'home') closeCm();
+    if (state.type !== cmType) {
+      if (state.type === 'commercial') openCm(false);
+      if (state.type === 'home') closeCm();
+      cmType = state.type;
+    }
     let n = 0;
     cards.forEach((c) => {
       const ok = match(c, state.type, state.band);
@@ -2344,7 +2359,9 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   // a category chip always shows the whole category, also when it is already pressed with one 업종 chosen under it
   typeRow.addEventListener('click', (e) => {
     const b = e.target.closest('.chip');
-    if (b) set({ type: b.dataset.value, band: 'all' });
+    if (!b) return;
+    set({ type: b.dataset.value, band: 'all' });
+    if (b.dataset.value === 'commercial') openCm(false);
   });
   // the first screen's trade tags (data-pf, final/data/hero.mjs) open the portfolio on their category; the link's own
   // #portfolio does the scrolling. With two categories on a phone or a short screen the filters take the first screen
@@ -2353,6 +2370,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     const a = e.target.closest('a[data-pf]');
     if (!a || !TYPE[a.dataset.pf]) return;
     set({ type: a.dataset.pf, band: a.dataset.pfBand || 'all' });
+    if (a.dataset.pf === 'commercial') openCm(false);
     if (!ONE && matchMedia('(max-width: 739px), (max-height: 760px)').matches) {
       e.preventDefault();
       document.querySelector('#portfolio .result-line').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
@@ -2376,14 +2394,23 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     const t = head.getBoundingClientRect().top;
     if (t < pad || t > innerHeight * 0.7) head.scrollIntoView({ block: 'start' });
   }
-  function closeCm() {
+  function closeCm(focus) {
     if (!cmSec) return;
     cmSec.classList.remove('is-open');
-    cmSec.querySelector('.cm-open')?.setAttribute('aria-expanded', 'false');
+    const b = cmSec.querySelector('.cm-open');
+    b?.setAttribute('aria-expanded', 'false');
+    if (!focus) return;
+    b?.focus({ preventScroll: true });
+    // folding from below the section's top leaves the teaser above the screen: bring it back
+    const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    const t = cmSec.getBoundingClientRect().top;
+    if (t < 0 || t > innerHeight * 0.7) cmSec.scrollIntoView({ block: 'start' });
+    else if (t < pad) scrollBy({ top: t - pad });
   }
   if (cmSec) {
     document.documentElement.classList.add('cm-ready');
     cmSec.querySelector('.cm-open')?.addEventListener('click', () => openCm(true));
+    cmSec.querySelector('.cm-close')?.addEventListener('click', () => closeCm(true));
     const byHash = () => { if (location.hash === '#commercial' && state.type !== 'home') openCm(false); };
     byHash();
     addEventListener('hashchange', byHash);
