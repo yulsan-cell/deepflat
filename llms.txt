@@ -19,6 +19,7 @@
 
 - [회사 소개](https://deepflat.pages.dev/#about): 딥플랫이 일하는 방식과 이름에 담은 뜻
 - [포트폴리오](https://deepflat.pages.dev/#portfolio): 상업 공간 프로젝트
+- [상업 공간](https://deepflat.pages.dev/#commercial): 카페·식당, 매장·약국, 오피스의 설계·시공과 마케팅팀이 전담하는 매장 홍보
 - [스튜디오](https://deepflat.pages.dev/#studio): 설계, 공정별 견적서, 조명과 마감재를 다루는 방식과 매장 홍보
 - [진행 과정](https://deepflat.pages.dev/#process): 상담부터 완공 뒤 관리까지 여섯 단계
 - [자주 묻는 질문](https://deepflat.pages.dev/#faq): 회사, 맡는 공간, 면허와 보증, 진행 순서, 상담 방법
