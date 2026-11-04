@@ -356,6 +356,9 @@ button { cursor: pointer; }
    between the portfolio's stone and the schedule's paper. The cards are chalk blocks with the page's up-right sides;
    the badge and the period take the hero bulbs' pale gold (11:1 with ink, 10:1 on night) ---------- */
 .promo { background: #242422; color: var(--paper); }
+/* 2026-11-04 (owner: "상단과 하단 여백이 너무 많고"): a tighter band than the other sections, the head closer to the cards */
+.promo.sec { padding-block: clamp(64px, 7vw, 104px); }
+.promo .sec-head { margin-bottom: clamp(32px, 3.2vw, 48px); }
 .promo .sec-head h2 { color: var(--paper); }
 .promo .sec-head p { color: rgba(245, 243, 238, .84); }
 .promo .sec-head .promo-kicker { margin-bottom: 12px; font-size: 15px; font-weight: 600; letter-spacing: .02em; color: rgba(245, 243, 238, .72); }
@@ -364,6 +367,15 @@ button { cursor: pointer; }
 .promo-q { margin-top: 8px; font-size: 16.5px; font-weight: 600; line-height: 1.5; color: var(--muted-2); }
 .promo-intro { margin-top: 8px; line-height: 1.7; }
 .promo .sec-head .promo-period { margin-top: 14px; font-size: 14.5px; font-weight: 700; color: #f1c47f; }
+/* PC (2026-11-04): the lead runs on one line and the intro and the gold period share the next, split by a thin rule;
+   tablets and phones keep the held line breaks */
+@media (min-width: 1101px) {
+  .promo-head .promo-lead br, .promo-head .promo-intro br { display: none; }
+  .promo .sec-head .promo-lead { max-width: none; font-size: clamp(26px, 2.2vw, 32px); }
+  .promo-sub { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 24px; margin-top: 12px; }
+  .promo .sec-head .promo-sub p { margin-top: 0; max-width: none; }
+  .promo .sec-head .promo-sub .promo-period { padding-left: 24px; border-left: 1px solid rgba(245, 243, 238, .28); line-height: 1.2; }
+}
 .promo-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.2vw, 32px); }
 .promo-card {
   --sx: var(--ext-x); --sy: var(--ext-y);
@@ -372,6 +384,10 @@ button { cursor: pointer; }
   box-shadow: calc(var(--sx) * 2) calc(var(--sy) * 2) 0 var(--side-1), calc(var(--sx) * 4) calc(var(--sy) * 4) 0 var(--side-2), calc(var(--sx) * 6) calc(var(--sy) * 6) 0 var(--side-3);
 }
 .promo-badge { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; padding: 4px 10px 4px 4px; font-size: 13.5px; font-weight: 700; line-height: 1.3; color: var(--ink); background: #f1c47f; }
+/* the badge row: number and badge left, the card's line icon right; the upgrades' small up arrow is oak (2026-11-04) */
+.promo-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.promo-icon { width: 44px; height: 44px; flex: none; margin: -4px -4px 0 0; color: var(--ink); }
+.promo-icon .up { stroke: var(--oak-ink); }
 .promo-no { padding: 1px 6px; font-family: var(--display-en); font-weight: 800; font-size: 13px; letter-spacing: .02em; color: #f1c47f; background: var(--ink); }
 .promo-card h3 { font-size: clamp(21px, 1.8vw, 25px); font-weight: 800; line-height: 1.35; }
 .promo-benefit { font-size: 16px; line-height: 1.65; color: var(--ink-2); }
@@ -385,7 +401,7 @@ button { cursor: pointer; }
 .promo .promo-cta { background: var(--paper); color: var(--ink); }
 .promo .promo-cta:hover { background: #fff; }
 /* up to 900px the cards stack in one column, and the header stacks with them so both share one left edge */
-@media (max-width: 900px) { .promo .sec-head { grid-template-columns: minmax(0, 1fr); } .promo-cards { grid-template-columns: minmax(0, 1fr); max-width: 560px; } }
+@media (max-width: 900px) { .promo .sec-head { grid-template-columns: minmax(0, 1fr); } .promo-cards { grid-template-columns: minmax(0, 1fr); max-width: 560px; } .promo-icon { width: 40px; height: 40px; } }
 @media (max-width: 700px) { .promo-foot .promo-cta { display: flex; width: 100%; } }
 @media (max-width: 760px) { .sec-head { grid-template-columns: 1fr; } }
 .tag-ex, .tag-demo { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; font-size: 12.5px; font-weight: 600; line-height: 1; color: var(--muted-2); border: 1px solid #bdb4a4; white-space: nowrap; }
@@ -485,7 +501,12 @@ button { cursor: pointer; }
 .promo-bar { background: #f1c47f; }
 .promo-bar-link { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; min-height: 68px; padding: 12px 0; color: var(--ink); text-decoration: none; font-size: 15px; }
 .pb-tag { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; font-size: 13.5px; font-weight: 800; letter-spacing: .01em; color: #f1c47f; background: var(--ink); white-space: nowrap; }
-.pb-tag i { width: 7px; height: 7px; border-radius: 50%; background: #f1c47f; }
+.pb-tag i { width: 8px; height: 8px; border-radius: 50%; background: #f1c47f; }
+/* 프로모션 진행 중 (owner 2026-11-04: "깜빡 표시"): the dot blinks three times each time the strip comes on screen (the
+   script sets .is-live) and then holds, so nothing flashes on for more than five seconds (WCAG 2.2.2); still under
+   reduced motion */
+@keyframes pb-blink { 50% { opacity: .15; } }
+@media (prefers-reduced-motion: no-preference) { .promo-bar.is-live .pb-tag i { animation: pb-blink 1.6s ease-in-out 3; } }
 .pb-hook { font-size: clamp(16.5px, 1.45vw, 20px); font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
 .pb-when { font-weight: 600; color: rgba(35, 34, 31, .78); }
 .pb-more { margin-left: auto; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; font-weight: 800; color: var(--paper); background: var(--ink); white-space: nowrap; box-shadow: 2px -2px 0 rgba(35, 34, 31, .28); }
@@ -493,7 +514,7 @@ button { cursor: pointer; }
 .promo-bar-link:hover .pb-more { background: #000; }
 .promo-bar-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 @media (max-width: 900px) { .pb-when { display: none; } }
-@media (max-width: 560px) { .promo-bar-link { gap: 10px 12px; padding: 12px 0 14px; } .pb-hook { order: 3; flex: 1 1 100%; font-size: 17px; } .pb-more { min-height: 40px; padding: 0 14px; font-size: 14px; } }
+@media (max-width: 560px) { .promo-bar-link { gap: 10px 12px; padding: 12px 0 14px; } .pb-hook { order: 3; flex: 1 1 100%; font-size: 17px; text-wrap: balance; } .pb-more { min-height: 40px; padding: 0 14px; font-size: 14px; } }
 
 /* the first screen's line under the words: 율산 인테리어's years and count (final/svg/flight.mjs) */
 .fl-heritage { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; font-weight: 700; color: var(--oak-ink); }
@@ -1368,7 +1389,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   </section>
 
   <!-- the promotion in one line, under the record band, linking down to the 프로모션 block (GEN:promo-bar, final/svg/promo.mjs) -->
-  <aside class="promo-bar" aria-label="프로모션 안내"><div class="wrap"><!--GEN:promo-bar--><a class="promo-bar-link" href="#promotion"><span class="pb-tag"><i aria-hidden="true"></i>퍼스트 하우스 10</span><span class="pb-hook">딥플랫의 기준이 될 첫 열 집을 모십니다</span><span class="pb-when">집 전체 리모델링 · 첫 10세대</span><span class="pb-more">자세히 보기</span></a><!--/GEN:promo-bar--></div></aside>
+  <aside class="promo-bar" aria-label="프로모션 안내"><div class="wrap"><!--GEN:promo-bar--><a class="promo-bar-link" href="#promotion"><span class="pb-tag"><i aria-hidden="true"></i>프로모션 진행 중</span><span class="pb-hook">딥플랫의 기준이 될 퍼스트 하우스 열 집을 모십니다</span><span class="pb-when">집 전체 리모델링 · 런칭 뒤 12주</span><span class="pb-more">자세히 보기</span></a><!--/GEN:promo-bar--></div></aside>
 
   <section class="brand-sec" id="about" aria-labelledby="about-title">
     <div class="wrap about-grid">
@@ -1597,7 +1618,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   <!-- 프로모션 (2026-10-27, owner; called 이벤트 at first; after the portfolio since 2026-10-28, with a slim bar under the record band keeping it in sight (GEN:promo-bar)): the studio's offers, from final/data/promo.mjs (GEN:promo). Kept as written for now,
        but the event is not confirmed: the owner decides the final offers before the page goes public -->
   <section class="sec promo" id="promotion" aria-labelledby="pm-title">
-    <div class="wrap"><!--GEN:promo--><header class="sec-head promo-head"><div><p class="promo-kicker">딥플랫 런칭 · 퍼스트 하우스 10</p><h2 id="pm-title">프로모션</h2></div><div><p class="promo-lead">딥플랫의 기준이 될<br>첫 열 집을 모십니다</p><p class="promo-intro">양변기·세면기와 붙박이 하나를<br>한 단계 좋은 사양으로 바꿔 드려요.</p><p class="promo-period">집 전체 리모델링 · 런칭 뒤 12주 · 첫 10세대</p></div></header><ul class="promo-cards"><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">01</span>기본 제공</p><p class="promo-q">이왕 바꾸는 욕실 도기,<br>더 좋은 걸 원한다면</p><h3>욕실 도기 업그레이드</h3><p class="promo-benefit">양변기·세면기를 한 단계<br>좋은 모델로 바꿔 드려요.</p><p class="promo-cond">욕실 도기 교체가 공사에 들어 있으면 적용되고, 모델은 딥플랫이 추린 두세 가지 중에서 직접 골라요</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">02</span>기본 제공</p><p class="promo-q">매일 쓰는 곳 하나만큼은<br>욕심내고 싶다면</p><h3>붙박이 하나 업그레이드</h3><p class="promo-benefit">현관 수납장, 드레스룸,<br>주방 간접조명 중 골라요.</p><p class="promo-cond">고른 공간이 공사에 들어 있으면 적용되고, 마감 색과 모델도 두세 가지 중에서 골라요</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">03</span>선택 참여</p><p class="promo-q">완성된 우리 집을<br>보여 줘도 괜찮다면</p><h3>완공 촬영 감사 선물</h3><p class="promo-benefit">완공 촬영과 입주 인터뷰에<br>함께하시면 디퓨저를 드려요.</p><p class="promo-cond">서면 동의를 받은 뒤 얼굴 없이 집 안만 찍고, 함께하지 않으셔도 두 업그레이드는 그대로예요</p></li></ul><div class="promo-foot"><ul class="promo-notes"><li>런칭 뒤 12주 안에 집 전체 리모델링을 먼저 계약하는 10세대가 대상이고, 다 차면 마감해요.</li><li>업그레이드 사양과 범위는 상담 때 정해 드리고, 넘는 부분이나 다른 모델은 따로 견적을 드려요.</li><li>업그레이드 대신 현금을 받거나 공사비에서 빼거나, 다른 품목으로 바꿀 수는 없어요.</li><li>현장 실측은 프로모션과 상관없이 누구나 무료예요.</li></ul><a class="btn-block promo-cta" href="#contact">우리 집도 해당되는지 물어보기</a></div><!--/GEN:promo--></div>
+    <div class="wrap"><!--GEN:promo--><header class="sec-head promo-head"><div><p class="promo-kicker">딥플랫 런칭 기념</p><h2 id="pm-title">프로모션</h2></div><div><p class="promo-lead">딥플랫의 기준이 될 <br>퍼스트 하우스 열 집을 모십니다</p><div class="promo-sub"><p class="promo-intro">양변기·세면기와 붙박이 하나를 <br>한 단계 좋은 사양으로 바꿔 드려요.</p><p class="promo-period">집 전체 리모델링 · 런칭 뒤 12주 안에 계약</p></div></div></header><ul class="promo-cards"><li class="promo-card"><div class="promo-top"><p class="promo-badge"><span class="promo-no" aria-hidden="true">01</span>기본 제공</p><svg class="promo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11V4.5A1.5 1.5 0 0 1 5.5 3h4A1.5 1.5 0 0 1 11 4.5V11"/><path d="M3 11h17"/><path d="M20 11a6.5 6 0 0 1-6.5 6l.5 4H7.5L6 11"/><path class="up" d="M19 8V3M16.8 5.2 19 3l2.2 2.2"/></svg></div><p class="promo-q">이왕 바꾸는 욕실 도기, <br>더 좋은 걸 원한다면</p><h3>욕실 도기 업그레이드</h3><p class="promo-benefit">양변기·세면기를 한 단계 <br>좋은 모델로 바꿔 드려요.</p><p class="promo-cond">욕실 도기 교체가 공사에 들어 있으면 적용되고, 모델은 딥플랫이 추린 두세 가지 중에서 직접 골라요</p></li><li class="promo-card"><div class="promo-top"><p class="promo-badge"><span class="promo-no" aria-hidden="true">02</span>기본 제공</p><svg class="promo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 3h11v18H4Z"/><path d="M4 16h11M9.5 3v13"/><path d="M7.8 8.5v2.5M11.2 8.5v2.5M8.5 18.5h2"/><path class="up" d="M19 8V3M16.8 5.2 19 3l2.2 2.2"/></svg></div><p class="promo-q">매일 쓰는 곳 하나만큼은 <br>욕심내고 싶다면</p><h3>붙박이 하나 업그레이드</h3><p class="promo-benefit">현관 수납장, 드레스룸, <br>주방 간접조명 중 골라요.</p><p class="promo-cond">고른 공간이 공사에 들어 있으면 적용되고, 마감 색과 모델도 두세 가지 중에서 골라요</p></li><li class="promo-card"><div class="promo-top"><p class="promo-badge"><span class="promo-no" aria-hidden="true">03</span>선택 참여</p><svg class="promo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 8h17v4h-17Z"/><path d="M5 12v9h14v-9"/><path d="M12 8v13"/><path d="M12 8C10.5 5.5 7 3.5 6.5 5.8 6.1 7.5 9.5 8 12 8Zm0 0c1.5-2.5 5-4.5 5.5-2.2.4 1.7-3 2.2-5.5 2.2Z"/></svg></div><p class="promo-q">완성된 우리 집을 <br>보여 줘도 괜찮다면</p><h3>완공 촬영 감사 선물</h3><p class="promo-benefit">완공 촬영과 입주 인터뷰에 <br>함께하시면 디퓨저를 드려요.</p><p class="promo-cond">서면 동의를 받은 뒤 얼굴 없이 집 안만 찍고, 함께하지 않으셔도 두 업그레이드는 그대로예요</p></li></ul><div class="promo-foot"><ul class="promo-notes"><li>런칭 뒤 12주 안에 집 전체 리모델링을 먼저 계약하는 10세대가 대상이고, 다 차면 마감해요.</li><li>업그레이드 사양과 범위는 상담 때 정해 드리고, 넘는 부분이나 다른 모델은 따로 견적을 드려요.</li><li>업그레이드 대신 현금을 받거나 공사비에서 빼거나, 다른 품목으로 바꿀 수는 없어요.</li><li>현장 실측은 프로모션과 상관없이 누구나 무료예요.</li></ul><a class="btn-block promo-cta" href="#contact">우리 집도 해당되는지 물어보기</a></div><!--/GEN:promo--></div>
   </section>
 
   <section class="sec" id="studio" aria-labelledby="st-title">
@@ -1822,9 +1843,10 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   onScrollNav();
   addEventListener('scroll', onScrollNav, { passive: true });
 
-  /* ---------- endless motion only on screen: the brand band and the '예약 가능' blink get .is-live while visible ---------- */
+  /* ---------- endless motion only on screen: the brand band and the '예약 가능' blink get .is-live while visible; the
+     promotion strip gets it too, which starts its dot's three blinks each time it comes on screen ---------- */
   {
-    const moving = document.querySelectorAll('.partners, .months');
+    const moving = document.querySelectorAll('.partners, .months, .promo-bar');
     if ('IntersectionObserver' in window) {
       const live = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('is-live', e.isIntersecting)), { rootMargin: '100px 0px' });
       moving.forEach((el) => live.observe(el));
