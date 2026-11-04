@@ -415,6 +415,31 @@ button { cursor: pointer; }
 }
 @media (max-width: 700px) { .cm-foot .cm-cta { display: flex; width: 100%; } }
 @media (max-width: 380px) { .cm-title { font-size: 36px; } }
+/* who sees it (owner 2026-11-04: "주거에 관심있는 사람은 필요없는 상업 프로세스를 보게 되잖아"): with the script running
+   (html.cm-ready) the section starts folded to one line, opens (.is-open) for commercial visitors, and is gone for
+   home visitors (html[data-aud="home"], set by the portfolio's 공간 종류); the process's + 매장 홍보 step and its dashed
+   lead-in show only while it is open. Without script everything shows */
+.cm-teaser { display: none; }
+@media screen {
+html.cm-ready #commercial:not(.is-open) { padding-block: clamp(30px, 3.4vw, 48px); }
+html.cm-ready #commercial:not(.is-open) .cm-body { display: none; }
+html.cm-ready #commercial:not(.is-open) .cm-teaser { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "kick btn" "title btn" "text btn"; align-items: center; column-gap: 32px; }
+.cm-teaser .cm-kicker { grid-area: kick; margin-bottom: 6px; }
+.cm-teaser-title { grid-area: title; font-size: clamp(21px, 1.9vw, 27px); font-weight: 800; line-height: 1.35; letter-spacing: -.015em; color: var(--ink); }
+.cm-teaser-text { grid-area: text; margin-top: 4px; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+.cm-open { grid-area: btn; gap: 8px; }
+.cm-open::after { content: "↓"; color: var(--oak-ink); }
+/* a home visitor never gets the + step back, even if the address returns to #commercial; the :has() rule stands
+   alone, so a browser without :has() drops only the dashed lead-in, never the hiding of the step */
+html[data-aud="home"] #commercial { display: none; }
+html.cm-ready #commercial:not(.is-open) ~ #process .flow-plus, html[data-aud="home"] #process .flow-plus { display: none; }
+html.cm-ready #commercial:not(.is-open) ~ #process li:has(+ .flow-plus)::after, html[data-aud="home"] #process li:has(+ .flow-plus)::after { display: none; }
+}
+.cm-title:focus { outline: none; }
+@media screen and (max-width: 700px) {
+  html.cm-ready #commercial:not(.is-open) .cm-teaser { grid-template-columns: minmax(0, 1fr); grid-template-areas: "kick" "title" "text" "btn"; }
+  .cm-open { justify-content: center; width: 100%; margin-top: 16px; }
+}
 
 /* ---------- 프로모션: the offers on a night band (the brand picture's #242422), so the section reads as its own moment
    between the portfolio's stone and the schedule's paper. The cards are chalk blocks with the page's up-right sides;
@@ -1705,10 +1730,19 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
        after the portfolio's shops and before the homes promotion (workflow wf_41f174ba-509, picked by both judges) -->
   <section class="sec cm-sec" id="commercial" aria-labelledby="cm-title">
     <div class="wrap">
+      <!-- folded, the section is this one line (owner 2026-11-04: home visitors should not have to go through the
+           commercial process); the script opens it for commercial visitors and hides it for home visitors -->
+      <div class="cm-teaser">
+        <p class="cm-kicker">상업 공간</p>
+        <p class="cm-teaser-title" role="heading" aria-level="2">설계부터 시공, <span class="nw">매장 홍보까지</span></p>
+        <p class="cm-teaser-text"><span class="nw">카페·식당,</span> <span class="nw">매장·약국,</span> 오피스는 공사를 마친 뒤 마케팅팀이 홍보까지 맡아요.</p>
+        <button class="btn-line cm-open" type="button" aria-expanded="false" aria-controls="cm-body">상업 공간 자세히 보기</button>
+      </div>
+      <div class="cm-body" id="cm-body">
       <header class="cm-head">
         <div>
           <p class="cm-kicker">상업 공간</p>
-          <h2 class="cm-title" id="cm-title">설계부터 시공,<br> <span class="cm-mark">매장 홍보까지</span></h2>
+          <h2 class="cm-title" id="cm-title" tabindex="-1">설계부터 시공,<br> <span class="cm-mark">매장 홍보까지</span></h2>
         </div>
         <p class="cm-lead"><span class="nw">카페·식당,</span> <span class="nw">매장·약국,</span> <span class="nw">오피스를</span> 의뢰하시면 설계와 시공을 마친 뒤 <span class="nw">홍보까지</span> 딥플랫이 이어서&nbsp;맡아요.</p>
       </header>
@@ -1720,6 +1754,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         <div class="cm-step is-promo" role="listitem"><div class="cm-top"><svg class="cm-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5v3a1 1 0 0 0 1 1H7l7 4.5V5L7 9.5H4.5a1 1 0 0 0-1 1Z"/><path d="M7.5 14.5 9 20h2.5l-1-4.2"/><path d="M17.5 9.5a3.5 3.5 0 0 1 0 5"/><path d="M19.8 7a7 7 0 0 1 0 10"/></svg></div><h3>매장 홍보</h3><p>공사를 마친 매장을 알리는 일은 <span class="nw">마케팅팀이 전담해요.</span></p></div>
       </div>
       <div class="cm-foot"><a class="btn-block cm-cta" href="#contact" data-ref-lead="상담할 내용" data-ref-title="상업 공간" data-ref-detail="설계·시공·매장 홍보">상업 공간 상담하기</a></div>
+      </div>
     </div>
   </section>
 
@@ -2131,6 +2166,8 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   const emptyText = document.getElementById('pf-empty-text');
   const emptyActions = document.getElementById('pf-empty-actions');
   const countEl = document.getElementById('pf-count');
+  // the 상업 공간 section below the portfolio: it follows the 공간 종류 chosen here (owner 2026-11-04)
+  const cmSec = document.getElementById('commercial');
   // only reachable with two categories (SHOW_COMMERCIAL true)
   // one span inside: the box is a flex row, so loose text and the nw span would become two columns
   const WAIT = '<p class="size-wait"><span>상업 공간은 업종, 주거 공간은 평형으로 한 번 더 <span class="nw">나눠 볼 수 있어요.</span></span></p>';
@@ -2245,6 +2282,11 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   pfList.addEventListener('scroll', () => { if (!swipeRaf) swipeRaf = requestAnimationFrame(() => { swipeRaf = 0; syncSwipe(); }); }, { passive: true });
   if ('ResizeObserver' in window) new ResizeObserver(() => { layoutWide(); syncSwipe(); }).observe(pfList);
   function renderPf() {
+    // who is reading (owner 2026-11-04: "주거에 관심있는 사람은 필요없는 상업 프로세스를 보게 되잖아"): 상업 공간 opens the
+    // 상업 공간 section, 주거 공간 hides it; 대표 leaves it as it is
+    document.documentElement.dataset.aud = state.type === 'all' ? '' : state.type;
+    if (state.type === 'commercial') openCm(false);
+    if (state.type === 'home') closeCm();
     let n = 0;
     cards.forEach((c) => {
       const ok = match(c, state.type, state.band);
@@ -2320,6 +2362,32 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     const b = e.target.closest('.chip');
     if (b) set({ band: b.dataset.value });
   });
+  // the 상업 공간 section folds to one line until a visitor shows a commercial interest; its button opens it and moves
+  // focus to the heading that replaces the line; arriving on #commercial opens it too
+  function openCm(focus) {
+    if (!cmSec || cmSec.classList.contains('is-open')) return;
+    cmSec.classList.add('is-open');
+    cmSec.querySelector('.cm-open')?.setAttribute('aria-expanded', 'true');
+    if (!focus) return;
+    document.getElementById('cm-title')?.focus({ preventScroll: true });
+    // the opened heading sits higher (phones: under the nav) or lower (PC) than the line it replaces
+    const head = cmSec.querySelector('.cm-head');
+    const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    const t = head.getBoundingClientRect().top;
+    if (t < pad || t > innerHeight * 0.7) head.scrollIntoView({ block: 'start' });
+  }
+  function closeCm() {
+    if (!cmSec) return;
+    cmSec.classList.remove('is-open');
+    cmSec.querySelector('.cm-open')?.setAttribute('aria-expanded', 'false');
+  }
+  if (cmSec) {
+    document.documentElement.classList.add('cm-ready');
+    cmSec.querySelector('.cm-open')?.addEventListener('click', () => openCm(true));
+    const byHash = () => { if (location.hash === '#commercial' && state.type !== 'home') openCm(false); };
+    byHash();
+    addEventListener('hashchange', byHash);
+  }
   // the size row is drawn at load (one category: its 평형 chips; otherwise 세부 and WAIT), so the static markup only
   // serves visitors without script
   drawSizes();
@@ -3059,7 +3127,8 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   let frame = 0;
   const sweep = (line = innerHeight * 0.88) => {
     frame = 0;
-    for (const g of pending) if (g.getBoundingClientRect().top < line) show(g);
+    // a group with no box (the folded 상업 공간) waits for the observer, so it still rises when it opens
+    for (const g of pending) if (g.getClientRects().length && g.getBoundingClientRect().top < line) show(g);
     if (!pending.size) removeEventListener('scroll', onScroll);
   };
   const onScroll = () => frame || (frame = requestAnimationFrame(() => sweep()));
