@@ -479,17 +479,21 @@ button { cursor: pointer; }
 }
 /* ---------- the promotion bar under the record band (GEN:promo-bar): one line on the night colour with the nav's gold
    dot; the offers drop out on narrow screens ---------- */
-.promo-bar { background: #242422; }
-.promo-bar-link { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; min-height: 58px; padding: 12px 0; color: rgba(245, 243, 238, .86); text-decoration: none; font-size: 14.5px; }
-.pb-tag { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: #f1c47f; }
-.pb-tag i { width: 8px; height: 8px; border-radius: 50%; background: #f1c47f; }
-.pb-when { font-weight: 600; color: var(--paper); }
-.pb-offers { flex: 1 1 auto; min-width: 0; color: rgba(245, 243, 238, .72); }
-.pb-more { margin-left: auto; font-weight: 700; color: var(--paper); white-space: nowrap; }
-.pb-more::after { content: " →"; color: #f1c47f; }
-.promo-bar-link:hover .pb-more { text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 900px) { .pb-offers { display: none; } }
-@media (max-width: 420px) { .promo-bar-link { gap: 4px 12px; font-size: 13.5px; } }
+/* 2026-11-04 (owner: "띠배너도 눈에 잘 안들어와"): gold, the brand's promotion colour, so it stands apart from the chalk
+   record band above; ink on gold is 11:1. Row: tag, hook, who it is for, button. Under 900px the who-line goes;
+   under 560px the hook takes its own line under the tag and the button */
+.promo-bar { background: #f1c47f; }
+.promo-bar-link { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; min-height: 68px; padding: 12px 0; color: var(--ink); text-decoration: none; font-size: 15px; }
+.pb-tag { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; font-size: 13.5px; font-weight: 800; letter-spacing: .01em; color: #f1c47f; background: var(--ink); white-space: nowrap; }
+.pb-tag i { width: 7px; height: 7px; border-radius: 50%; background: #f1c47f; }
+.pb-hook { font-size: clamp(16.5px, 1.45vw, 20px); font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
+.pb-when { font-weight: 600; color: rgba(35, 34, 31, .78); }
+.pb-more { margin-left: auto; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; font-weight: 800; color: var(--paper); background: var(--ink); white-space: nowrap; box-shadow: 2px -2px 0 rgba(35, 34, 31, .28); }
+.pb-more::after { content: "\2002→"; color: #f1c47f; }
+.promo-bar-link:hover .pb-more { background: #000; }
+.promo-bar-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 900px) { .pb-when { display: none; } }
+@media (max-width: 560px) { .promo-bar-link { gap: 10px 12px; padding: 12px 0 14px; } .pb-hook { order: 3; flex: 1 1 100%; font-size: 17px; } .pb-more { min-height: 40px; padding: 0 14px; font-size: 14px; } }
 
 /* the first screen's line under the words: 율산 인테리어's years and count (final/svg/flight.mjs) */
 .fl-heritage { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; font-weight: 700; color: var(--oak-ink); }
@@ -1364,7 +1368,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   </section>
 
   <!-- the promotion in one line, under the record band, linking down to the 프로모션 block (GEN:promo-bar, final/svg/promo.mjs) -->
-  <aside class="promo-bar" aria-label="프로모션 안내"><div class="wrap"><!--GEN:promo-bar--><a class="promo-bar-link" href="#promotion"><span class="pb-tag"><i aria-hidden="true"></i>퍼스트 하우스 10</span><span class="pb-when">런칭 12주 · 선착순 10세대</span><span class="pb-offers">도기 업그레이드 · 붙박이 1가지 업그레이드 · 완공 촬영 감사 선물</span><span class="pb-more">혜택 보기</span></a><!--/GEN:promo-bar--></div></aside>
+  <aside class="promo-bar" aria-label="프로모션 안내"><div class="wrap"><!--GEN:promo-bar--><a class="promo-bar-link" href="#promotion"><span class="pb-tag"><i aria-hidden="true"></i>퍼스트 하우스 10</span><span class="pb-hook">할인 대신, 집에 남는 걸 드려요</span><span class="pb-when">집 전체 리모델링 · 선착순 10세대</span><span class="pb-more">혜택 보기</span></a><!--/GEN:promo-bar--></div></aside>
 
   <section class="brand-sec" id="about" aria-labelledby="about-title">
     <div class="wrap about-grid">
@@ -1593,7 +1597,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   <!-- 프로모션 (2026-10-27, owner; called 이벤트 at first; after the portfolio since 2026-10-28, with a slim bar under the record band keeping it in sight (GEN:promo-bar)): the studio's offers, from final/data/promo.mjs (GEN:promo). Kept as written for now,
        but the event is not confirmed: the owner decides the final offers before the page goes public -->
   <section class="sec promo" id="promotion" aria-labelledby="pm-title">
-    <div class="wrap"><!--GEN:promo--><header class="sec-head promo-head"><div><p class="promo-kicker">딥플랫 런칭 프로모션</p><h2 id="pm-title">프로모션</h2></div><div><p class="promo-lead">퍼스트 하우스 10<br>딥플랫의 첫 열 집을 모셔요</p><p class="promo-intro">할인 대신, 매일 쓰는 곳을<br>한 단계 좋은 사양으로 지어 드려요.</p><p class="promo-period">런칭 12주 동안 · 선착순 10세대</p></div></header><ul class="promo-cards"><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">01</span>프로모션 1</p><p class="promo-q">매일 쓰는 욕실 도기가<br>아쉬웠다면</p><h3>도기 업그레이드</h3><p class="promo-benefit">양변기·세면기를 한 단계<br>좋은 모델로 바꿔 드려요.</p><p class="promo-cond">욕실 도기 교체가 공사에 들어 있는 집, 모델은 2~3가지 중에 골라요</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">02</span>프로모션 2</p><p class="promo-q">매일 쓰는 곳 하나를<br>더 좋게 바꾸고 싶다면</p><h3>붙박이 1가지 업그레이드</h3><p class="promo-benefit">현관 수납장·드레스룸·주방<br>간접조명 중 하나를 골라요.</p><p class="promo-cond">고른 공간이 공사 범위에 들어 있는 집, 마감 색과 모델은 2~3가지 중에 골라요</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">03</span>감사 선물</p><p class="promo-q">완성된 우리 집을<br>기록으로 남긴다면</p><h3>완공 촬영 감사 선물</h3><p class="promo-benefit">완공 사진과 영상 촬영에<br>함께하시면 디퓨저를 드려요.</p><p class="promo-cond">얼굴은 공개하지 않고, 촬영 전에 서면으로 동의를 받아요. 촬영하지 않아도 1·2는 그대로예요</p></li></ul><div class="promo-foot"><ul class="promo-notes"><li>대상은 런칭 12주 동안 주거 공간 전체 리모델링을 계약하는 선착순 10세대예요.</li><li>업그레이드는 딥플랫이 정한 사양과 범위로 시공해 드려요. 현금 할인이나 공사비 차감은 없어요.</li><li>정한 범위를 넘는 부분과 목록에 없는 모델은 일반 공사처럼 견적을 드려요.</li><li>현장 실측은 프로모션과 상관없이 무료예요.</li></ul><a class="btn-block promo-cta" href="#contact">카카오톡으로 상담하기</a></div><!--/GEN:promo--></div>
+    <div class="wrap"><!--GEN:promo--><header class="sec-head promo-head"><div><p class="promo-kicker">딥플랫 런칭 · 퍼스트 하우스 10</p><h2 id="pm-title">프로모션</h2></div><div><p class="promo-lead">할인 대신,<br>집에 남는 걸 드려요</p><p class="promo-intro">양변기·세면기와 붙박이 하나를<br>한 단계 좋은 사양으로 바꿔 드려요.</p><p class="promo-period">집 전체 리모델링 · 런칭 뒤 12주 · 선착순 10세대</p></div></header><ul class="promo-cards"><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">01</span>추가금 없이</p><p class="promo-q">이왕 바꾸는 욕실 도기,<br>더 좋은 걸 원한다면</p><h3>욕실 도기 업그레이드</h3><p class="promo-benefit">양변기·세면기를 한 단계<br>좋은 모델로 바꿔 드려요.</p><p class="promo-cond">욕실 도기 교체가 공사에 들어 있으면 적용되고, 모델은 딥플랫이 추린 두세 가지 중에서 직접 골라요</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">02</span>추가금 없이</p><p class="promo-q">매일 쓰는 곳 하나만큼은<br>욕심내고 싶다면</p><h3>붙박이 하나 업그레이드</h3><p class="promo-benefit">현관 수납장, 드레스룸,<br>주방 간접조명 중 골라요.</p><p class="promo-cond">고른 공간이 공사에 들어 있으면 적용되고, 마감 색과 모델도 두세 가지 중에서 골라요</p></li><li class="promo-card"><p class="promo-badge"><span class="promo-no" aria-hidden="true">03</span>원하는 분만</p><p class="promo-q">완성된 우리 집을<br>보여 줘도 괜찮다면</p><h3>완공 촬영 감사 선물</h3><p class="promo-benefit">완공 촬영과 입주 인터뷰에<br>함께하시면 디퓨저를 드려요.</p><p class="promo-cond">서면 동의를 받은 뒤 얼굴 없이 집 안만 찍고, 함께하지 않으셔도 두 업그레이드는 그대로예요</p></li></ul><div class="promo-foot"><ul class="promo-notes"><li>런칭 뒤 12주 안에 집 전체 리모델링을 계약하는 선착순 10세대가 대상이고, 다 차면 마감해요.</li><li>업그레이드 사양과 범위는 상담 때 정해 드리고, 넘는 부분이나 다른 모델은 따로 견적을 드려요.</li><li>업그레이드 대신 현금을 받거나 공사비에서 빼거나, 다른 품목으로 바꿀 수는 없어요.</li><li>현장 실측은 프로모션과 상관없이 누구나 무료예요.</li></ul><a class="btn-block promo-cta" href="#contact">우리 집도 해당되는지 물어보기</a></div><!--/GEN:promo--></div>
   </section>
 
   <section class="sec" id="studio" aria-labelledby="st-title">
