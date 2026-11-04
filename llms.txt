@@ -19,7 +19,7 @@
 
 - [회사 소개](https://deepflat.pages.dev/#about): 딥플랫이 일하는 방식과 이름에 담은 뜻
 - [포트폴리오](https://deepflat.pages.dev/#portfolio): 상업 공간 프로젝트
-- [스튜디오](https://deepflat.pages.dev/#studio): 설계, 공정별 견적서, 조명과 마감재를 다루는 방식
+- [스튜디오](https://deepflat.pages.dev/#studio): 설계, 공정별 견적서, 조명과 마감재를 다루는 방식과 매장 홍보
 - [진행 과정](https://deepflat.pages.dev/#process): 상담부터 완공 뒤 관리까지 여섯 단계
-- [자주 묻는 질문](https://deepflat.pages.dev/#faq): 회사, 맡는 공간, 경력, 면허와 보증, 진행 순서, 상담 방법
+- [자주 묻는 질문](https://deepflat.pages.dev/#faq): 회사, 맡는 공간, 면허와 보증, 진행 순서, 상담 방법
 - [상담](https://deepflat.pages.dev/#contact): 카카오톡 상담과 보내 주시면 좋은 내용
