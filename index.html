@@ -455,7 +455,8 @@ button { cursor: pointer; }
 /* who sees it (owner 2026-11-04: "주거에 관심있는 사람은 필요없는 상업 프로세스를 보게 되잖아"): with the script running
    (html.cm-ready) the section starts folded to one line, opens (.is-open) for commercial visitors, and is gone for
    home visitors (html[data-aud="home"], set by the portfolio's 공간 종류); the process's + 매장 홍보 step and its dashed
-   lead-in show only while it is open. Without script everything shows */
+   lead-in show for every visitor but a home one (2026-11-09, owner: "홍보 관련 프로세스가 없네": it used to wait for the section to open).
+   Without script everything shows */
 .cm-teaser { display: none; }
 @media screen {
 html.cm-ready #commercial:not(.is-open) { padding-block: clamp(30px, 3.4vw, 48px); }
@@ -469,8 +470,8 @@ html.cm-ready #commercial:not(.is-open) .cm-teaser { display: grid; grid-templat
 /* a home visitor never gets the + step back, even if the address returns to #commercial; the :has() rule stands
    alone, so a browser without :has() drops only the dashed lead-in, never the hiding of the step */
 html[data-aud="home"] #commercial { display: none; }
-html.cm-ready #commercial:not(.is-open) ~ #process .flow-plus, html[data-aud="home"] #process .flow-plus { display: none; }
-html.cm-ready #commercial:not(.is-open) ~ #process li:has(+ .flow-plus)::after, html[data-aud="home"] #process li:has(+ .flow-plus)::after { display: none; }
+html[data-aud="home"] #process .flow-plus { display: none; }
+html[data-aud="home"] #process li:has(+ .flow-plus)::after { display: none; }
 }
 .cm-title:focus { outline: none; }
 /* 접기 (owner 2026-11-04: "다시 접는 기능은 없네"): top right of the opened section, level with the kicker */
