@@ -1,0 +1,8 @@
+# Cloudflare Pages response headers (2026-11-11). Pictures keep an hour (they are often replaced under the same name,
+# so no longer); the icons a day. The page itself keeps the default (always revalidated), so edits show at once.
+/images/*
+  Cache-Control: public, max-age=3600
+/favicon-192.png
+  Cache-Control: public, max-age=86400
+/favicon.ico
+  Cache-Control: public, max-age=86400
