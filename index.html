@@ -80,6 +80,7 @@
 html { scroll-padding-top: calc(var(--nav-h) + 12px); -webkit-text-size-adjust: 100%; }
 /* the project viewer locks the page; the script pads it by the scrollbar width it removes, so nothing shifts */
 html.is-locked { overflow: hidden; }
+dialog:not([open]) { display: none; } /* browsers without <dialog> styles keep the closed windows hidden */
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
   margin: 0;
@@ -1237,6 +1238,70 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
 .pfd { --pfd-pad: clamp(16px, 3vw, 40px); width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: var(--pfd-pad); border: 0; background: transparent; color: var(--ink); overflow: hidden; }
 .pfd[open] { display: flex; align-items: center; justify-content: center; }
 .pfd::backdrop { background: rgba(35, 34, 31, .62); }
+/* ---------- 내 공사 일정 확인: a window inside the page (2026-11-16) ----------
+   The lookup used to open the Apps Script page itself, under Google's "이 애플리케이션은 Google Apps Script 사용자가
+   만들었습니다" bar and in its own look. Now the page asks the same web app for the data (doPost, unchanged) and shows
+   it here, in the page's own paper, ink and oak. No ember: that stays on the logo. */
+.trk { --trk-pad: clamp(16px, 3vw, 40px); width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: var(--trk-pad); border: 0; background: transparent; color: var(--ink); overflow: hidden; }
+.trk[open] { display: flex; align-items: center; justify-content: center; }
+.trk::backdrop { background: rgba(35, 34, 31, .62); }
+.trk-sheet { position: relative; width: 100%; max-width: 560px; max-height: 100%; overflow: auto; overscroll-behavior: contain; background: var(--paper); box-shadow: 0 40px 90px rgba(20, 19, 17, .35); padding: clamp(28px, 4vw, 44px) clamp(20px, 4vw, 44px) clamp(24px, 3.4vw, 40px); }
+.trk-close { position: absolute; top: 14px; right: 14px; z-index: 2; }
+.trk-kicker { font-size: 13px; font-weight: 700; color: var(--oak-ink); letter-spacing: .02em; margin: 0 52px 10px 0; }
+.trk-title { font-size: clamp(24px, 3.4vw, 30px); font-weight: 800; line-height: 1.3; margin: 0 52px 12px 0; letter-spacing: -.01em; } /* the body face, like the 일정 panel's own title (the display face is a subset of the page's headings) */
+.trk-who { font-size: clamp(20px, 3vw, 24px); font-weight: 800; line-height: 1.3; margin: 0 52px 6px 0; outline: none; }
+.trk-sub { font-size: 15px; line-height: 1.6; color: var(--ink-2); margin: 0 0 24px; text-wrap: pretty; }
+.trk-field { display: grid; gap: 6px; margin-bottom: 16px; }
+.trk-field label { font-size: 14px; font-weight: 700; }
+.trk-field input { width: 100%; min-height: 50px; padding: 0 14px; border: 1px solid var(--field); border-radius: 0; background: var(--chalk); color: var(--ink); font: inherit; font-size: 16px; }
+.trk-field input:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
+.trk-field input[aria-invalid="true"] { border-color: var(--error); }
+.trk-consent { margin: 6px 0 22px; padding: 14px 16px 8px; background: var(--chalk); box-shadow: 0 0 0 1px var(--line); }
+.trk-check { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; margin: -11px 0; font-size: 14.5px; font-weight: 600; line-height: 1.5; cursor: pointer; }
+.trk-check input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--ink); }
+.trk-consent details { margin-top: 4px; font-size: 13.5px; color: var(--muted); }
+.trk-consent summary { cursor: pointer; width: max-content; padding: 10px 0; text-decoration: underline; text-underline-offset: 3px; }
+.trk-terms { display: grid; margin: 8px 0; }
+.trk-terms div { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.trk-terms dt { font-weight: 700; color: var(--ink-2); }
+.trk-consent details p { line-height: 1.6; margin: 8px 0 0; }
+.trk-submit { width: 100%; min-height: 54px; font-size: 16px; }
+.trk-submit[aria-disabled="true"] { opacity: .6; cursor: progress; }
+.trk-help { margin-top: 12px; }
+.trk-help[hidden] { display: none; }
+.trk-status { min-height: 1.5em; margin: 14px 0 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.trk-status.is-error { color: var(--error); font-weight: 600; }
+.trk-proj { margin-top: 22px; padding: 22px clamp(16px, 3vw, 24px); background: var(--chalk); box-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(35, 34, 31, .04); }
+.trk-proj h3 { font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0; }
+.trk-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 6px 0 0; font-size: 13.5px; color: var(--muted); }
+.trk-meta b { color: var(--ink-2); font-weight: 700; }
+.trk-stage { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+.trk-eyebrow { display: flex; justify-content: space-between; gap: 10px; margin: 0; font-size: 13px; font-weight: 700; color: var(--muted); }
+.trk-stage-name { margin: 4px 0 12px; font-size: 24px; font-weight: 800; line-height: 1.25; }
+.trk-steps { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; margin: 0; padding: 0; list-style: none; }
+.trk-steps li { position: relative; padding-top: 12px; font-size: 11.5px; line-height: 1.3; text-align: center; color: var(--muted); word-break: keep-all; }
+.trk-steps li::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--sand); }
+.trk-steps li.done::before { background: var(--oak); }
+.trk-steps li.now::before { background: var(--ink); }
+.trk-steps li.now { color: var(--ink); font-weight: 800; }
+.trk-week { display: grid; gap: 0; margin-top: 16px; }
+.trk-week section { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+.trk-week h4 { margin: 0; font-size: 14px; font-weight: 700; color: var(--ink); }
+.trk-week p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-2); white-space: pre-line; }
+.trk-week p.is-empty { color: var(--muted); }
+.trk-week .trk-changes h4 { color: var(--oak-ink); }
+.trk-after { margin-top: 24px; font-size: 14.5px; line-height: 1.6; color: var(--ink-2); }
+.trk-after p { margin: 0; }
+.trk-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 16px; }
+.trk-actions .btn-kakao { margin-top: 0; min-height: 52px; font-size: 16px; }
+.trk-again { min-height: 44px; padding: 10px 2px; border: 0; background: none; color: var(--ink-2); font: inherit; font-size: 14.5px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+@media (max-width: 599px) {
+  .trk { padding: 0; }
+  .trk-sheet { max-width: none; height: 100%; box-shadow: none; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+  .trk .trk-close { position: fixed; background: var(--paper); } /* stays on screen while the full-screen sheet scrolls */
+  .trk-week section { grid-template-columns: 72px minmax(0, 1fr); }
+  .trk-actions .btn-kakao { width: 100%; }
+}
 .pfd-sheet { position: relative; display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(340px, 1fr); width: 100%; max-width: 1280px; max-height: 100%; background: var(--paper); box-shadow: 0 40px 90px rgba(20, 19, 17, .35); overflow: hidden; }
 .pfd-bar { position: absolute; top: 14px; right: 14px; z-index: 3; }
 .pfd-bar-title { display: none; }
@@ -1939,15 +2004,15 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
           <p class="panel-sub">계약하신 고객은 성함과 연락처만 넣으면 <span class="nw">내 공사가</span> 지금 어디까지 왔는지 볼 수 있어요. 공사 코드는 따로 기억하지 않아도 돼요.</p>
           <div class="track-body">
             <svg class="df lk-stair" viewBox="-6 -107 93.1 123.9" aria-hidden="true" focusable="false"><polygon class="kl" points="43,-32.6 72.5,-21.6 72.5,-77.6 43,-88.5"/><polygon class="kr" points="81.1,-28.1 72.5,-21.6 72.5,-77.6 81.1,-84.1"/><polygon class="kt" points="51.6,-95 81.1,-84.1 72.5,-77.6 43,-88.5"/><polygon class="cl" points="34.4,-26 63.9,-15.1 63.9,-61.7 34.4,-72.7"/><polygon class="cr" points="72.5,-21.6 63.9,-15.1 63.9,-61.7 72.5,-68.3"/><polygon class="ct" points="43,-79.2 72.5,-68.3 63.9,-61.7 34.4,-72.7"/><g class="fig" transform="translate(53.5 -70.5) scale(0.82)"><ellipse cx="1" cy="0.5" rx="15" ry="5" class="shd"/><ellipse cx="0" cy="-3" rx="10.5" ry="4.4" fill="#161615"/><path d="M-7-3.5C-7.5-9-6.8-13.5-4.6-15.2L4.6-15.2C6.8-13.5 7.5-9 7-3.5Z" fill="#1d1c1b"/><path d="M-4.6-15.2C-2.5-16.4 2.5-16.4 4.6-15.2L3.4-12.6-3.4-12.6Z" fill="#262523"/><circle cx="-4.2" cy="-5.6" r="1.35" fill="#d9c4a6"/><circle cx="4.4" cy="-5.4" r="1.35" fill="#d9c4a6"/><path d="M-5.6-19C-6.2-15.5-5.6-13.4-4.2-12.6L4.2-12.6C5.6-13.4 6.2-15.5 5.6-19Z" fill="#2e231c"/><ellipse cx="0" cy="-17.9" rx="4" ry="4.3" fill="#e4cfb2"/><circle cx="-1.5" cy="-17.6" r=".45" fill="#2a211c"/><circle cx="1.5" cy="-17.6" r=".45" fill="#2a211c"/><path d="M-5.9-20.2C-5.9-25.8 5.9-25.8 5.9-20.2Z" fill="#ece5d8"/><rect x="-6.4" y="-21.6" width="12.8" height="2.6" rx="1.3" fill="#d6ccba"/><circle cx="0" cy="-25.6" r="1.4" fill="#ece5d8"/></g><polygon class="ghost" points="50.2,-100.5 56.7,-98.1 53.5,-101"/><polygon class="cdl" points="25.8,-19.5 55.3,-8.6 55.3,-45.9 25.8,-56.8"/><polygon class="cdr" points="63.9,-15.1 55.3,-8.6 55.3,-45.9 63.9,-52.4"/><polygon class="cdt" points="34.4,-63.4 63.9,-52.4 55.3,-45.9 25.8,-56.8"/><polygon class="cdl" points="17.2,-13 46.7,-2.1 46.7,-30.1 17.2,-41"/><polygon class="cdr" points="55.3,-8.6 46.7,-2.1 46.7,-30.1 55.3,-36.6"/><polygon class="cdt" points="25.8,-47.5 55.3,-36.6 46.7,-30.1 17.2,-41"/><polygon class="cdl" points="8.6,-6.5 38.1,4.4 38.1,-14.2 8.6,-25.2"/><polygon class="cdr" points="46.7,-2.1 38.1,4.4 38.1,-14.2 46.7,-20.7"/><polygon class="cdt" points="17.2,-31.7 46.7,-20.7 38.1,-14.2 8.6,-25.2"/><polygon class="cdl" points="0,0 29.5,10.9 29.5,1.6 0,-9.3"/><polygon class="cdr" points="38.1,4.4 29.5,10.9 29.5,1.6 38.1,-4.9"/><polygon class="cdt" points="8.6,-15.8 38.1,-4.9 29.5,1.6 0,-9.3"/></svg>
-            <dl class="track-list" aria-label="일정 페이지에서 볼 수 있는 것">
+            <dl class="track-list" aria-label="일정 확인 창에서 볼 수 있는 것">
               <div><dt>지금 단계</dt><dd>상담부터 사후 관리까지 어디쯤인지</dd></div>
               <div><dt>진행 중</dt><dd>이번 주에 하고 있는 공사</dd></div>
               <div><dt>다음 일정</dt><dd>다음 주에 이어질 공사</dd></div>
               <div><dt>수정 사항</dt><dd>일정이 바뀌면 따로 알려 드려요</dd></div>
             </dl>
           </div>
-          <a class="btn-block track-go" href="https://script.google.com/macros/s/AKfycbyv7vMv4Opq0fTte2Q6zlzcoXm2kcHH-_Dryhh1ed_V53Ayt-0-yvy31zsvvfpYxzl6/exec" target="_blank" rel="noopener">내 공사 일정 보기<span class="sr-only"> (새 창에서 열려요)</span><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M5 3h8v8M13 3 3.5 12.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
-          <p class="track-note">주소와 현장 사진은 일정 페이지에 나오지 않아요. 현장 사진은 카카오톡으로 따로 보내 드려요.</p>
+          <a class="btn-block track-go" href="https://script.google.com/macros/s/AKfycbyv7vMv4Opq0fTte2Q6zlzcoXm2kcHH-_Dryhh1ed_V53Ayt-0-yvy31zsvvfpYxzl6/exec" data-track rel="noopener">내 공사 일정 보기</a>
+          <p class="track-note">일정 확인 창에는 주소와 현장 사진이 나오지 않아요. 현장 사진은 카카오톡으로 따로 보내 드려요.</p>
         </article>
       </div>
     </div>
@@ -2017,7 +2082,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         <li><a href="#studio">스튜디오</a></li>
         <li><a href="#schedule">일정</a></li>
         <li><a href="#contact">상담</a></li>
-        <li class="foot-track"><a href="https://script.google.com/macros/s/AKfycbyv7vMv4Opq0fTte2Q6zlzcoXm2kcHH-_Dryhh1ed_V53Ayt-0-yvy31zsvvfpYxzl6/exec" target="_blank" rel="noopener">계약 고객 공사 일정 확인<span class="sr-only"> (새 창에서 열려요)</span></a></li>
+        <li class="foot-track"><a href="https://script.google.com/macros/s/AKfycbyv7vMv4Opq0fTte2Q6zlzcoXm2kcHH-_Dryhh1ed_V53Ayt-0-yvy31zsvvfpYxzl6/exec" data-track rel="noopener">계약 고객 공사 일정 확인</a></li>
       </ul>
     </nav>
   </div>
@@ -2060,6 +2125,48 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         <dl class="pfd-mats" id="pfd-mats"></dl>
       </div>
       <div class="pfd-foot"><a class="btn-block pfd-cta" id="pfd-cta" href="#contact">비슷한 집 상담하기</a></div>
+    </div>
+  </div>
+</dialog>
+<dialog class="trk" id="trk" aria-labelledby="trk-title">
+  <div class="trk-sheet">
+    <button class="pfd-close trk-close" type="button" data-trk-close aria-label="닫기"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.7" fill="none"/></svg></button>
+    <div id="trk-ask">
+      <p class="trk-kicker">계약 고객 전용</p>
+      <h2 class="trk-title" id="trk-title">내 공사 일정 확인</h2>
+      <p class="trk-sub">계약서에 적은 성함과 연락처를 넣으면 내 공사의 지금 단계와 이번 주 공사를 볼 수 있어요.</p>
+      <form id="trk-form" novalidate>
+        <div class="trk-field"><label for="trk-name">성함</label><input id="trk-name" name="name" autocomplete="name" required></div>
+        <div class="trk-field"><label for="trk-phone">연락처</label><input id="trk-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" required></div>
+        <div class="trk-consent">
+          <label class="trk-check"><input type="checkbox" name="agree" required><span>개인정보 수집·이용에 동의해요 (필수)</span></label>
+          <details>
+            <summary>내용 보기</summary>
+            <dl class="trk-terms">
+              <div><dt>수집 항목</dt><dd>성함, 연락처</dd></div>
+              <div><dt>이용 목적</dt><dd>본인 확인과 공사 일정 조회</dd></div>
+              <div><dt>보유 기간</dt><dd>조회에만 쓰고 저장하지 않아요. 조회가 맞지 않으면 그 연락처를 바꾼 값만 10분 동안 보관해요.</dd></div>
+            </dl>
+            <p>같은 연락처로 10분 안에 5번 맞지 않으면 10분 동안 조회를 막아요. 조회는 Google LLC의 서버(미국 등 국외)에서 처리돼요.</p>
+            <p>동의를 거부할 수 있어요. 거부하시면 이 창에서는 일정을 조회할 수 없고, 카카오톡으로 물어보시면 안내해 드려요.</p>
+          </details>
+        </div>
+        <button type="submit" class="btn-block trk-submit">일정 확인하기</button>
+        <p class="trk-status" id="trk-status" role="status" aria-live="polite"></p>
+        <a class="btn-block btn-kakao trk-help" id="trk-help" href="https://pf.kakao.com/_fFjWX/chat" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.1-9 7 0 2.5 1.7 4.7 4.2 5.9l-.9 3.9 4-2.7c.6.1 1.1.1 1.7.1 5 0 9-3.1 9-7s-4-7.2-9-7.2Z" fill="currentColor"/></svg>카카오톡으로 묻기<span class="sr-only"> (새 창에서 열려요)</span></a>
+      </form>
+    </div>
+    <div id="trk-result" hidden>
+      <p class="trk-kicker">내 공사 일정</p>
+      <p class="trk-who" id="trk-who" tabindex="-1"></p>
+      <div id="trk-list"></div>
+      <div class="trk-after">
+        <p>자세한 일정이나 궁금한 점은 카카오톡으로 남겨 주세요. 순서대로 답해 드려요.</p>
+        <div class="trk-actions">
+          <a class="btn-block btn-kakao" href="https://pf.kakao.com/_fFjWX/chat" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.1-9 7 0 2.5 1.7 4.7 4.2 5.9l-.9 3.9 4-2.7c.6.1 1.1.1 1.7.1 5 0 9-3.1 9-7s-4-7.2-9-7.2Z" fill="currentColor"/></svg>카카오톡으로 묻기<span class="sr-only"> (새 창에서 열려요)</span></a>
+          <button type="button" class="trk-again" id="trk-again">다시 조회하기</button>
+        </div>
+      </div>
     </div>
   </div>
 </dialog>
@@ -2708,8 +2815,10 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   }
   // every way of closing ends here (dialog 'close' event): put the URL back, then focus
   dlg.addEventListener('close', () => {
-    document.documentElement.classList.remove('is-locked');
-    document.documentElement.style.paddingRight = '';
+    if (!document.querySelector('dialog[open]')) {
+      document.documentElement.classList.remove('is-locked');
+      document.documentElement.style.paddingRight = '';
+    }
     ui.frame.replaceChildren();
     if (fromPop) {
       fromPop = false;
@@ -2732,6 +2841,8 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
     if (waitingPop) return finalize();
     const slug = slugFromHash();
     if (slug) {
+      const trk = document.getElementById('trk');
+      if (trk && trk.open) trk.close();
       if (!dlg.open || !proj || proj.slug !== slug) openDetail(slug);
     } else if (dlg.open) {
       fromPop = true;
@@ -3268,6 +3379,161 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
   addEventListener('scroll', onScroll, { passive: true });
   // nothing on the first screen waits for a scroll: the record band that peeks in under the PC hero comes in now
   sweep(innerHeight);
+})();
+</script>
+<script>
+/* 내 공사 일정 확인 (2026-11-16). The two links with data-track (the 일정 panel and the footer), or #track in the
+   address, open the window. The form posts {name, phone, agree} to the Apps Script web app as text/plain (a simple
+   request: no preflight; Google answers through a redirect with Access-Control-Allow-Origin: *) and gets back
+   {ok, projects:[{title, designer, stage, thisWeek, nextWeek, changes, updated}]} or {ok:false, error}. STAGES must
+   match STAGES in yulsan-web/progress-api/Code.gs. Closing the window clears the names and the result, so the next
+   person on the same phone sees nothing. */
+(() => {
+  const API = 'https://script.google.com/macros/s/AKfycbyv7vMv4Opq0fTte2Q6zlzcoXm2kcHH-_Dryhh1ed_V53Ayt-0-yvy31zsvvfpYxzl6/exec';
+  const STAGES = ['상담', '현장 실측', '설계', '견적·계약', '철거', '시공', '입주·사후 관리'];
+  const SHORT = ['상담', '실측', '설계', '계약', '철거', '시공', '입주'];
+  const MSG = {
+    consent: '개인정보 수집·이용에 동의해 주셔야 조회할 수 있어요.',
+    bad_request: '성함과 연락처를 다시 확인해 주세요.',
+    not_found: '일치하는 공사를 찾지 못했어요. 계약서의 성함과 연락처로 다시 넣어 보세요. 계약한 지 얼마 안 되셨다면 아직 등록 전일 수 있으니 카카오톡으로 물어봐 주세요.',
+    too_many: '여러 번 맞지 않아 잠시 조회를 막아 두었어요. 10분 뒤에 다시 해 보시거나 카카오톡으로 문의해 주세요.',
+    network: '지금은 확인할 수 없어요. 잠시 뒤 다시 해 보시거나 카카오톡으로 문의해 주세요.',
+  };
+  const dlg = document.getElementById('trk');
+  if (!dlg || typeof dlg.showModal !== 'function') return; // the links then open the Apps Script page as before
+  const $ = (id) => document.getElementById(id);
+  const form = $('trk-form'), nameIn = $('trk-name'), phoneIn = $('trk-phone'), status = $('trk-status');
+  const submit = form.querySelector('.trk-submit'), agree = form.elements.agree;
+  const ask = $('trk-ask'), result = $('trk-result'), list = $('trk-list'), who = $('trk-who'), help = $('trk-help');
+  let opener = null;
+  let busy = null;
+  const say = (text, error = true) => { status.textContent = text; status.classList.toggle('is-error', !!text && error); };
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const day = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(v) ? `${+v.slice(5, 7)}월 ${+v.slice(8, 10)}일` : v);
+  function reset() {
+    if (busy) busy.abort();
+    form.reset();
+    say('', false);
+    submit.removeAttribute('aria-disabled');
+    help.hidden = true;
+    nameIn.removeAttribute('aria-invalid');
+    phoneIn.removeAttribute('aria-invalid');
+    list.replaceChildren();
+    who.textContent = '';
+    result.hidden = true;
+    ask.hidden = false;
+  }
+  function open(from) {
+    opener = from || null;
+    reset();
+    const html = document.documentElement;
+    const bar = innerWidth - html.clientWidth;
+    if (bar > 0) html.style.paddingRight = bar + 'px';
+    html.classList.add('is-locked');
+    dlg.showModal();
+    dlg.querySelector('.trk-sheet').scrollTop = 0;
+    nameIn.focus();
+  }
+  dlg.addEventListener('close', () => {
+    if (!document.querySelector('dialog[open]')) {
+      document.documentElement.classList.remove('is-locked');
+      document.documentElement.style.paddingRight = '';
+    }
+    reset();
+    if (location.hash === '#track') history.replaceState(history.state, '', location.pathname + location.search);
+    if (opener && document.contains(opener)) opener.focus();
+  });
+  dlg.querySelector('[data-trk-close]').addEventListener('click', () => dlg.close());
+  // a click on the dark backdrop (the dialog box itself, outside the sheet) closes it
+  let downOnBackdrop = false;
+  dlg.addEventListener('pointerdown', (e) => { downOnBackdrop = e.target === dlg; });
+  dlg.addEventListener('click', (e) => {
+    if (e.target === dlg && downOnBackdrop) dlg.close();
+    downOnBackdrop = false;
+  });
+  document.querySelectorAll('[data-track]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); open(a); }));
+  if (location.hash === '#track') open(null);
+  addEventListener('hashchange', () => { if (location.hash === '#track' && !dlg.open) open(null); });
+  // 010-0000-0000 as it is typed
+  phoneIn.addEventListener('input', () => {
+    const pos = phoneIn.selectionStart ?? phoneIn.value.length;
+    const before = phoneIn.value.slice(0, pos).replace(/\D/g, '').length;
+    let d = phoneIn.value.replace(/\D/g, '');
+    if (d.startsWith('82')) d = '0' + d.slice(2).replace(/^0/, ''); // +82 10-… from autofill
+    d = d.slice(0, 11);
+    const v = d.length < 4 ? d : d.length < 7 ? `${d.slice(0, 3)}-${d.slice(3)}` : d.length < 11 ? `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}` : `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7)}`;
+    phoneIn.value = v;
+    let i = 0;
+    for (let n = 0; i < v.length && n < before; i++) if (/\d/.test(v[i])) n++;
+    phoneIn.setSelectionRange(i, i);
+    phoneIn.removeAttribute('aria-invalid');
+  });
+  nameIn.addEventListener('input', () => nameIn.removeAttribute('aria-invalid'));
+  function render(projects, name) {
+    who.textContent = `${name} 고객님의 공사`;
+    list.replaceChildren(...projects.map((p) => {
+      const card = el('article', 'trk-proj');
+      card.append(el('h3', '', p.title || '내 공사'));
+      const meta = el('p', 'trk-meta');
+      const d = el('span', '', '담당 ');
+      d.append(el('b', '', p.designer || '배정 중'));
+      meta.append(d);
+      if (p.updated) meta.append(el('span', '', `${day(p.updated)} 업데이트`));
+      card.append(meta);
+      const now = Number.isInteger(p.stage) && p.stage >= 0 && p.stage < STAGES.length ? p.stage : -1;
+      const stage = el('div', 'trk-stage');
+      const eb = el('p', 'trk-eyebrow');
+      eb.append(el('span', '', '지금 단계'), el('span', '', now >= 0 ? `${now + 1} / ${STAGES.length}단계` : ''));
+      stage.append(eb, el('p', 'trk-stage-name', now >= 0 ? STAGES[now] : '확인 중'));
+      const steps = el('ol', 'trk-steps');
+      steps.setAttribute('aria-hidden', 'true');
+      SHORT.forEach((t, i) => steps.append(el('li', i < now ? 'done' : i === now ? 'now' : '', t)));
+      stage.append(steps);
+      card.append(stage);
+      const week = el('div', 'trk-week');
+      const row = (h, v, cls) => { const sec = el('section', cls || ''); sec.append(el('h4', '', h), el('p', v ? '' : 'is-empty', v || '아직 올라온 내용이 없어요.')); return sec; };
+      week.append(row('진행 중', p.thisWeek), row('다음 일정', p.nextWeek));
+      if (p.changes) week.append(row('수정 사항', p.changes, 'trk-changes'));
+      card.append(week);
+      return card;
+    }));
+    ask.hidden = true;
+    result.hidden = false;
+    dlg.querySelector('.trk-sheet').scrollTop = 0;
+    who.focus({ preventScroll: true });
+  }
+  $('trk-again').addEventListener('click', () => { reset(); nameIn.focus(); });
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    help.hidden = true;
+    const name = nameIn.value.trim();
+    const phone = phoneIn.value.replace(/\D/g, '');
+    if (!name || phone.length < 10) {
+      const bad = !name ? nameIn : phoneIn;
+      bad.setAttribute('aria-invalid', 'true');
+      say(!name ? '성함을 넣어 주세요.' : '연락처를 끝까지 넣어 주세요. 예: 010-1234-5678');
+      bad.focus();
+      return;
+    }
+    if (!agree.checked) { say(MSG.consent); agree.focus(); return; }
+    say('확인하고 있어요…', false);
+    submit.setAttribute('aria-disabled', 'true');
+    busy = new AbortController();
+    const timer = setTimeout(() => busy && busy.abort(), 20000);
+    try {
+      const res = await fetch(API, { method: 'POST', body: JSON.stringify({ name, phone, agree: true }), signal: busy.signal });
+      const data = await res.json();
+      if (data && data.ok && Array.isArray(data.projects) && data.projects.length) { say('', false); render(data.projects, name); }
+      else { const code = data && data.error; say(MSG[code] || MSG.network); help.hidden = code === 'consent' || code === 'bad_request'; }
+    } catch (err) {
+      if (dlg.open) { say(MSG.network); help.hidden = false; }
+    } finally {
+      clearTimeout(timer);
+      busy = null;
+      submit.removeAttribute('aria-disabled');
+    }
+  });
 })();
 </script>
 </body>
