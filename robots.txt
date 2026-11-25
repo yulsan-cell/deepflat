@@ -1,4 +1,4 @@
-# DEEPFLAT 딥플랫 - https://deepflat.pages.dev
+# DEEPFLAT 딥플랫 - https://deepflat.kr
 # Search engines and AI search and answer services may all read the site (2026-11-03).
 User-agent: *
 Allow: /
@@ -39,4 +39,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://deepflat.pages.dev/sitemap.xml
+Sitemap: https://deepflat.kr/sitemap.xml
