@@ -459,8 +459,11 @@ html.cm-ready #commercial:not(.is-open) .cm-teaser { display: grid; grid-templat
 .cm-teaser .cm-kicker { grid-area: kick; margin-bottom: 6px; }
 .cm-teaser-title { grid-area: title; font-size: clamp(21px, 1.9vw, 27px); font-weight: 800; line-height: 1.35; letter-spacing: -.015em; color: var(--ink); }
 .cm-teaser-text { grid-area: text; margin-top: 4px; font-size: 15.5px; line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
-.cm-open { grid-area: btn; gap: 8px; }
-.cm-open::after { content: "↓"; color: var(--oak-ink); }
+/* 2026-11-25 (owner: the 매장 홍보 자세히 보기 button was easy to miss): the folded line is a framed call-out (white card,
+   oak rule on the left) and its button is the page's solid block button, larger, the arrow in the 프로모션 lamp's pale gold */
+html.cm-ready #commercial:not(.is-open) .cm-teaser { padding: clamp(24px, 2.6vw, 36px) clamp(22px, 2.8vw, 40px); background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--oak); box-shadow: 0 10px 28px -18px rgba(35, 34, 31, .35); }
+.cm-open { grid-area: btn; gap: 10px; min-height: 54px; padding: 0 26px; font-size: 16px; }
+.cm-open::after { content: "↓"; color: #f1c47f; font-weight: 800; }
 /* a home visitor never gets the + step back, even if the address returns to #commercial; the :has() rule stands
    alone, so a browser without :has() drops only the dashed lead-in, never the hiding of the step */
 html[data-aud="home"] #commercial { display: none; }
@@ -1871,7 +1874,7 @@ a.sns:hover { color: #000; background: rgba(35, 34, 31, .06); }
         <p class="cm-kicker">상업 공간</p>
         <p class="cm-teaser-title" role="heading" aria-level="2">광고보다 중요한 건 <span class="nw">관리입니다.</span></p>
         <p class="cm-teaser-text">홍보는 매장을 만든 딥플랫에 맡겨 주세요. 계약한 매장은 오픈 뒤 첫 3개월, <span class="nw">전담 PM이</span> 홍보를 <span class="nw">무상으로 관리해요.</span></p>
-        <button class="btn-line cm-open" type="button" aria-expanded="false" aria-controls="cm-body">매장 홍보 자세히 보기</button>
+        <button class="btn-block cm-open" type="button" aria-expanded="false" aria-controls="cm-body">매장 홍보 자세히 보기</button>
 </div>
       <div class="cm-body" id="cm-body">
       <button class="cm-close" type="button" aria-controls="cm-body" aria-label="상업 공간 접기">접기</button>
